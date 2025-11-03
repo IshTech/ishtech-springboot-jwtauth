@@ -1,8 +1,11 @@
 package fi.ishtech.springboot.jwtauth.mapper;
 
 import org.mapstruct.BeanMapping;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
@@ -40,5 +43,15 @@ public interface UserProfileMapper {
 	@Mapping(source = "lastName", target = "lastName")
 	@Mapping(source = "lang", target = "defaultLang", defaultValue = "en")
 	UserProfile toNewEntity(SignupDto signupDto);
+
+	/**
+	 *
+	 * @param dto    {@link UserProfileDto}
+	 * @param entity {@link UserProfile}
+	 * @return updated {@link UserProfile} entity
+	 */
+	@InheritInverseConfiguration(name = "toBriefDto")
+	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	UserProfile toEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }

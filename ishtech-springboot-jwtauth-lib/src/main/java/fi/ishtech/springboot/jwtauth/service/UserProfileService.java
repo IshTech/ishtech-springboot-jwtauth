@@ -22,4 +22,20 @@ public interface UserProfileService {
 	 */
 	UserProfileDto create(@NotNull Long userId, @NotNull @Valid SignupDto signupDto);
 
+	/**
+	 * Find by id and maps to dto
+	 *
+	 * @param id the ID of the user
+	 * @return {@link UserProfileDto}
+	 */
+	UserProfileDto findByIdAndMapToDto(Long id);
+
+	/**
+	 * Finds by id and updates the entity in DB and return updated dto
+	 *
+	 * @param userProfileDto input changes to UserProfile
+	 * @return {@link UserProfileDto}
+	 */
+	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+
 }
