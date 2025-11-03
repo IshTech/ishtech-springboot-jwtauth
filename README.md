@@ -1,16 +1,22 @@
-# ishtech-spring-boot-jwt
+# ishtech-springboot-jwtauth
 
 ## Tech stack
 - java - 25
 - spring-boot - 3.5.7
 
+## 
+
+[GIT](https://github.com/ishtech/ishtech-springboot-jwtauth)
 
 ## Project structure
 
-[ishtech-spring-boot-jwt](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/main/README.md)<br>
-├── [ishtech-spring-boot-jwt-lib](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/tree/main/ishtech-spring-boot-jwt-lib) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/dev/ishtech-spring-boot-jwt-lib/README.md)<br>
-└── [ishtech-spring-boot-jwt-web](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/tree/main/ishtech-spring-boot-jwt-web) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/dev/ishtech-spring-boot-jwt-web/README.md)<br>
+[ishtech-springboot-jwtauth](./README.md)<br>
+├── [ishtech-springboot-jwtauth-lib](./ishtech-springboot-jwtauth-lib/README.md)<br>
+├── [ishtech-springboot-jwtauth-api](./ishtech-springboot-jwtauth-api/README.md)<br>
+└── [ishtech-springboot-jwtauth-web](./ishtech-springboot-jwtauth-web/README.md)<br>
 
+## Database
+- See [DB-SETUP](./ishtech-springboot-jwtauth-web/DB-SETUP.md) for setting up dev database
 
 ## APIs
 
@@ -28,6 +34,8 @@
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 - If running on different server or port change their values in URL
+
+- See API request/response samples here in [API-INFO.md](./API-INFO.md)
 
 
 ## Build & Run
@@ -57,7 +65,7 @@ mvn dependency:tree
 docker build \
   --build-arg APP_VERSION=x.y.z \
   --build-arg SERVER_PORT=8080 \
-  -t ishtech-spring-boot-jwt-web:x.y.z .
+  -t ishtech-springboot-jwtauth-web:x.y.z .
 ```
 - Note: Replace `x.y.z` with appropriate version number, e.g. `1.0.0` or `1.1.0-SNAPSHOT`
 
@@ -66,12 +74,12 @@ docker build \
 #### Run using Maven
 
 ```
-./mvnw -pl ishtech-spring-boot-jwt-web spring-boot:run -Dspring-boot.run.profiles=dev
+./mvnw -pl ishtech-springboot-jwtauth-web spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 #### Docker Run
 
 
 ```
- docker run -p 8080:8080 ishtech-spring-boot-jwt-web:x.y.z
+ docker run -p 8080:8080 ishtech-springboot-jwtauth-web:x.y.z
 ```
