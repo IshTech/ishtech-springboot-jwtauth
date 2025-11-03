@@ -4,13 +4,16 @@
 - java - 25
 - spring-boot - 3.5.7
 
+## 
+
+[GIT](https://github.com/ishtech/ishtech-springboot-jwtauth)
 
 ## Project structure
 
-ishtech-springboot-jwtauth [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
-├── ishtech-springboot-jwtauth-lib [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-lib) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-lib/README.md)<br>
-├── ishtech-springboot-jwtauth-api [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-api) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-api/README.md)<br>
-└── ishtech-springboot-jwtauth-web [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-web) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-web/README.md)<br>
+[ishtech-springboot-jwtauth](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
+├── [ishtech-springboot-jwtauth-lib](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-lib/README.md)<br>
+├── [ishtech-springboot-jwtauth-api](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-api/README.md)<br>
+└── [ishtech-springboot-jwtauth-web](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-web/README.md)<br>
 
 
 ## APIs
