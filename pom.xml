@@ -54,6 +54,9 @@
 		<mapstruct.version>1.6.3</mapstruct.version>
 
 		<springdoc.version>2.8.13</springdoc.version>
+
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -143,6 +146,35 @@
 							</exclude>
 						</excludes>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+							<configuration>
+								<excludedocfilessubdir>**/generated-sources/**</excludedocfilessubdir>
+								<excludedocfilessubdir>
+									**/generated-test-sources/**</excludedocfilessubdir>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
