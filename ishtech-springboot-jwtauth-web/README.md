@@ -4,7 +4,7 @@
 
 ## Parent project
 
-[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](../README.md)
+[ishtech-springboot-jwtauth](../README.md)
 
 ## Overview
 
@@ -15,3 +15,4 @@ This is the **runnable module** — it exposes REST APIs for authentication and 
 - Flyway for DB Migration
 
 ## Database
+- See [DB-SETUP](./DB-SETUP.md) for setting up dev database

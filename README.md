@@ -11,10 +11,12 @@
 ## Project structure
 
 [ishtech-springboot-jwtauth](./README.md)<br>
-├── [ishtech-springboot-jwtauth-lib](./ishtech-spring-boot-jwt-lib/README.md)<br>
-├── [ishtech-springboot-jwtauth-api](./ishtech-spring-boot-jwt-api/README.md)<br>
-└── [ishtech-springboot-jwtauth-web](./ishtech-spring-boot-jwt-web/README.md)<br>
+├── [ishtech-springboot-jwtauth-lib](./ishtech-springboot-jwtauth-lib/README.md)<br>
+├── [ishtech-springboot-jwtauth-api](./ishtech-springboot-jwtauth-api/README.md)<br>
+└── [ishtech-springboot-jwtauth-web](./ishtech-springboot-jwtauth-web/README.md)<br>
 
+## Database
+- See [DB-SETUP](./ishtech-springboot-jwtauth-web/DB-SETUP.md) for setting up dev database
 
 ## APIs
 

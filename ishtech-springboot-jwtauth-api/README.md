@@ -4,7 +4,7 @@
 
 ## Parent project
 
-[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](../README.md)
+[ishtech-springboot-jwtauth](../README.md)
 
 ## Overview
 
