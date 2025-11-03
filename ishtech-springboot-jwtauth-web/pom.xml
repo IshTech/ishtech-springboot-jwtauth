@@ -22,7 +22,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fi.ishtech.springboot</groupId>
-			<artifactId>ishtech-springboot-jwtauth-lib</artifactId>
+			<artifactId>ishtech-springboot-jwtauth-api</artifactId>
 		</dependency>
 
 		<dependency>

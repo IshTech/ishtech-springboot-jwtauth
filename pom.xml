@@ -68,6 +68,11 @@
 			</dependency>
 			<dependency>
 				<groupId>fi.ishtech.springboot</groupId>
+				<artifactId>ishtech-springboot-jwtauth-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>fi.ishtech.springboot</groupId>
 				<artifactId>ishtech-springboot-jwtauth-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -106,6 +111,7 @@
 
 	<modules>
 		<module>ishtech-springboot-jwtauth-lib</module>
+		<module>ishtech-springboot-jwtauth-api</module>
 		<module>ishtech-springboot-jwtauth-web</module>
 	</modules>
 
