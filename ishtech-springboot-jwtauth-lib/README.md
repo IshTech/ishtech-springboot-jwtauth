@@ -1,10 +1,10 @@
-# ishtech-spring-boot-jwt-lib
+# ishtech-springboot-jwtauth-lib
 
-`ishtech-spring-boot-jwt-lib` provides reusable JWT-based authentication and security components for Spring Boot applications.
+`ishtech-springboot-jwtauth-lib` provides reusable JWT-based authentication and security components for Spring Boot applications.
 
 ## Parent project
 
-[ishtech-spring-boot-jwt](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt) - [README](../README.md)
+[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](../README.md)
 
 ## Overview
 
@@ -27,7 +27,7 @@ To use this library in another project, add:
 ```xml
 <dependency>
     <groupId>fi.ishtech.springboot</groupId>
-    <artifactId>ishtech-spring-boot-jwt-lib</artifactId>
+    <artifactId>ishtech-springboot-jwtauth-lib</artifactId>
     <version>x.y.z</version>
 </dependency>
 ```

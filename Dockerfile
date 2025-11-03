@@ -13,6 +13,6 @@ ARG SERVER_PORT=8080
 
 EXPOSE ${SERVER_PORT}
 
-COPY --from=build ishtech-spring-boot-jwt-web/target/ishtech-spring-boot-jwt-web-${APP_VERSION}.jar ishtech-spring-boot-jwt-web.jar
+COPY --from=build ishtech-springboot-jwtauth-web/target/ishtech-springboot-jwtauth-web-${APP_VERSION}.jar ishtech-springboot-jwtauth-web.jar
 
-ENTRYPOINT ["java", "-jar", "ishtech-spring-boot-jwt-web.jar"]
+ENTRYPOINT ["java", "-jar", "ishtech-springboot-jwtauth-web.jar"]

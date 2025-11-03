@@ -1,4 +1,4 @@
-# ishtech-spring-boot-jwt
+# ishtech-springboot-jwtauth
 
 ## Tech stack
 - java - 25
@@ -7,9 +7,9 @@
 
 ## Project structure
 
-[ishtech-spring-boot-jwt](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/main/README.md)<br>
-├── [ishtech-spring-boot-jwt-lib](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/tree/main/ishtech-spring-boot-jwt-lib) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/dev/ishtech-spring-boot-jwt-lib/README.md)<br>
-└── [ishtech-spring-boot-jwt-web](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/tree/main/ishtech-spring-boot-jwt-web) - [README](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt/blob/dev/ishtech-spring-boot-jwt-web/README.md)<br>
+[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
+├── [ishtech-springboot-jwtauth-lib](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-lib) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-lib/README.md)<br>
+└── [ishtech-springboot-jwtauth-web](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-web) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-web/README.md)<br>
 
 
 ## APIs
@@ -57,7 +57,7 @@ mvn dependency:tree
 docker build \
   --build-arg APP_VERSION=x.y.z \
   --build-arg SERVER_PORT=8080 \
-  -t ishtech-spring-boot-jwt-web:x.y.z .
+  -t ishtech-springboot-jwtauth-web:x.y.z .
 ```
 - Note: Replace `x.y.z` with appropriate version number, e.g. `1.0.0` or `1.1.0-SNAPSHOT`
 
@@ -66,12 +66,12 @@ docker build \
 #### Run using Maven
 
 ```
-./mvnw -pl ishtech-spring-boot-jwt-web spring-boot:run -Dspring-boot.run.profiles=dev
+./mvnw -pl ishtech-springboot-jwtauth-web spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
 #### Docker Run
 
 
 ```
- docker run -p 8080:8080 ishtech-spring-boot-jwt-web:x.y.z
+ docker run -p 8080:8080 ishtech-springboot-jwtauth-web:x.y.z
 ```

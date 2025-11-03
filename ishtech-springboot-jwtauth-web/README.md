@@ -1,10 +1,10 @@
-# ishtech-spring-boot-jwt-web
+# ishtech-springboot-jwtauth-web
 
-`ishtech-spring-boot-jwt-web` provides Spring Boot applications with JWT based authentication.
+`ishtech-springboot-jwtauth-web` provides Spring Boot applications with JWT based authentication.
 
 ## Parent project
 
-[ishtech-spring-boot-jwt](https://github.com/muneer2ishtech/ishtech-spring-boot-jwt) - [README](../README.md)
+[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](../README.md)
 
 ## Overview
 

@@ -13,11 +13,11 @@
 	</parent>
 
 	<groupId>fi.ishtech.springboot</groupId>
-	<artifactId>ishtech-spring-boot-jwt</artifactId>
+	<artifactId>ishtech-springboot-jwtauth</artifactId>
 	<version>0.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>ishtech-spring-boot-jwt</name>
+	<name>ishtech-springboot-jwtauth</name>
 	<description>Spring Boot Auth using JWT - parent project</description>
 
 	<organization>
@@ -44,7 +44,7 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/muneer2ishtech/ishtech-spring-boot-jwt</url>
+		<url>https://github.com/ishtech/ishtech-springboot-jwtauth</url>
 	</scm>
 
 	<properties>
@@ -63,12 +63,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>fi.ishtech.springboot</groupId>
-				<artifactId>ishtech-spring-boot-jwt-lib</artifactId>
+				<artifactId>ishtech-springboot-jwtauth-lib</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>fi.ishtech.springboot</groupId>
-				<artifactId>ishtech-spring-boot-jwt-web</artifactId>
+				<artifactId>ishtech-springboot-jwtauth-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -105,8 +105,8 @@
 	</dependencyManagement>
 
 	<modules>
-		<module>ishtech-spring-boot-jwt-lib</module>
-		<module>ishtech-spring-boot-jwt-web</module>
+		<module>ishtech-springboot-jwtauth-lib</module>
+		<module>ishtech-springboot-jwtauth-web</module>
 	</modules>
 
 	<build>
