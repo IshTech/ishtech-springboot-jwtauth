@@ -26,7 +26,7 @@ To use this library in another project, add:
 
 ```xml
 <dependency>
-    <groupId>fi.ishtech.practice</groupId>
+    <groupId>fi.ishtech.springboot</groupId>
     <artifactId>ishtech-spring-boot-jwt-lib</artifactId>
     <version>x.y.z</version>
 </dependency>

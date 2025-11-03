@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>fi.ishtech.practice</groupId>
+		<groupId>fi.ishtech.springboot</groupId>
 		<artifactId>ishtech-spring-boot-jwt</artifactId>
 		<version>0.5.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
