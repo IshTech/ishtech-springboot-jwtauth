@@ -7,9 +7,10 @@
 
 ## Project structure
 
-[ishtech-springboot-jwtauth](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
-├── [ishtech-springboot-jwtauth-lib](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-lib) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-lib/README.md)<br>
-└── [ishtech-springboot-jwtauth-web](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-web) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-web/README.md)<br>
+ishtech-springboot-jwtauth [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
+├── ishtech-springboot-jwtauth-lib [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-lib) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-lib/README.md)<br>
+├── ishtech-springboot-jwtauth-api [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-api) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-api/README.md)<br>
+└── ishtech-springboot-jwtauth-web [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth/tree/main/ishtech-springboot-jwtauth-web) - [README](https://github.com/ishtech/ishtech-springboot-jwtauth/blob/dev/ishtech-springboot-jwtauth-web/README.md)<br>
 
 
 ## APIs
@@ -28,6 +29,8 @@
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
 - If running on different server or port change their values in URL
+
+- See API request/response samples here in [API-INFO.md](./API-INFO.md)
 
 
 ## Build & Run
