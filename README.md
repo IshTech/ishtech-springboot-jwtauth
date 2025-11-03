@@ -10,10 +10,10 @@
 
 ## Project structure
 
-[ishtech-springboot-jwtauth](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/README.md)<br>
-├── [ishtech-springboot-jwtauth-lib](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-lib/README.md)<br>
-├── [ishtech-springboot-jwtauth-api](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-api/README.md)<br>
-└── [ishtech-springboot-jwtauth-web](https://github.com/IshTech/ishtech-springboot-jwtauth/blob/main/ishtech-spring-boot-jwt-web/README.md)<br>
+[ishtech-springboot-jwtauth](./README.md)<br>
+├── [ishtech-springboot-jwtauth-lib](./ishtech-spring-boot-jwt-lib/README.md)<br>
+├── [ishtech-springboot-jwtauth-api](./ishtech-spring-boot-jwt-api/README.md)<br>
+└── [ishtech-springboot-jwtauth-web](./ishtech-spring-boot-jwt-web/README.md)<br>
 
 
 ## APIs
