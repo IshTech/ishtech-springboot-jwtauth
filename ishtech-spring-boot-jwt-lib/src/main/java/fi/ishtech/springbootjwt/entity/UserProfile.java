@@ -12,7 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,7 +49,7 @@ public class UserProfile implements Serializable {
 
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@OneToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id", referencedColumnName = "id", nullable = true, insertable = false, updatable = false,
 			foreignKey = @ForeignKey(name = "fk_user_profile_user"))
 	private User user;
