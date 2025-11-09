@@ -1,7 +1,6 @@
 package fi.ishtech.springboot.jwtauth.entity;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Set;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -9,12 +8,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import fi.ishtech.base.entity.BaseStandardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -33,15 +30,12 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Data
-public class User implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class User extends BaseStandardEntity {
 
 	@Serial
 	private static final long serialVersionUID = -6637213531718295584L;
-
-	@Id
-	@Column(nullable = false, updatable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 
 	@Column(nullable = false, updatable = false, unique = true)
 	private String username;

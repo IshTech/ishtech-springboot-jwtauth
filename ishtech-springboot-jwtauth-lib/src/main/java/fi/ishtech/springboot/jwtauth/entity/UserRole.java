@@ -1,11 +1,11 @@
 package fi.ishtech.springboot.jwtauth.entity;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import fi.ishtech.base.entity.BaseStandardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,7 +31,9 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Data
-public class UserRole implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class UserRole extends BaseStandardEntity {
 
 	@Serial
 	private static final long serialVersionUID = 419376785102679249L;
