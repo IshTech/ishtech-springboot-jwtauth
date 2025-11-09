@@ -195,8 +195,7 @@
 							</goals>
 							<configuration>
 								<excludedocfilessubdir>**/generated-sources/**</excludedocfilessubdir>
-								<excludedocfilessubdir>
-									**/generated-test-sources/**</excludedocfilessubdir>
+								<excludedocfilessubdir>**/generated-test-sources/**</excludedocfilessubdir>
 							</configuration>
 						</execution>
 					</executions>
