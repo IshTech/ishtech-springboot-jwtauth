@@ -51,6 +51,8 @@
 		<java.version>25</java.version>
 
 		<ishtech-base-jpa.version>3.0.0</ishtech-base-jpa.version>
+		<ishtech-i18n.version>5.0.0</ishtech-i18n.version>
+
 		<jjwt.version>0.13.0</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 
@@ -83,6 +85,12 @@
 				<artifactId>ishtech-base-jpa</artifactId>
 				<version>${ishtech-base-jpa.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>fi.ishtech.core</groupId>
+				<artifactId>ishtech-i18n</artifactId>
+				<version>${ishtech-i18n.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-api</artifactId>
