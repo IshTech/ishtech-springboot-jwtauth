@@ -35,7 +35,7 @@ public class UserController {
 
 	@GetMapping(path = "/api/v1/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADMIN') || #userId == 'me' || #userId == authentication.principal.id")
-	public ResponseEntity<UserProfileDto> findCurrentUserProfile(
+	public ResponseEntity<UserProfileDto> findUserProfile(
 			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.") @PathVariable("userId") String userId,
 			Authentication authentication) {
 		log.info("Input userId:{}", userId);
