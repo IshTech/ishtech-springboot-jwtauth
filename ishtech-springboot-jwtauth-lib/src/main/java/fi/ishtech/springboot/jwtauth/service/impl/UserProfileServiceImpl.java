@@ -31,6 +31,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private final UserProfileRepo userProfileRepo;
 	private final UserProfileMapper userProfileMapper;
 
+	@Override
+	public UserProfileRepo getRepo() {
+		return userProfileRepo;
+	}
+
+	@Override
+	public UserProfileMapper getMapper() {
+		return userProfileMapper;
+	}
+
 	private Optional<UserProfile> findById(Long id) {
 		return userProfileRepo.findById(id);
 	}

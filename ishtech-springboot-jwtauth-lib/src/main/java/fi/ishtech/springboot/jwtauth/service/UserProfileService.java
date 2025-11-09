@@ -1,7 +1,9 @@
 package fi.ishtech.springboot.jwtauth.service;
 
+import fi.ishtech.base.service.BaseStandardNoIdService;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
+import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
  * @author Muneer Ahmed Syed
  * 
  */
-public interface UserProfileService {
+public interface UserProfileService extends BaseStandardNoIdService<UserProfile, UserProfileDto, Long> {
 
 	/**
 	 * Creates a user profile from the provided signup data.
