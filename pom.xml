@@ -50,6 +50,7 @@
 	<properties>
 		<java.version>25</java.version>
 
+		<ishtech-base-jpa.version>3.0.0</ishtech-base-jpa.version>
 		<jjwt.version>0.13.0</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 
@@ -77,6 +78,11 @@
 				<version>${project.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>fi.ishtech.base</groupId>
+				<artifactId>ishtech-base-jpa</artifactId>
+				<version>${ishtech-base-jpa.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-api</artifactId>

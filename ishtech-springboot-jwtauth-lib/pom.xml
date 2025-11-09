@@ -38,6 +38,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>fi.ishtech.base</groupId>
+			<artifactId>ishtech-base-jpa</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 		</dependency>
