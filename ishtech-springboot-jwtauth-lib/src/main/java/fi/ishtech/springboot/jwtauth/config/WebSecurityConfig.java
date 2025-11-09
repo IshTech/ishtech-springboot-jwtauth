@@ -158,7 +158,8 @@ public class WebSecurityConfig {
 		return List.of(
 				"/h2-console/**",
 				"/",
-				"/error"
+				"/error",
+				"/favicon.ico"
 		);
 		// @formatter:on
 	}
