@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import fi.ishtech.base.mapper.BaseStandardNoIdMapper;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
@@ -16,7 +17,7 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
  * @author Muneer Ahmed Syed
  */
 @Mapper(componentModel = "spring")
-public interface UserProfileMapper {
+public interface UserProfileMapper extends BaseStandardNoIdMapper {
 
 	/**
 	 *
