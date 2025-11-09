@@ -1,7 +1,5 @@
 package fi.ishtech.springboot.jwtauth.service.impl;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,23 +39,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileMapper;
 	}
 
-	private Optional<UserProfile> findById(Long id) {
-		return userProfileRepo.findById(id);
-	}
-
-	private UserProfile findByIdOrThrow(Long id) {
-		return findById(id).orElseThrow();
-	}
-
-	@SuppressWarnings("unused")
-	private UserProfile findByIdOrNull(Long id) {
-		return userProfileRepo.findById(id).orElse(null);
-	}
-
 	@Override
 	@Transactional(readOnly = true)
-	public UserProfileDto findByIdAndMapToDto(Long id) {
-		return userProfileMapper.toBriefDto(findByIdOrThrow(id));
+	public UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id) {
+		return userProfileMapper.toBriefDto(findOneByIdOrElseThrow(id));
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
@@ -80,7 +65,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto) {
 		Assert.notNull(userProfileDto.getId(), "Input id is mandatory in input UserProfileDto");
 
-		UserProfile userProfile = findByIdOrThrow(userProfileDto.getId());
+		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId());
 
 		userProfileMapper.toEntity(userProfileDto, userProfile);
 

@@ -30,7 +30,7 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	 * @param id the ID of the user
 	 * @return {@link UserProfileDto}
 	 */
-	UserProfileDto findByIdAndMapToDto(Long id);
+	UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id);
 
 	/**
 	 * Finds by id and updates the entity in DB and return updated dto
