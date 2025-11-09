@@ -1,15 +1,19 @@
 package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
-import java.io.Serializable;
 
+import fi.ishtech.base.vo.BaseStandardNoIdEntityVo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @author Muneer Ahmed Syed
  */
 @Data
-public class UserProfileDto implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class UserProfileDto extends BaseStandardNoIdEntityVo {
 
 	@Serial
 	private static final long serialVersionUID = -4206245277207802646L;
