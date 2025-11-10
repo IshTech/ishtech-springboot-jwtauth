@@ -42,12 +42,6 @@ public class UserController {
 		Long loggedInUserId = authInfoService.getUserId();
 		log.debug("URL param: {}, logged in userId: {}", userId, loggedInUserId);
 
-		if (authInfoService.isAdmin() || "me".equalsIgnoreCase(userId) || loggedInUserId.equals(Long.valueOf(userId))) {
-			// ok
-		} else {
-			return ResponseEntity.status(403).build();
-		}
-
 		Long inputUserId = "me".equalsIgnoreCase(userId) ? loggedInUserId : Long.valueOf(userId);
 
 		var userProfileDto = userProfileService.findOneByIdAndMapToVoOrElseThrow(inputUserId);
