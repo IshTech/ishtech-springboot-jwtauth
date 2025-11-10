@@ -57,9 +57,12 @@ public class UserController {
 	@PutMapping(path = "/api/v1/users/{userId}",
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("(hasAuthority('ROLE_ADMIN') and (#userProfileDto.id == null or #userId == #userProfileDto.id)) " +
-			"or ((#userId == 'me' or #userId == authentication.principal.id) and " +
-			"(#userProfileDto.id == null or #authentication.principal.id == #userProfileDto.id))")
+	@PreAuthorize(
+			"(hasAuthority('ROLE_ADMIN')"
+				+ " && (#userProfileDto.id == null || T(java.lang.Long).valueOf(#userId) == #userProfileDto.id))" 
+			+ " || (#userId == 'me' && #userProfileDto.id == principal.id)"
+			+ " || (T(java.lang.Long).valueOf(#userId) == principal.id"
+				+ " && (#userProfileDto.id == null || T(java.lang.Long).valueOf(#userId) == #userProfileDto.id))")
 	public ResponseEntity<UserProfileDto> updateUserProfile(
 			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.")
 			@PathVariable("userId") String userId,
@@ -71,9 +74,15 @@ public class UserController {
 		log.debug("URL param: {}, request body param: {}, logged in userId: {}", userId, userProfileDto.getId(),
 				loggedInUserId);
 
-		if ((authInfoService.isAdmin() && (userProfileDto.getId() == null || userId.equals(userProfileDto.getId())))
-				|| (("me".equalsIgnoreCase(userId) || userId.equals(loggedInUserId))
-						&& (userProfileDto.getId() == null || loggedInUserId.equals(userProfileDto.getId())))) {
+		// @formatter:off
+		if (
+				(authInfoService.isAdmin()
+						&& (userProfileDto.getId() == null || userId.equals(userProfileDto.getId().toString())))
+				|| ("me".equalsIgnoreCase(userId) && loggedInUserId.equals(userProfileDto.getId()))
+				|| (userId.equals(loggedInUserId.toString())
+						&& (userProfileDto.getId() == null || userId.equals(userProfileDto.getId().toString())))
+		) {
+		// @formatter:on
 			// ok
 			// this is redundant kept here for explanation as Spring-EL in PreAuthorize would take care of it
 		} else {
