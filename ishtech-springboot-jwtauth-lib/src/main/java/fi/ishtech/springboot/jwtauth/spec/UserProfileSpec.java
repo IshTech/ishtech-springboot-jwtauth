@@ -3,6 +3,11 @@ package fi.ishtech.springboot.jwtauth.spec;
 import java.io.Serial;
 import java.util.List;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
 import org.springframework.util.StringUtils;
 
 import fi.ishtech.base.spec.BaseStandardNoIdSpec;
@@ -11,10 +16,6 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile_;
 import fi.ishtech.springboot.jwtauth.entity.User_;
 import fi.ishtech.springboot.jwtauth.payload.params.UserProfileFilterParams;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 
 /**
  *

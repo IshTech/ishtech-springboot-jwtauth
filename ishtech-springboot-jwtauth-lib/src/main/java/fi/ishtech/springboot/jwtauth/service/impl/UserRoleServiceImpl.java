@@ -3,14 +3,16 @@ package fi.ishtech.springboot.jwtauth.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import fi.ishtech.springboot.jwtauth.entity.UserRole;
 import fi.ishtech.springboot.jwtauth.repo.UserRoleRepo;
 import fi.ishtech.springboot.jwtauth.service.UserRoleService;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ishtech.springboot.jwtauth.entity.User;
 import fi.ishtech.springboot.jwtauth.entity.UserRole;
 import fi.ishtech.springboot.jwtauth.repo.UserRepo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

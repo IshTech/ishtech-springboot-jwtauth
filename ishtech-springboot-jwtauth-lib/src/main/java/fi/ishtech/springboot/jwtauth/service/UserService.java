@@ -1,14 +1,15 @@
 package fi.ishtech.springboot.jwtauth.service;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import org.springframework.data.util.Pair;
 
 import fi.ishtech.springboot.jwtauth.dto.ForgotPasswordDto;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UpdatePasswordDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Service interface for user related operations.

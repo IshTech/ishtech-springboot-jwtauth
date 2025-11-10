@@ -1,5 +1,8 @@
 package fi.ishtech.springboot.jwtauth.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,8 +21,7 @@ import fi.ishtech.springboot.jwtauth.payload.params.UserProfileFilterParams;
 import fi.ishtech.springboot.jwtauth.service.AuthInfoService;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
 import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

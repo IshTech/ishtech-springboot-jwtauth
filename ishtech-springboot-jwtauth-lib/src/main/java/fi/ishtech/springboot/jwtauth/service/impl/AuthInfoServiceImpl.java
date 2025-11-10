@@ -13,6 +13,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import fi.ishtech.springboot.jwtauth.enums.StandardUserRoleEnum;
 import fi.ishtech.springboot.jwtauth.service.AuthInfoService;
 import fi.ishtech.springboot.jwtauth.userdetails.UserDetailsImpl;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**

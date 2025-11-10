@@ -3,18 +3,20 @@ package fi.ishtech.springboot.jwtauth.entity;
 import java.io.Serial;
 import java.util.Set;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import fi.ishtech.base.entity.BaseStandardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fi.ishtech.base.entity.BaseStandardEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

@@ -15,6 +15,7 @@ import fi.ishtech.springboot.jwtauth.mapper.UserProfileMapper;
 import fi.ishtech.springboot.jwtauth.repo.UserProfileRepo;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
 import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,10 +2,6 @@ package fi.ishtech.springboot.jwtauth.entity;
 
 import java.io.Serial;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import fi.ishtech.base.entity.BaseStandardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import fi.ishtech.base.entity.BaseStandardEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

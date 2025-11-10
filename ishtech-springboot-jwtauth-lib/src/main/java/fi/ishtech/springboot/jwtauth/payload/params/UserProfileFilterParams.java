@@ -2,8 +2,10 @@ package fi.ishtech.springboot.jwtauth.payload.params;
 
 import java.io.Serial;
 
-import fi.ishtech.base.payload.filter.BaseStandardNoIdEntityFilterParams;
 import jakarta.validation.constraints.PositiveOrZero;
+
+import fi.ishtech.base.payload.filter.BaseStandardNoIdEntityFilterParams;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
