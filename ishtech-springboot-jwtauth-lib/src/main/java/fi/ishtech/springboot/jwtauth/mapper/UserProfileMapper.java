@@ -1,6 +1,7 @@
 package fi.ishtech.springboot.jwtauth.mapper;
 
 import org.mapstruct.BeanMapping;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,6 +26,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 * @return {@link UserProfileDto}
 	 */
 	@BeanMapping(ignoreByDefault = true)
+	@InheritConfiguration(name = "toBaseStandardNoIdVo")
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "firstName", target = "firstName")
 	@Mapping(source = "middleName", target = "middleName")
@@ -47,6 +49,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	@Mapping(source = "firstName", target = "firstName")
 	@Mapping(source = "lastName", target = "lastName")
 	@Mapping(source = "lang", target = "defaultLang", defaultValue = "en")
+	@Mapping(target = "active", constant = "true")
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
