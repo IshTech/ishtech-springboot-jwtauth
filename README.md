@@ -24,6 +24,17 @@ Spring Boot Auth using JWT - parent project
 └── [ishtech-springboot-jwtauth-web](./ishtech-springboot-jwtauth-web/README.md)<br>
 
 
+### Usage
+
+1. Add JWT Security to your project
+    - If you only need Spring Boot security configuration with JWT, add the `ishtech-springboot-jwtauth-lib` module as a dependency (in your project `pom.xml` or `build.gradle`).
+
+1. Add JWT Security + REST APIs (Signin, Signup, etc.)
+    - If you need both JWT security and ready-to-use REST APIs for authentication, add the `ishtech-springboot-jwtauth-api` module as a dependency.
+
+1. Run an independent Spring Boot authentication server
+    - If you want a standalone authentication and authorization application, run the `ishtech-springboot-jwtauth-web` Spring Boot application.
+
 ## APIs
 
 | Module  | Type            | HTTP  | URL                          | Description |
@@ -59,4 +70,10 @@ Spring Boot Auth using JWT - parent project
 
 ```
 ./mvnw clean install
+```
+
+### Publish to Maven Central (Sonatype)
+
+```
+./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
 ```
