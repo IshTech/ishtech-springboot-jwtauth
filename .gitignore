@@ -1,8 +1,18 @@
 HELP.md
-target/
+
+### Maven ###
 !.mvn/wrapper/maven-wrapper.jar
+target/
 !**/src/main/**/target/
 !**/src/test/**/target/
+pom.xml.versionsBackup
+
+### Gradle ###
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### STS ###
 .apt_generated
@@ -13,11 +23,18 @@ target/
 .springBeans
 .sts4-cache
 
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -25,15 +42,12 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
 
-# Log file
-*.log
+### Log files ###
+*.log*
 
-#
-pom.xml.versionsBackup
+### Local ###
+.DS_Store
