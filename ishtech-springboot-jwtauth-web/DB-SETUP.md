@@ -66,3 +66,12 @@ ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech
 ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_aud_schema GRANT USAGE, SELECT ON SEQUENCES TO ishtech_auth_dev_flyway_user;
 
 ```
+
+
+### Change role to admin for an user
+
+```sql
+UPDATE ishtech_auth_dev_schema.t_user_role SET role_name = 'ADMIN'
+  WHERE user_id = (SELECT id FROM ishtech_auth_dev_schema.t_user WHERE email = 'admin@example.com');
+
+```

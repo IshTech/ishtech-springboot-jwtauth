@@ -26,9 +26,3 @@ curl --location 'http://localhost:8080/api/v1/auth/signin' \
 }'
 
 ```
-
-### Change role to admin
-```sql
-UPDATE t_user_role SET role_name = 'ADMIN' WHERE user_id = (SELECT id FROM t_user WHERE email = 'admin@example.com');
-
-```
