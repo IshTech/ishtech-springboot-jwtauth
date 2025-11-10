@@ -1,10 +1,11 @@
 package fi.ishtech.springboot.jwtauth.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
+import fi.ishtech.springboot.jwtauth.payload.params.UserProfileFilterParams;
 import fi.ishtech.springboot.jwtauth.service.AuthInfoService;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
+import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,26 @@ public class UserController {
 
 	private final UserProfileService userProfileService;
 	private final AuthInfoService authInfoService;
+
+	/**
+	 * Gets public info of companies found by filter params
+	 *
+	 * @param params   - {@link UserProfileFilterParams}
+	 * @param pageable - {@link Pageable}
+	 * @return {@link ResponseEntity}&lt;{@link Page}&lt;{@link UserProfileVo}&gt;&gt;
+	 */
+	@GetMapping(path = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+	public ResponseEntity<Page<UserProfileDto>> searchUserProfiles(@Valid UserProfileFilterParams params,
+			Pageable pageable) {
+		log.trace("UserProfileFilterParams:{}", params);
+
+		UserProfileSpec userProfileSpec = new UserProfileSpec(params);
+
+		Page<UserProfileDto> result = userProfileService.findAllAndMapToVo(userProfileSpec, pageable);
+
+		return ResponseEntity.ok(result);
+	}
 
 	// @formatter:off
 	@GetMapping(path = "/api/v1/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
