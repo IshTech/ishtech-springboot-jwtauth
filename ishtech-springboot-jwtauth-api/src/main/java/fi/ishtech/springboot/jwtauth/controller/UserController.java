@@ -33,10 +33,14 @@ public class UserController {
 	private final UserProfileService userProfileService;
 	private final AuthInfoService authInfoService;
 
+	// @formatter:off
 	@GetMapping(path = "/api/v1/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ADMIN') || #userId == 'me' || #userId == authentication.principal.id")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN') || #userId == 'me'"
+			+ " || T(java.lang.Long).valueOf(#userId) == principal.id")
 	public ResponseEntity<UserProfileDto> findUserProfile(
-			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.") @PathVariable("userId") String userId) {
+			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.")
+				@PathVariable("userId") String userId) {
+		// @formatter:on
 		log.info("Input userId:{}", userId);
 
 		Long loggedInUserId = authInfoService.getUserId();
