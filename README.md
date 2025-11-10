@@ -1,12 +1,20 @@
 # ishtech-springboot-jwtauth
+Spring Boot Auth using JWT - parent project
 
 ## Tech stack
-- java - 25
-- spring-boot - 3.5.7
+- Java: 25
+- Spring Boot: 3.5.7
+- Security: JWT
+- Database: Supports various databases, see child projects for details
+- Database Migration: Flyway
+- Containerization: Docker
 
-## 
+##
 
 [GIT](https://github.com/ishtech/ishtech-springboot-jwtauth)
+
+## Design
+- [ishtech-jpa-base](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
 
 ## Project structure
 
@@ -15,8 +23,6 @@
 ├── [ishtech-springboot-jwtauth-api](./ishtech-springboot-jwtauth-api/README.md)<br>
 └── [ishtech-springboot-jwtauth-web](./ishtech-springboot-jwtauth-web/README.md)<br>
 
-## Database
-- See [DB-SETUP](./ishtech-springboot-jwtauth-web/DB-SETUP.md) for setting up dev database
 
 ## APIs
 
@@ -33,53 +39,24 @@
 - For details you can see swagger documentation
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-- If running on different server or port change their values in URL
+- Note: Check and update URI and PORT on which application is running
 
-- See API request/response samples here in [API-INFO.md](./API-INFO.md)
+- For API request/response samples here:
+    - See [API-INFO.md](./API-INFO.md)
 
 
-## Build & Run
+## Build and Run
 
-### Local Build
+### Local Maven Build
 
-#### Build using Maven
-- You can make build with or without running tests
-
-```
-mvn clean package -DskipTests=true
-```
-
-#### To get source code and javadoc of dependencies
+- Build without tests
 
 ```
-mvn dependency:resolve -Dclassifier=sources;javadoc
-
-mvn dependency:tree
-
+./mvnw clean install -DskipTests
 ```
 
-
-#### Docker build
-
-```
-docker build \
-  --build-arg APP_VERSION=x.y.z \
-  --build-arg SERVER_PORT=8080 \
-  -t ishtech-springboot-jwtauth-web:x.y.z .
-```
-- Note: Replace `x.y.z` with appropriate version number, e.g. `1.0.0` or `1.1.0-SNAPSHOT`
-
-### Local Run
-
-#### Run using Maven
+- Build with Junit tests
 
 ```
-./mvnw -pl ishtech-springboot-jwtauth-web spring-boot:run -Dspring-boot.run.profiles=dev
-```
-
-#### Docker Run
-
-
-```
- docker run -p 8080:8080 ishtech-springboot-jwtauth-web:x.y.z
+./mvnw clean install
 ```
