@@ -3,7 +3,7 @@ package fi.ishtech.springboot.jwtauth.payload.params;
 import java.io.Serial;
 
 import fi.ishtech.base.payload.filter.BaseStandardNoIdEntityFilterParams;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,8 +20,10 @@ public class UserProfileFilterParams extends BaseStandardNoIdEntityFilterParams 
 	@Serial
 	private static final long serialVersionUID = -6062451974582082883L;
 
-	@Positive
+	@PositiveOrZero
 	private Long id;
+
+	protected boolean idLikeSearch = false;
 
 	private String firstName;
 
@@ -29,17 +31,15 @@ public class UserProfileFilterParams extends BaseStandardNoIdEntityFilterParams 
 
 	private String lastName;
 
+	private String nickName;
+
 	private String title;
 
 	private String prefix;
 
 	private String suffix;
 
-	private String mobilePhone;
-
 	private String defaultLang;
-
-	private Long addressId;
 
 	private String email;
 

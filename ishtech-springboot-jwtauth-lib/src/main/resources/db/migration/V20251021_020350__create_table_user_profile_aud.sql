@@ -6,6 +6,7 @@ CREATE TABLE ${audit_schema_name}.t_user_profile_aud (
   first_name     VARCHAR(255)      NULL,
   middle_name    VARCHAR(255)      NULL,
   last_name      VARCHAR(255)      NULL,
+  nick_name      VARCHAR(255)      NULL,
   title          VARCHAR(255)      NULL,
   prefix         VARCHAR(255)      NULL,
   suffix         VARCHAR(255)      NULL,

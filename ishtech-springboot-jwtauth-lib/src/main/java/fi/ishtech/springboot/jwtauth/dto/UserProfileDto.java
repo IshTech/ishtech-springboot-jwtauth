@@ -28,6 +28,14 @@ public class UserProfileDto extends BaseStandardNoIdEntityVo {
 
 	private String lastName;
 
+	private String nickName;
+
+	private String title;
+
+	private String prefix;
+
+	private String suffix;
+
 	private String defaultLang;
 
 	public String getFullName() {

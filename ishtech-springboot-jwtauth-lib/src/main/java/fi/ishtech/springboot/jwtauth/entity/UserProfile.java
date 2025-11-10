@@ -46,6 +46,18 @@ public class UserProfile extends BaseStandardNoIdEntity {
 	@Column(name = "last_name", nullable = false, insertable = true, updatable = true)
 	private String lastName;
 
+	@Column(name = "nick_name", nullable = false, insertable = true, updatable = true)
+	private String nickName;
+
+	@Column(name = "title", nullable = true, insertable = true, updatable = true)
+	private String title;
+
+	@Column(name = "prefix", nullable = true, insertable = true, updatable = true)
+	private String prefix;
+
+	@Column(name = "suffix", nullable = true, insertable = true, updatable = true)
+	private String suffix;
+
 	@Column(name = "default_lang", length = 2, nullable = false, insertable = true, updatable = true)
 	private String defaultLang;
 

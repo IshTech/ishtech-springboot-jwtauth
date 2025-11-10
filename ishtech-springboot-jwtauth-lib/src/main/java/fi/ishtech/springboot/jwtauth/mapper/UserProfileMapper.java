@@ -29,6 +29,10 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	@Mapping(source = "firstName", target = "firstName")
 	@Mapping(source = "middleName", target = "middleName")
 	@Mapping(source = "lastName", target = "lastName")
+	@Mapping(source = "nickName", target = "nickName")
+	@Mapping(source = "title", target = "title")
+	@Mapping(source = "prefix", target = "prefix")
+	@Mapping(source = "suffix", target = "suffix")
 	@Mapping(source = "defaultLang", target = "defaultLang")
 	@Mapping(source = "email", target = "email")
 	UserProfileDto toBriefDto(UserProfile entity);
