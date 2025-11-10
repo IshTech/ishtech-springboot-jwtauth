@@ -21,8 +21,8 @@
 	<description>Spring Boot Auth using JWT - parent project</description>
 
 	<organization>
-		<name>Ishtech</name>
-		<url>https://github.com/ishtech</url>
+		<name>IshTech</name>
+		<url>https://www.ishtech.fi</url>
 	</organization>
 
 	<licenses>
