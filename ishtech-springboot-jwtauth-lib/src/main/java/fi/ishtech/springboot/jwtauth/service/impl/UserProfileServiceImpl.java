@@ -1,5 +1,7 @@
 package fi.ishtech.springboot.jwtauth.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import fi.ishtech.springboot.jwtauth.mapper.UserProfileMapper;
 import fi.ishtech.springboot.jwtauth.repo.UserProfileRepo;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
+import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +46,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Transactional(readOnly = true)
 	public UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id) {
 		return userProfileMapper.toBriefDto(findOneByIdOrElseThrow(id));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable) {
+		return this.findAll(spec, pageable).map(getMapper()::toBriefVo);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)

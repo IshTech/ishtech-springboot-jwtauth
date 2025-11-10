@@ -1,9 +1,13 @@
 package fi.ishtech.springboot.jwtauth.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import fi.ishtech.base.service.BaseStandardNoIdService;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
+import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -31,6 +35,15 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	 * @return {@link UserProfileDto}
 	 */
 	UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id);
+
+	/**
+	 * Search and find UserProfile(s) by Specification and pageniate them
+	 *
+	 * @param spec {@link UserProfileSpec}
+	 * @param pageable {@link Pageable}
+	 * @return {@link Page}&lt;{@link UserProfileDto}&gt;
+	 */
+	Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable);
 
 	/**
 	 * Finds by id and updates the entity in DB and return updated dto
