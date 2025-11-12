@@ -72,9 +72,11 @@ public class UserProfile extends BaseStandardNoIdEntity {
 
 	public String getFullName() {
 		if (middleName != null && !middleName.isBlank()) {
-			return String.join(" ", firstName.strip(), middleName.strip(), lastName.strip());
+			return String.join(" ", firstName == null ? "" : firstName.strip(), middleName.strip(),
+					lastName == null ? "" : lastName.strip());
 		} else {
-			return String.join(" ", firstName.strip(), lastName.strip());
+			return String.join(" ", firstName == null ? "" : firstName.strip(),
+					lastName == null ? "" : lastName.strip());
 		}
 	}
 
