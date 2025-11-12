@@ -1,4 +1,4 @@
-CREATE DATABASE ishtech_dev_db;
+-- CREATE DATABASE ishtech_dev_db;
 
 \connect ishtech_dev_db;
 

@@ -65,7 +65,7 @@ docker build . \
         - `SERVER_PORT_LOCAL` if skipped spring-boot app will be exposed on default `8080`
 
 ```
-SERVER_PORT_LOCAL=8181 DB_PORT=15432 APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout) \
+SERVER_PORT_LOCAL=8181 DB_PORT=25432 APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null) \
 docker compose up --build
 
 ```
