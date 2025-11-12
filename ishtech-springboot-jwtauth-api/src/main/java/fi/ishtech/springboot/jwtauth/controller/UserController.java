@@ -39,11 +39,11 @@ public class UserController {
 	private final AuthInfoService authInfoService;
 
 	/**
-	 * Gets public info of companies found by filter params
+	 * Finds UserProfile(s) by search filters and pagination
 	 *
 	 * @param params   - {@link UserProfileFilterParams}
 	 * @param pageable - {@link Pageable}
-	 * @return {@link ResponseEntity}&lt;{@link Page}&lt;{@link UserProfileVo}&gt;&gt;
+	 * @return {@link ResponseEntity}&lt;{@link Page}&lt;{@link UserProfileDto}&gt;&gt;
 	 */
 	@GetMapping(path = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")

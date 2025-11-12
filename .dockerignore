@@ -3,7 +3,7 @@
 !**/src/test/**/*.md
 
 ### Maven ###
-!.mvn
+!.mvn/
 **/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -11,10 +11,10 @@
 
 ### Gradle ###
 .gradle
+!gradle/
 **/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-**/bin/
 
 ### STS ###
 **/.apt_generated
@@ -25,12 +25,18 @@
 **/.springBeans
 **/.sts4-cache
 
+**/bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
 ### IntelliJ IDEA ###
 **/.idea
 *.iws
 *.iml
 *.ipr
 **/out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 ### NetBeans ###
 **/nbproject/private/
