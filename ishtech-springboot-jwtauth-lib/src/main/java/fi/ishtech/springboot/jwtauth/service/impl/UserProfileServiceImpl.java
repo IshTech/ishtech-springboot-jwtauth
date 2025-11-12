@@ -52,7 +52,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Transactional(readOnly = true)
 	@Override
 	public Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable) {
-		return this.findAll(spec, pageable).map(getMapper()::toBriefVo);
+		return this.findAll(spec, pageable).map(getMapper()::toBriefDto);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
