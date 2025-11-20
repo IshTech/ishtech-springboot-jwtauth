@@ -83,4 +83,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: muneer2ishtech/ishtech-springboot-jwtauth:${{ env.APP_VERSION }}
+        tags: muneer2ishtech/ishtech-springboot-jwtauth-web:${{ env.APP_VERSION }}
