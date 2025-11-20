@@ -4,8 +4,10 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "dev", "main" ]
-    tags: [ "*" ]
+    branches: [ "dev" ]
+
+  release:
+    types: [ published ]
 
 jobs:
   build:
@@ -18,42 +20,41 @@ jobs:
 
     - name: Read & validate project version
       run: |
-        BRANCH="${GITHUB_REF##*/}"
-        REF_TYPE="${GITHUB_REF_TYPE}"
-        RAW_TAG="${GITHUB_REF_NAME}" # the tag or branch name
-        APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
+        echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+        echo "GITHUB_REF: $GITHUB_REF"
+        echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+        echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
 
-        echo "Branch/Tag: $GITHUB_REF"
-        echo "Ref type: $REF_TYPE"
-        echo "Tag name: $RAW_TAG"
+        RELEASE_TAG="${{ github.event.release.tag_name }}"
+        echo "RELEASE_TAG: $RELEASE_TAG"
+
+        APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
         echo "POM Version: $APP_VERSION"
 
-        # ---------- DEV RULE ----------
-        if [[ "$REF_TYPE" == "branch" && "$BRANCH" == "dev" && ! "$APP_VERSION" == *"-SNAPSHOT" ]]; then
-          echo "❌ ERROR: Dev branch requires SNAPSHOT version. Found: $APP_VERSION"
-          exit 1
+        # ---------- PUSH RULE ----------
+        if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+
+          # ---------- DEV RULE ----------
+          if [[ "$GITHUB_REF_TYPE" == "branch" && "$GITHUB_REF_NAME" == "dev" && ! "$APP_VERSION" == *"-SNAPSHOT" ]]; then
+            echo "❌ ERROR: $GITHUB_REF_NAME branch must use SNAPSHOT version. Found: $APP_VERSION"
+            exit 1
+          fi
         fi
 
-        # ---------- MAIN RULE ----------
-        if [[ "$BRANCH" == "main" ]]; then
+        # ---------- RELEASE RULE ----------
+        if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
 
-          # must be tag
-          if [[ "$REF_TYPE" != "tag" ]]; then
-            echo "❌ ERROR: Main branch workflow runs ONLY on release tags."
-            exit 1
-          fi
-
-          # version must NOT be snapshot
+          # ---------- APP_VERSION RULE ----------
           if [[ "$APP_VERSION" == *"-SNAPSHOT" ]]; then
-            echo "❌ ERROR: Tagged releases cannot use SNAPSHOT version. Found: $APP_VERSION"
+            echo "❌ ERROR: Release version cannot be SNAPSHOT. Found: $APP_VERSION"
             exit 1
           fi
 
-          # tag must exactly match version (allow optional v prefix)
-          CLEAN_TAG="${RAW_TAG#v}"
+          # clean optional v prefix
+          CLEAN_TAG="${RELEASE_TAG#v}"
 
           if [[ "$CLEAN_TAG" != "$APP_VERSION" ]]; then
-            echo "❌ ERROR: Tag ($RAW_TAG) does NOT match pom.xml version ($APP_VERSION)."
+            echo "❌ ERROR: Tag ($RELEASE_TAG) does NOT match pom version ($APP_VERSION)"
             exit 1
           fi
         fi
