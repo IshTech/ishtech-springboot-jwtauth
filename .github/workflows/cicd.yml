@@ -112,6 +112,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # 'release' environment → automatic
+    # 'manual-deploy' environment → manual approval for all non-release events
+    environment:
+      name: ${{ github.event_name == 'release' && 'release' || 'manual-deploy' }}
 
     steps:
       - name: Download source-code from validate-version
