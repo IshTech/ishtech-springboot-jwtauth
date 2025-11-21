@@ -3,11 +3,13 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ "dev" ]
-
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build'
+        default: 'dev'
   release:
-    types: [ published ]
+    types: [published]
 
 jobs:
   build:
@@ -63,6 +65,7 @@ jobs:
         echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
 
     - name: Set up JDK 25
+      if: github.event_name == 'release'
       uses: actions/setup-java@v5
       with:
         java-version: '25'
@@ -70,6 +73,7 @@ jobs:
         cache: maven
 
     - name: Publish to Maven Central Sonatype
+      if: github.event_name == 'release'
       run: ./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
 
     - name: Login to Docker Hub
@@ -79,6 +83,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build and push Docker image
+      if: github.event_name == 'release'
       uses: docker/build-push-action@v6
       with:
         context: .
