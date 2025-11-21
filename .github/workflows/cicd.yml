@@ -3,90 +3,152 @@
 name: Java CI with Maven
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to build'
-        default: 'dev'
+  # Only on push to any branches and on publishing release tag
+  push:
   release:
     types: [published]
 
 jobs:
-  build:
 
+  validate-version:
+    runs-on: ubuntu-latest
+    outputs:
+      APP_VERSION: ${{ steps.validate-project-version.outputs.APP_VERSION }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: validate project version
+        id: validate-project-version
+        run: |
+          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+
+          RELEASE_TAG="${{ github.event.release.tag_name }}"
+          echo "RELEASE_TAG: $RELEASE_TAG"
+
+          chmod +x mvnw
+
+          # mvnw does not need Java preinstalled — wrapper downloads it automatically
+          APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
+          echo "POM Version: $APP_VERSION"
+
+          # ---------- PUSH RULE ----------
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            if [[ "$GITHUB_REF_TYPE" == "branch" ]]; then
+
+              # ---------- MAIN ----------
+              if [[ "$GITHUB_REF_NAME" == "main" ]]; then
+                if [[ "$APP_VERSION" == *"-SNAPSHOT" ]]; then
+                  echo "❌ ERROR: main branch must use RELEASE version (no -SNAPSHOT). Found: $APP_VERSION"
+                  exit 1
+                fi
+
+              # ---------- DEV or ANY OTHER BRANCH ----------
+              else
+                if [[ "$APP_VERSION" != *"-SNAPSHOT" ]]; then
+                  echo "❌ ERROR: Non-main branches must use SNAPSHOT version. Found: $APP_VERSION"
+                  exit 1
+                fi
+              fi
+            fi
+          fi
+
+          # ---------- RELEASE RULE ----------
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+            if [[ "$APP_VERSION" == *"-SNAPSHOT" ]]; then
+              echo "❌ ERROR: Release version cannot be SNAPSHOT. Found: $APP_VERSION"
+              exit 1
+            fi
+
+            # clean optional v prefix
+            CLEAN_TAG="${RELEASE_TAG#v}"
+
+            if [[ "$CLEAN_TAG" != "$APP_VERSION" ]]; then
+              echo "❌ ERROR: Tag ($RELEASE_TAG) does NOT match pom version ($APP_VERSION)"
+              exit 1
+            fi
+          fi
+
+          echo "✔ Version + branch/tag validation passed."
+          echo "APP_VERSION=$APP_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload repo for downstream jobs
+        uses: actions/upload-artifact@v3
+        with:
+          name: source-code
+          path: ./
+
+  build:
+    needs: validate-version
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+      - name: Download source-code from validate-version
+        uses: actions/download-artifact@v3
+        with:
+          name: source-code
+          path: ./
 
-    - name: Read & validate project version
-      run: |
-        echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
-        echo "GITHUB_REF: $GITHUB_REF"
-        echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
-        echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+      - name: Set up JDK 25 + Maven cache
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
 
-        RELEASE_TAG="${{ github.event.release.tag_name }}"
-        echo "RELEASE_TAG: $RELEASE_TAG"
+      - name: Maven Compile
+        run: |
+          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
+          ./mvnw $MAVEN_CLI_OPTS clean compile
 
-        APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null)
-        echo "POM Version: $APP_VERSION"
+      - name: Maven Test
+        run: |
+          ./mvnw $MAVEN_CLI_OPTS test -Dmaven.main.skip=true
 
-        # ---------- PUSH RULE ----------
-        if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
 
-          # ---------- DEV RULE ----------
-          if [[ "$GITHUB_REF_TYPE" == "branch" && "$GITHUB_REF_NAME" == "dev" && ! "$APP_VERSION" == *"-SNAPSHOT" ]]; then
-            echo "❌ ERROR: $GITHUB_REF_NAME branch must use SNAPSHOT version. Found: $APP_VERSION"
-            exit 1
-          fi
-        fi
+    steps:
+      - name: Download source-code from validate-version
+        uses: actions/download-artifact@v3
+        with:
+          name: source-code
+          path: ./
 
-        # ---------- RELEASE RULE ----------
-        if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+      - name: Set up JDK 25 + Maven cache
+        if: github.event_name == 'release'
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
 
-          # ---------- APP_VERSION RULE ----------
-          if [[ "$APP_VERSION" == *"-SNAPSHOT" ]]; then
-            echo "❌ ERROR: Release version cannot be SNAPSHOT. Found: $APP_VERSION"
-            exit 1
-          fi
+      - name: Publish to Maven Central Sonatype
+        if: github.event_name == 'release'
+        run: |
+          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
+          ./mvnw $MAVEN_CLI_OPTS deploy \
+            -Dmaven.main.skip=true \
+            -DskipTests=true \
+            -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" \
+            -P gpg -P central-publishing -am
 
-          # clean optional v prefix
-          CLEAN_TAG="${RELEASE_TAG#v}"
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-          if [[ "$CLEAN_TAG" != "$APP_VERSION" ]]; then
-            echo "❌ ERROR: Tag ($RELEASE_TAG) does NOT match pom version ($APP_VERSION)"
-            exit 1
-          fi
-        fi
-
-        echo "✔ Version + branch/tag validation passed."
-        echo "APP_VERSION=$APP_VERSION" >> $GITHUB_ENV
-
-    - name: Set up JDK 25
-      if: github.event_name == 'release'
-      uses: actions/setup-java@v5
-      with:
-        java-version: '25'
-        distribution: 'temurin'
-        cache: maven
-
-    - name: Publish to Maven Central Sonatype
-      if: github.event_name == 'release'
-      run: ./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-    - name: Build and push Docker image
-      if: github.event_name == 'release'
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: muneer2ishtech/ishtech-springboot-jwtauth-web:${{ env.APP_VERSION }}
+      - name: Build and push Docker image
+        if: github.event_name == 'release'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: muneer2ishtech/ishtech-springboot-jwtauth-web:${{ needs.validate-version.outputs.APP_VERSION }}
