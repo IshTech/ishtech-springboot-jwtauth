@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: validate project version
+      - name: Validate Project Version
         id: validate-project-version
         run: |
           echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
@@ -80,7 +80,9 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: source-code
-          path: ./
+          path: |
+            ./
+            ./.mvn
 
   build:
     needs: validate-version
@@ -100,9 +102,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Maven Setup
+        run: |
+          chmod +x mvnw
+          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
+
       - name: Maven Compile
         run: |
-          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
           ./mvnw $MAVEN_CLI_OPTS clean compile
 
       - name: Maven Test
@@ -132,6 +138,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Maven Setup
+        run: |
+          chmod +x mvnw
+          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
+
       - name: Publish to Maven Central Sonatype
         if: github.event_name == 'release'
         env:
@@ -140,7 +151,6 @@ jobs:
           GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
 
         run: |
-          echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
           ./mvnw $MAVEN_CLI_OPTS deploy \
             -Dmaven.main.skip=true \
             -DskipTests=true \
