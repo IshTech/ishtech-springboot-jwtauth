@@ -134,6 +134,11 @@ jobs:
 
       - name: Publish to Maven Central Sonatype
         if: github.event_name == 'release'
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+
         run: |
           echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
           ./mvnw $MAVEN_CLI_OPTS deploy \
