@@ -93,7 +93,9 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: source-code
-          path: ./
+          path: |
+            ./
+            ./.mvn
 
       - name: Set up JDK 25 + Maven cache
         uses: actions/setup-java@v5
