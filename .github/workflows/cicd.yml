@@ -104,6 +104,8 @@ jobs:
 
       - name: Maven Setup
         run: |
+          ls -al .
+          tree .
           chmod +x mvnw
           echo "MAVEN_CLI_OPTS=\"-B -q -s .mvn/settings.xml\"" >> $GITHUB_ENV
 
