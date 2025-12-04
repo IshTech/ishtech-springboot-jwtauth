@@ -82,7 +82,7 @@ jobs:
           name: source-code
           path: |
             ./
-            ./.mvn
+            ./.mvn/**
 
   build:
     needs: validate-version
