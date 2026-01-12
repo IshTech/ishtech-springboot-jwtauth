@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ishtech.springboot.jwtauth.entity.User;
 import fi.ishtech.springboot.jwtauth.entity.UserRole;
 import fi.ishtech.springboot.jwtauth.repo.UserRepo;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = (loginByEmail ? userRepo.findOneByEmail(username) : userRepo.findOneByUsername(username))
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 		log.trace("Found User({})", user.getId());
-		
+
 		// @formatter:off
 		List<String> userRoleNames = user.getUserRoles() == null ? List.of()
 				: user.getUserRoles()

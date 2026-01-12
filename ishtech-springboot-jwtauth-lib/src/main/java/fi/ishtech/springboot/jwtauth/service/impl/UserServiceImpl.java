@@ -3,6 +3,9 @@ package fi.ishtech.springboot.jwtauth.service.impl;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
 import org.springframework.data.util.Pair;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,11 @@ import fi.ishtech.springboot.jwtauth.repo.UserRepo;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
 import fi.ishtech.springboot.jwtauth.service.UserRoleService;
 import fi.ishtech.springboot.jwtauth.service.UserService;
-import io.jsonwebtoken.lang.Assert;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import io.jsonwebtoken.lang.Assert;
 
 /**
  *

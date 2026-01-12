@@ -1,7 +1,7 @@
 package fi.ishtech.springboot.jwtauth.service.impl;
 
-import java.util.Optional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,8 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import fi.ishtech.springboot.jwtauth.mapper.UserProfileMapper;
 import fi.ishtech.springboot.jwtauth.repo.UserProfileRepo;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
+import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,23 +33,26 @@ public class UserProfileServiceImpl implements UserProfileService {
 	private final UserProfileRepo userProfileRepo;
 	private final UserProfileMapper userProfileMapper;
 
-	private Optional<UserProfile> findById(Long id) {
-		return userProfileRepo.findById(id);
+	@Override
+	public UserProfileRepo getRepo() {
+		return userProfileRepo;
 	}
 
-	private UserProfile findByIdOrThrow(Long id) {
-		return findById(id).orElseThrow();
-	}
-
-	@SuppressWarnings("unused")
-	private UserProfile findByIdOrNull(Long id) {
-		return userProfileRepo.findById(id).orElse(null);
+	@Override
+	public UserProfileMapper getMapper() {
+		return userProfileMapper;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserProfileDto findByIdAndMapToDto(Long id) {
-		return userProfileMapper.toBriefDto(findByIdOrThrow(id));
+	public UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id) {
+		return userProfileMapper.toBriefDto(findOneByIdOrElseThrow(id));
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable) {
+		return this.findAll(spec, pageable).map(getMapper()::toBriefDto);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
@@ -70,7 +75,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto) {
 		Assert.notNull(userProfileDto.getId(), "Input id is mandatory in input UserProfileDto");
 
-		UserProfile userProfile = findByIdOrThrow(userProfileDto.getId());
+		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId());
 
 		userProfileMapper.toEntity(userProfileDto, userProfile);
 

@@ -1,5 +1,6 @@
 package fi.ishtech.springboot.jwtauth.userdetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+	@Serial
 	private static final long serialVersionUID = 8045685643481477217L;
 
 	private static final String ROLE_PREFIX = "ROLE_";

@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,14 +15,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.NumberUtils;
 
 import fi.ishtech.springboot.jwtauth.userdetails.UserDetailsImpl;
+
+import lombok.extern.slf4j.Slf4j;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j

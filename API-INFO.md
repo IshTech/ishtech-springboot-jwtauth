@@ -24,15 +24,26 @@ Sample Response JSON
 
 ```json
 {
-    "iss": "dev.jwtauth.springboot.ishtech.fi",
+    "token_type": "Bearer",
+    "access_token": "eyJhbGciOiJIUzI1NiJ9"
+}
+```
+
+<br>
+Sample JWT of `access_token`
+
+```
+{
     "sub": "muneer@example.com",
     "iat": 1693838542156,
     "exp": 1693840342156,
+    "iss": "dev.jwtauth.springboot.ishtech.fi",
+    "userId": 1,
     "scopes": [
-        "ROLE_USER"
+        "USER"
     ],
-    "token_type": "Bearer",
-    "access_token": "eyJhbGciOiJIUzI1NiJ9"
+    "fullName": "Muneer Syed",
+    "lang": "en"
 }
 ```
 </td>

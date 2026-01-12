@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>fi.ishtech.springboot</groupId>
 		<artifactId>ishtech-springboot-jwtauth</artifactId>
-		<version>0.5.0</version>
+		<version>0.6.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -35,6 +35,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>fi.ishtech.base</groupId>
+			<artifactId>ishtech-base-jpa</artifactId>
 		</dependency>
 
 		<dependency>
@@ -71,8 +76,11 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

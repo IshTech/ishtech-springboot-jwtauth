@@ -1,8 +1,8 @@
 package fi.ishtech.springboot.jwtauth.repo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
 
+import fi.ishtech.base.repo.BaseStandardNoIdRepo;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 
 /**
@@ -10,6 +10,6 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
  *
  * @author Muneer Ahmed Syed
  */
-public interface UserProfileRepo extends JpaRepository<UserProfile, Long> {
+public interface UserProfileRepo extends BaseStandardNoIdRepo<UserProfile, Long> {
 
 }

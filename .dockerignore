@@ -1,12 +1,20 @@
-Dockerfile
-docker-compose.yml
+**/*.md
+!**/src/main/**/*.md
+!**/src/test/**/*.md
 
-.git/
-.gitignore
-
+### Maven ###
+!.mvn/
 **/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
+**/pom.xml.versionsBackup
+
+### Gradle ###
+.gradle
+!gradle/
+**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### STS ###
 **/.apt_generated
@@ -17,14 +25,39 @@ docker-compose.yml
 **/.springBeans
 **/.sts4-cache
 
-
 **/bin/
-**/build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+**/.idea
+*.iws
+*.iml
+*.ipr
+**/out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+**/nbproject/private/
+**/nbbuild/
+**/dist/
+**/nbdist/
+**/.nb-gradle/
 
 ### VS Code ###
 **/.vscode/
 
-# Log file
-*.log
+### Log files ###
+*.log*
+
+### Git ###
+.git
+**/.gitignore
+.gitlab-ci.yml
+.github
+
+### Docker ###
+
+### Local ###
+.DS_Store

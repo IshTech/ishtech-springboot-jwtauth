@@ -1,68 +1,38 @@
 ## Database
 
-### Dev DB setup
-- Login to PostgreSQL with `root` or any other `SUPERUSER`
-    - If DB already exists
-	    - `psql -U root -W ishtech_dev_db`
-    - If not exists
-	    - `psql -U root -W`
+### Local
+- You need local instance or docker of local PostgreSQL
 
-        ```
-        CREATE DATABASE ishtech_dev_db;
-        \connect ishtech_dev_db;
-        ```
+- I have customized docker for various databases
+    - For PostgreSQL
+        - See [https://github.com/IshTech/docker-db/tree/main/postgres](https://github.com/IshTech/docker-db/tree/main/postgres)
 
-- Run following for first time before launching your spring-boot app after PostgreSQL is started
+- Login to DB as `root` / `superuser` and run [init_db.sql](src/test/resources/db/postgres/init_db.sql) to setup DB Schema, DB User and Grant privileges
+
+#### DB Access
 
 ```
--- ===== Common =====
-CREATE USER ishtech_auth_dev_user        PASSWORD 'ishtech_auth_dev_pass'        NOSUPERUSER;
-CREATE USER ishtech_auth_dev_flyway_user PASSWORD 'ishtech_auth_dev_flyway_pass' NOSUPERUSER;
+psql -U ishtech_dev_user -W -d ishtech_dev_db
+```
 
-GRANT CONNECT ON DATABASE ishtech_dev_db TO ishtech_auth_dev_user;
-GRANT CONNECT ON DATABASE ishtech_dev_db TO ishtech_auth_dev_flyway_user;
+- Enter password on prompt `ishtech_dev_pass`
 
-CREATE SCHEMA ishtech_auth_dev_schema;
-CREATE SCHEMA ishtech_auth_dev_aud_schema;
 
--- ===== App User ===== 
-GRANT USAGE ON SCHEMA public                      TO ishtech_auth_dev_user;
-GRANT USAGE ON SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_user;
-GRANT USAGE ON SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_user;
+### Flyway migration files
+- Path `src/main/resources/db/migration/postgres`
+- To create migration files with date and time in the file name
+    - E.g. `V20251021_020118__create_table_user.sql`
 
--- For existing tables
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_user;
-GRANT SELECT, INSERT                 ON ALL TABLES IN SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_user;
+```
+touch src/main/resources/db/migration/postgres/V$(date +"%Y%m%d_%H%M%S")__create_table_TODO_PUT_TABLE_NAME_WITHOUT_PREFIX.sql
 
--- For existing sequences
-GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_user;
-GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_user;
+```
 
--- For future tables and sequences created by ishtech_auth_dev_flyway_user
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_schema     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO ishtech_auth_dev_user;
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_aud_schema GRANT SELECT, INSERT                 ON TABLES TO ishtech_auth_dev_user;
 
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_schema     GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO ishtech_auth_dev_user;
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_aud_schema GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO ishtech_auth_dev_user;
+### Change role to admin for an user
 
--- ===== Flyway User =====
-GRANT USAGE         ON SCHEMA public                      TO ishtech_auth_dev_flyway_user;
-GRANT USAGE, CREATE ON SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_flyway_user;
-GRANT USAGE, CREATE ON SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_flyway_user;
-
--- For existing tables
-GRANT SELECT ON ALL TABLES IN SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_flyway_user;
-GRANT SELECT ON ALL TABLES IN SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_flyway_user;
-
--- For existing sequences
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_flyway_user;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_flyway_user;
-
--- For future tables and sequences created by ishtech_auth_dev_flyway_user
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_schema     GRANT SELECT ON TABLES TO ishtech_auth_dev_flyway_user;
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_aud_schema GRANT SELECT ON TABLES TO ishtech_auth_dev_flyway_user;
-
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_schema     GRANT USAGE, SELECT ON SEQUENCES TO ishtech_auth_dev_flyway_user;
-ALTER DEFAULT PRIVILEGES FOR ROLE ishtech_auth_dev_flyway_user IN SCHEMA ishtech_auth_dev_aud_schema GRANT USAGE, SELECT ON SEQUENCES TO ishtech_auth_dev_flyway_user;
+```sql
+UPDATE ishtech_auth_dev_schema.t_user_role SET role_name = 'ADMIN'
+  WHERE user_id = (SELECT id FROM ishtech_auth_dev_schema.t_user WHERE email = 'admin@example.com');
 
 ```
