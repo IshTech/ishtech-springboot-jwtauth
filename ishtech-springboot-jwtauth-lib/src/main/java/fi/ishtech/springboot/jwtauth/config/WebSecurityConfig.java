@@ -30,6 +30,8 @@ import fi.ishtech.springboot.jwtauth.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * Security configuration
+ *
  * @author Muneer Ahmed Syed
  */
 @Configuration

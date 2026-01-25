@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
+ * DTO for sign-up
  *
  * @author Muneer Ahmed Syed
  */
@@ -44,6 +45,8 @@ public class SignupDto implements Serializable {
 
 	/**
 	 * Checks that {@link #password} and {@link #passwordConfirm} are same.
+	 *
+	 * @return {@code true} if matching or else {@code false}
 	 */
 	@AssertTrue(message = "password and passwordConfirm are not matching")
 	@JsonIgnore
@@ -58,6 +61,8 @@ public class SignupDto implements Serializable {
 
 	/**
 	 * Validates input is I18N language code when present.
+	 *
+	 * @return {@code true} if valid or else {@code false}
 	 */
 	@AssertTrue(message = "lang must be exactly 2 lowercase letters")
 	@JsonIgnore

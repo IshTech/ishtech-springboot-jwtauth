@@ -24,6 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
+ * {@link Entity} for DB table for t_user_role
  *
  * @author Muneer Ahmed Syed
  */

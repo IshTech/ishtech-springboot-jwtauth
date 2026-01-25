@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * Implementation for {@link UserRoleService}
  *
  * @author Muneer Ahmed Syed
  */

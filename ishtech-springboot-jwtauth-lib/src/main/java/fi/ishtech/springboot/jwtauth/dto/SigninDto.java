@@ -8,6 +8,11 @@ import jakarta.validation.constraints.NotBlank;
 
 import lombok.Data;
 
+/**
+ * DTO for sign-in
+ *
+ * @author Muneer Ahmed Syed
+ */
 @Data
 public class SigninDto implements Serializable {
 

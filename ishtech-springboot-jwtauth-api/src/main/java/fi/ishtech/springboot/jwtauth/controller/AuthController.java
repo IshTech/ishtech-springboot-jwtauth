@@ -1,6 +1,9 @@
 package fi.ishtech.springboot.jwtauth.controller;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -14,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +45,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
+ * Rest Controller for authentication APIs
  *
  * @author Muneer Ahmed Syed
  */
@@ -53,10 +58,36 @@ public class AuthController {
 	@Value("${fi.ishtech.springboot.jwtauth.login-by-email:true}")
 	private boolean loginByEmail;
 
+	@Value("${application.title}")
+	private String applicationTitle;
+
+	@Value("${application.version}")
+	private String applicationVersion;
+
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
 
 	private final UserService userService;
+
+	// @formatter:off
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK",
+					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(implementation = JwtResponse.class)))
+	})
+	// @formatter:on
+	@GetMapping("/")
+	public ResponseEntity<Map<String, String>> about() throws IOException {
+		log.trace("Getting application details");
+
+		Map<String, String> results = new HashMap<String, String>(0);
+
+		results.put("application.title", applicationTitle);
+		results.put("application.version", applicationVersion);
+
+		log.debug("About={}", results);
+		return ResponseEntity.ok(results);
+	}
 
 	// @formatter:off
 	@ApiResponses(value = {

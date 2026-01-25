@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * Implementation for {@link UserProfileService}
  *
  * @author Muneer Ahmed Syed
  */

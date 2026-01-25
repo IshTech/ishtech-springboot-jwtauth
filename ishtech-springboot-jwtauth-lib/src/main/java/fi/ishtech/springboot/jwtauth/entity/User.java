@@ -23,7 +23,7 @@ import lombok.ToString;
 //import org.hibernate.envers.NotAudited;
 
 /**
- * {@link Entity} for DB table for user
+ * {@link Entity} for DB table for t_user
  *
  * @author Muneer Ahmed Syed
  */

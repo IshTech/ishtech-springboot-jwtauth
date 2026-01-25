@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import io.jsonwebtoken.lang.Assert;
 
 /**
+ * Implementation for {@link UserService}
  *
  * @author Muneer Ahmed Syed
  */

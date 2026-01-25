@@ -14,6 +14,7 @@ import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 
 /**
+ * Mapper for UserProfile from input DTOs
  *
  * @author Muneer Ahmed Syed
  */

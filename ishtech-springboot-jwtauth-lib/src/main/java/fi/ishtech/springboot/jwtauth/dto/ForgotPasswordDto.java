@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
+ * Dto for forgot password input
  *
  * @author Muneer Ahmed Syed
  */

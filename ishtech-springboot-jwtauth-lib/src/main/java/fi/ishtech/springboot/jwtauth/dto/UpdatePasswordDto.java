@@ -11,6 +11,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
+/**
+ * DTO for update password
+ *
+ * @author Muneer Ahmed Syed
+ */
 @Data
 public class UpdatePasswordDto implements Serializable {
 
@@ -28,6 +33,11 @@ public class UpdatePasswordDto implements Serializable {
 	@NotBlank
 	private String passwordConfirm;
 
+	/**
+	 * Checks that {@link #password} and {@link #passwordConfirm} are same.
+	 *
+	 * @return {@code true} if matching or else {@code false}
+	 */
 	@AssertTrue(message = "password and passwordConfirm are not matching")
 	@JsonIgnore
 	public boolean isPasswordAndPasswordConfirmMatch() {

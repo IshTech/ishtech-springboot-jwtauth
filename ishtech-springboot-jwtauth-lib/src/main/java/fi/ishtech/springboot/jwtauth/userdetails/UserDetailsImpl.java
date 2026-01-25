@@ -49,6 +49,19 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String lang;
 
+	/**
+	 * Creates a UserDetails instance from user data.
+	 * 
+	 * @param id            user identifier
+	 * @param username      login username
+	 * @param email         user email address
+	 * @param password      encrypted password
+	 * @param isEnabled     whether user is active
+	 * @param userRoleNames list of role names
+	 * @param fullName      user's full name
+	 * @param lang          user's language preference
+	 * @return configured UserDetails instance
+	 */
 	public static UserDetails of(Long id, String username, String email, String password, boolean isEnabled,
 			List<String> userRoleNames, String fullName, String lang) {
 		UserDetailsImpl userDetails = new UserDetailsImpl();
@@ -69,11 +82,21 @@ public class UserDetailsImpl implements UserDetails {
 		return userDetails;
 	}
 
+	/**
+	 * Returns user authorities as scope strings.
+	 * 
+	 * @return list of authority scope strings
+	 */
 	@JsonIgnore
 	public List<String> getScopes() {
 		return getAuthorities().stream().map(item -> item.getAuthority()).toList();
 	}
 
+	/**
+	 * Returns role names without the ROLE_ prefix.
+	 * 
+	 * @return list of role names
+	 */
 	@JsonIgnore
 	public List<String> getRoleNames() {
 		// @formatter:off
@@ -84,6 +107,12 @@ public class UserDetailsImpl implements UserDetails {
 		// @formatter:on
 	}
 
+	/**
+	 * Converts role names to GrantedAuthority objects with ROLE_ prefix.
+	 * 
+	 * @param roleNames list of role names
+	 * @return list of SimpleGrantedAuthority objects
+	 */
 	private static List<SimpleGrantedAuthority> convertToAuthorities(List<String> roleNames) {
 		// @formatter:off
 		return roleNames.stream()

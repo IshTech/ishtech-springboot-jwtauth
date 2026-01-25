@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
+ * DTO for UserProfile entity
+ *
  * @author Muneer Ahmed Syed
  */
 @Data

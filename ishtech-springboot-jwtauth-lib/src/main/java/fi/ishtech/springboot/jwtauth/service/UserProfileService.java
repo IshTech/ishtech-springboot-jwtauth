@@ -16,7 +16,6 @@ import fi.ishtech.springboot.jwtauth.spec.UserProfileSpec;
  * Service interface for user profile related operations.
  *
  * @author Muneer Ahmed Syed
- * 
  */
 public interface UserProfileService extends BaseStandardNoIdService<UserProfile, UserProfileDto, Long> {
 

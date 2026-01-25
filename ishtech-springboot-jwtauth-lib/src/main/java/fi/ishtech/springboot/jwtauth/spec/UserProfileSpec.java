@@ -18,6 +18,7 @@ import fi.ishtech.springboot.jwtauth.entity.User_;
 import fi.ishtech.springboot.jwtauth.payload.params.UserProfileFilterParams;
 
 /**
+ * {@code Specification} for UserProfile entity
  *
  * @author Muneer Ahmed Syed
  */
@@ -26,6 +27,11 @@ public class UserProfileSpec extends BaseStandardNoIdSpec<UserProfile, UserProfi
 	@Serial
 	private static final long serialVersionUID = -2080551823386644045L;
 
+	/**
+	 * Constructor with filter params
+	 *
+	 * @param params
+	 */
 	public UserProfileSpec(UserProfileFilterParams params) {
 		super(params);
 	}

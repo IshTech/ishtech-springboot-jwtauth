@@ -13,7 +13,6 @@ public interface UserRoleService {
 	 * Creates default roles for a user.
 	 *
 	 * @param userId {@link Long}
-	 * @return {@code Void}
 	 */
 	void createDefaultRoles(@NotNull Long userId);
 
