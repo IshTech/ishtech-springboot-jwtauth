@@ -1,12 +1,13 @@
 package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fi.ishtech.base.vo.BaseVo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -17,7 +18,7 @@ import lombok.ToString;
  * @author Muneer Ahmed Syed
  */
 @Data
-public class UpdatePasswordDto implements Serializable {
+public class UpdatePasswordDto implements BaseVo {
 
 	@Serial
 	private static final long serialVersionUID = 3504854805844405021L;

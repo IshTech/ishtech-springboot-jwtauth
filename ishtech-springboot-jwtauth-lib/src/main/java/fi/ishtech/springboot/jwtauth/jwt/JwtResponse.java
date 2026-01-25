@@ -1,9 +1,10 @@
 package fi.ishtech.springboot.jwtauth.jwt;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fi.ishtech.base.vo.BaseVo;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.Getter;
  */
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
-public class JwtResponse implements Serializable {
+public class JwtResponse implements BaseVo {
 
 	@Serial
 	private static final long serialVersionUID = -6607232579525545805L;

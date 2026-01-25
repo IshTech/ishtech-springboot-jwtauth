@@ -1,13 +1,14 @@
 package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fi.ishtech.base.vo.BaseVo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -18,7 +19,7 @@ import lombok.ToString;
  * @author Muneer Ahmed Syed
  */
 @Data
-public class SignupDto implements Serializable {
+public class SignupDto implements BaseVo {
 
 	@Serial
 	private static final long serialVersionUID = -7883197620560603955L;

@@ -1,10 +1,11 @@
 package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
+import fi.ishtech.base.vo.BaseVo;
 
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import lombok.Data;
  * @author Muneer Ahmed Syed
  */
 @Data
-public class SigninDto implements Serializable {
+public class SigninDto implements BaseVo {
 
 	@Serial
 	private static final long serialVersionUID = -7571955490506238597L;
