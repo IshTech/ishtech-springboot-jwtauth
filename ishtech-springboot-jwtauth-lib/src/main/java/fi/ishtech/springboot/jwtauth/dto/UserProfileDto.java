@@ -41,6 +41,11 @@ public class UserProfileDto extends BaseStandardNoIdEntityVo {
 
 	private String defaultLang;
 
+	/**
+	 * Combines {@link #firstName}, {@link #middleName} and {@link #lastName} to make fullName
+	 *
+	 * @return fullName {@link String}
+	 */
 	public String getFullName() {
 		if (middleName != null && !middleName.isBlank()) {
 			return String.join(" ", firstName == null ? "" : firstName.strip(), middleName.strip(),

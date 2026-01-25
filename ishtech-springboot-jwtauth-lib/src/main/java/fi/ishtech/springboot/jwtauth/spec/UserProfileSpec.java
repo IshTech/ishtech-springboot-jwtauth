@@ -30,7 +30,7 @@ public class UserProfileSpec extends BaseStandardNoIdSpec<UserProfile, UserProfi
 	/**
 	 * Constructor with filter params
 	 *
-	 * @param params
+	 * @param params {@link UserProfileFilterParams}
 	 */
 	public UserProfileSpec(UserProfileFilterParams params) {
 		super(params);

@@ -157,8 +157,8 @@ public class JwtService {
 	/**
 	 * Extracts the user ID from the request's JWT.
 	 *
-	 * @param request the HTTP request
-	 * @return the user ID or null
+	 * @param request {@link HttpServletRequest}
+	 * @return the user ID {@link Long} or {@code null}
 	 */
 	public Long extractUserIdFromRequest(final HttpServletRequest request) {
 		return extractUserId(extractJwtFromRequest(request));
@@ -167,8 +167,8 @@ public class JwtService {
 	/**
 	 * Extracts the JWT token from the request.
 	 *
-	 * @param request the HTTP request
-	 * @return the JWT token or null
+	 * @param request {@link HttpServletRequest}
+	 * @return the JWT {@link String} or {@code null}
 	 */
 	public String extractJwtFromRequest(final HttpServletRequest request) {
 		return extractJwtFromRequestHeader(request.getHeader(STR_AUTHERIZATION));
@@ -203,8 +203,8 @@ public class JwtService {
 	/**
 	 * Extracts all claims from the JWT.
 	 *
-	 * @param token the JWT token
-	 * @return the claims
+	 * @param token the JWT {@link String}
+	 * @return the extracted {@link Claims}
 	 */
 	private Claims extractClaims(String token) {
 		return parseSignedClaims(token).getPayload();
@@ -214,7 +214,7 @@ public class JwtService {
 	 * Parses and verifies the signed JWT claims.
 	 *
 	 * @param token JWT {@link String}
-	 * @return the parsed claims {@link Jws}&lt;{@link Claims}&gt;
+	 * @return {@link Jws}&lt;{@link Claims}&gt;
 	 */
 	private Jws<Claims> parseSignedClaims(String token) {
 		try {
