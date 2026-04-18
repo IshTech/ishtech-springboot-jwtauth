@@ -19,6 +19,7 @@
 
 	<name>ishtech-springboot-jwtauth</name>
 	<description>Spring Boot Auth using JWT - parent project</description>
+	<url>https://www.ishtech.fi/libs/ishtech-springboot-jwtauth</url>
 
 	<organization>
 		<name>IshTech</name>
