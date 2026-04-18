@@ -51,7 +51,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	/**
 	 * Creates a UserDetails instance from user data.
-	 * 
+	 *
 	 * @param id            user identifier
 	 * @param username      login username
 	 * @param email         user email address
@@ -84,7 +84,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	/**
 	 * Returns user authorities as scope strings.
-	 * 
+	 *
 	 * @return list of authority scope strings
 	 */
 	@JsonIgnore
@@ -94,7 +94,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	/**
 	 * Returns role names without the ROLE_ prefix.
-	 * 
+	 *
 	 * @return list of role names
 	 */
 	@JsonIgnore
@@ -109,7 +109,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	/**
 	 * Converts role names to GrantedAuthority objects with ROLE_ prefix.
-	 * 
+	 *
 	 * @param roleNames list of role names
 	 * @return list of SimpleGrantedAuthority objects
 	 */

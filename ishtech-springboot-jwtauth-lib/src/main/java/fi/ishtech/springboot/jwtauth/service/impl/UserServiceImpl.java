@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * TODO: move to Util
-	 * 
+	 *
 	 * @param length
 	 * @return base64 url encoded string
 	 */
