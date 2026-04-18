@@ -58,10 +58,10 @@ public class AuthController {
 	@Value("${fi.ishtech.springboot.jwtauth.login-by-email:true}")
 	private boolean loginByEmail;
 
-	@Value("${application.title}")
+	@Value("${application.title:${spring.application.name}}")
 	private String applicationTitle;
 
-	@Value("${application.version}")
+	@Value("${application.version:${spring.application.version:}}")
 	private String applicationVersion;
 
 	private final AuthenticationManager authenticationManager;
@@ -76,7 +76,7 @@ public class AuthController {
 							schema = @Schema(implementation = JwtResponse.class)))
 	})
 	// @formatter:on
-	@GetMapping("/")
+	@GetMapping("/about")
 	public ResponseEntity<Map<String, String>> about() throws IOException {
 		log.trace("Getting application details");
 
