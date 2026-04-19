@@ -172,7 +172,6 @@ jobs:
 
         run: |
           ./mvnw $MAVEN_CLI_OPTS deploy \
-            -Dmaven.main.skip=true \
             -DskipTests=true \
             -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" \
             -P gpg -P central-publishing -am
