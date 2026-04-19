@@ -100,6 +100,7 @@ public class UserControllerTest {
 	@WithMockUser(username = "testi", authorities = "ROLE_USER")
 	@WithUserDetails(value = "testi")
 	void testFindUserProfileByMeBySelf() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(100L);
 		when(userProfileService.findOneByIdAndMapToVoOrElseThrow(100L)).thenReturn(sampleUserProfile);
 
 		// @formatter:off
