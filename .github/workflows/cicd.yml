@@ -83,6 +83,8 @@ jobs:
           path: |
             ./
             ./.mvn/**
+            !./.git*
+          include-hidden-files: true
 
   build:
     needs: validate-version
@@ -93,9 +95,6 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: source-code
-          path: |
-            ./
-            ./.mvn
 
       - name: Set up JDK 21 + Maven cache
         uses: actions/setup-java@v5
