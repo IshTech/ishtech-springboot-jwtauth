@@ -159,6 +159,11 @@ jobs:
           chmod +x mvnw
           echo "MAVEN_CLI_OPTS=-B -q -s .mvn/settings.xml" >> $GITHUB_ENV
 
+      - name: Import GPG Key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          # Verify key was imported
+          #gpg --list-secret-keys --keyid-format LONG
       - name: Publish to Maven Central Sonatype
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
