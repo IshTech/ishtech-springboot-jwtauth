@@ -7,6 +7,16 @@ on:
   push:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      manual_deploy:
+        description: "Trigger manual deployment"
+        required: true
+        type: choice
+        options:
+          - "false"
+          - "true"
+        default: "false"
 
 jobs:
 
@@ -121,10 +131,14 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    # 'release' environment → automatic
-    # 'manual-deploy' environment → manual approval for all non-release events
-    environment:
-      name: ${{ github.event_name == 'release' && 'release' || 'manual-deploy' }}
+    # Only run for release OR manual trigger
+    if: |
+      github.event_name == 'release' ||
+      (
+        github.event_name == 'workflow_dispatch' &&
+        inputs.manual_deploy == 'true' &&
+        github.ref_name != 'main'
+      )
 
     steps:
       - name: Download source-code from validate-version
@@ -134,7 +148,6 @@ jobs:
           path: ./
 
       - name: Set up JDK 21 + Maven cache
-        if: github.event_name == 'release'
         uses: actions/setup-java@v5
         with:
           java-version: '21'
@@ -147,7 +160,6 @@ jobs:
           echo "MAVEN_CLI_OPTS=-B -q -s .mvn/settings.xml" >> $GITHUB_ENV
 
       - name: Publish to Maven Central Sonatype
-        if: github.event_name == 'release'
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
@@ -167,7 +179,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-        if: github.event_name == 'release'
         uses: docker/build-push-action@v6
         with:
           context: .
