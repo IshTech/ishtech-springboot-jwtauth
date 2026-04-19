@@ -129,7 +129,7 @@ jobs:
           ./mvnw $MAVEN_CLI_OPTS test -Dmaven.main.skip=true
 
   deploy:
-    needs: build
+    needs: [validate-version, build]
     runs-on: ubuntu-latest
     # Only run for release OR manual trigger
     if: |
