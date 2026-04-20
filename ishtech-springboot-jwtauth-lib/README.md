@@ -8,10 +8,10 @@ This module **does not run** as a standalone Spring Boot application.
 
 
 It can be included as a **Maven dependency** in any other Spring Boot project to instantly enable:
-- User authentication with JWT tokens  
-- Password management (update, reset, forgot)  
-- Role and authority handling  
-- Integration with Spring Security  
+- User authentication with JWT tokens
+- Password management (update, reset, forgot)
+- Role and authority handling
+- Integration with Spring Security
 
 
 ## Parent project

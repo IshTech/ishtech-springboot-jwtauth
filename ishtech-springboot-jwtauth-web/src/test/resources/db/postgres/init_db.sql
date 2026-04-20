@@ -12,7 +12,7 @@ GRANT CONNECT ON DATABASE ishtech_dev_db TO ishtech_auth_dev_flyway_user;
 CREATE SCHEMA ishtech_auth_dev_schema;
 CREATE SCHEMA ishtech_auth_dev_aud_schema;
 
--- ===== App User ===== 
+-- ===== App User =====
 GRANT USAGE ON SCHEMA public                      TO ishtech_auth_dev_user;
 GRANT USAGE ON SCHEMA ishtech_auth_dev_schema     TO ishtech_auth_dev_user;
 GRANT USAGE ON SCHEMA ishtech_auth_dev_aud_schema TO ishtech_auth_dev_user;
