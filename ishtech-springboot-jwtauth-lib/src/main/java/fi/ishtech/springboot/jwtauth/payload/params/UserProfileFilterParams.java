@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
+ * Filter parameters for UserProfile entity in request
  *
  * @author Muneer Ahmed Syed
  */

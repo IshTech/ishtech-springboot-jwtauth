@@ -2,8 +2,8 @@
 Spring Boot Auth using JWT - parent project
 
 ## Tech stack
-- Java: 25
-- Spring Boot: 3.5.7
+- Java: 21
+- Spring Boot: 3.5.13
 - Security: JWT
 - Database: Supports various databases, see child projects for details
 - Database Migration: Flyway

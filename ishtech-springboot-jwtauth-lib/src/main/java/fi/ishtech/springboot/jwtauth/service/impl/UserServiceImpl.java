@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import io.jsonwebtoken.lang.Assert;
 
 /**
+ * Implementation for {@link UserService}
  *
  * @author Muneer Ahmed Syed
  */
@@ -142,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * TODO: move to Util
-	 * 
+	 *
 	 * @param length
 	 * @return base64 url encoded string
 	 */

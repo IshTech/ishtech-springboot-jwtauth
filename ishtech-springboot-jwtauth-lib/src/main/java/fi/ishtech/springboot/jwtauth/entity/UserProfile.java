@@ -21,6 +21,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
+ * {@link Entity} for DB table for t_user_profile
+ *
  * @author Muneer Ahmed Syed
  */
 @Entity
@@ -70,6 +72,11 @@ public class UserProfile extends BaseStandardNoIdEntity {
 			foreignKey = @ForeignKey(name = "fk_user_profile_user"))
 	private User user;
 
+	/**
+	 * Combines {@link #firstName}, {@link #middleName} and {@link #lastName} to make fullName
+	 *
+	 * @return fullName {@link String}
+	 */
 	public String getFullName() {
 		if (middleName != null && !middleName.isBlank()) {
 			return String.join(" ", firstName == null ? "" : firstName.strip(), middleName.strip(),
@@ -80,6 +87,11 @@ public class UserProfile extends BaseStandardNoIdEntity {
 		}
 	}
 
+	/**
+	 * Fetches email from parent {@link User} entity
+	 *
+	 * @return email {@link String}
+	 */
 	public String getEmail() {
 		return getUser() == null ? null : user.getEmail();
 	}

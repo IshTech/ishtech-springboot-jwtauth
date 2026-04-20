@@ -1,8 +1,8 @@
 
-# API Details 
+# API Details
 
 ## APIs for Auth
- 
+
 <table>
 <tr>
 <td><b>Signin</b> - <code>HTTP POST</code></td>

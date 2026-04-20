@@ -30,6 +30,8 @@ import fi.ishtech.springboot.jwtauth.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * Security configuration
+ *
  * @author Muneer Ahmed Syed
  */
 @Configuration
@@ -42,7 +44,7 @@ public class WebSecurityConfig {
 	 * If this property is not defined, no additional URLs are permitted beyond the defaults.<br>
 	 * <br>
 	 * Examples:
-	 * 
+	 *
 	 * <pre>
 	 * # none → handled by default
 	 * fi.ishtech.springboot.jwtauth.permitted-urls=
@@ -61,7 +63,7 @@ public class WebSecurityConfig {
 	 * Enables access to Swagger UI and OpenAPI documentation without authentication.<br>
 	 * <br>
 	 * Default: {@code false}
-	 * 
+	 *
 	 * <pre>
 	 * fi.ishtech.springboot.jwtauth.permit-swagger-urls=true
 	 * </pre>
@@ -75,7 +77,7 @@ public class WebSecurityConfig {
 	 * Can be set per environment via properties.
 	 *
 	 * Examples:
-	 * 
+	 *
 	 * <pre>
 	 * fi.ishtech.springboot.jwtauth.cors.allowed-origins=http://localhost:5173
 	 * fi.ishtech.springboot.jwtauth.cors.allowed-origins=https://booksui.ishtech.fi
@@ -172,7 +174,8 @@ public class WebSecurityConfig {
 				"/api/v1/auth/signin",
 				"/api/v1/auth/signup",
 				"/api/v1/auth/forgot-password",
-				"/api/v1/auth/reset-password"
+				"/api/v1/auth/reset-password",
+				"/api/v1/auth/about"
 		);
 		// @formatter:on
 	}

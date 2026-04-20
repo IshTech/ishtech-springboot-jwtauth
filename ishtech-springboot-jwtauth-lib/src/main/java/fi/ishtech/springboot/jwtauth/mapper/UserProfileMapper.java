@@ -14,6 +14,7 @@ import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 
 /**
+ * Mapper for UserProfile from input DTOs
  *
  * @author Muneer Ahmed Syed
  */
@@ -21,6 +22,7 @@ import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 public interface UserProfileMapper extends BaseStandardNoIdMapper {
 
 	/**
+	 * Mapping from entity to dto of direct fields
 	 *
 	 * @param entity {@link UserProfile}
 	 * @return {@link UserProfileDto}
@@ -40,6 +42,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	UserProfileDto toBriefDto(UserProfile entity);
 
 	/**
+	 * Mapping from input dto to new entity
 	 *
 	 * @param signupDto {@link SignupDto}
 	 * @return new {@link UserProfile} entity
@@ -53,6 +56,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
+	 * Mapping from dto to existing entity
 	 *
 	 * @param dto    {@link UserProfileDto}
 	 * @param entity {@link UserProfile}

@@ -17,6 +17,7 @@ import fi.ishtech.springboot.jwtauth.userdetails.UserDetailsImpl;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * Implementation for {@link AuthInfoService}
  *
  * @author Muneer Ahmed Syed
  */

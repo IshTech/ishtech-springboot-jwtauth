@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * {@code Filter} for JWT authentication
  *
  * @author Muneer Ahmed Syed
  */

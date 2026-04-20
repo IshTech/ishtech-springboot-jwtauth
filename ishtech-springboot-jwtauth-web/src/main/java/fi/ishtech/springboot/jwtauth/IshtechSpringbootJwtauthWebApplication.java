@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IshtechSpringbootJwtauthApplication {
+public class IshtechSpringbootJwtauthWebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IshtechSpringbootJwtauthApplication.class, args);
+		SpringApplication.run(IshtechSpringbootJwtauthWebApplication.class, args);
 	}
 
 }

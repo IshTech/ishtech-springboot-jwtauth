@@ -3,6 +3,7 @@ package fi.ishtech.springboot.jwtauth.exception;
 import java.io.Serial;
 
 /**
+ * Custom runtime exception to inform username is already exists
  *
  * @author Muneer Ahmed Syed
  */

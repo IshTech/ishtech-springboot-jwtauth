@@ -58,6 +58,12 @@ public class UserController {
 		return ResponseEntity.ok(result);
 	}
 
+	/**
+	 * Finds UserProfile by userId or for current user
+	 *
+	 * @param userId user ID or me
+	 * @return {@link ResponseEntity}&lt;{@link UserProfileDto}&gt;
+	 */
 	// @formatter:off
 	@GetMapping(path = "/api/v1/users/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADMIN') || #userId == 'me'"
@@ -78,6 +84,12 @@ public class UserController {
 		return ResponseEntity.ok(userProfileDto);
 	}
 
+	/**
+	 * Updates UserProfile by userId or for current user
+	 *
+	 * @param userId user ID or me
+	 * @return {@link ResponseEntity}&lt;{@link UserProfileDto}&gt;
+	 */
 	// @formatter:off
 	@PutMapping(path = "/api/v1/users/{userId}",
 			consumes = MediaType.APPLICATION_JSON_VALUE,

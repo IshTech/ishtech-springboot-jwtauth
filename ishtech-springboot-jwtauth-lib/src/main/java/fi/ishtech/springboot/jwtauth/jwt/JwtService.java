@@ -25,6 +25,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+/**
+ * Service for generating, validating, and extracting info from JWT tokens.
+ *
+ * @author Muneer Ahmed Syed
+ */
 @Component
 @Slf4j
 public class JwtService {
@@ -44,6 +49,12 @@ public class JwtService {
 	@Value("${fi.ishtech.springboot.jwtauth.login-by-email:true}")
 	private boolean loginByEmail;
 
+	/**
+	 * Generates a JWT response from authentication.
+	 *
+	 * @param authentication {@link Authentication}
+	 * @return {@link JwtResponse}
+	 */
 	public JwtResponse generateJwtResponse(Authentication authentication) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -52,12 +63,26 @@ public class JwtService {
 		return JwtResponse.of(jwt);
 	}
 
+	/**
+	 * Generates a JWT token for the user details.
+	 *
+	 * @param userDetails {@link UserDetails}
+	 * @return JWT {@link String}
+	 */
 	public String generateJwtToken(UserDetails userDetails) {
 		Date iat = new Date();
 		Date exp = new Date(iat.getTime() + jwtExpirationMs);
 		return generateJwtToken((UserDetailsImpl) userDetails, iat, exp);
 	}
 
+	/**
+	 * Generates a JWT token with specified issued-at and expiration dates.
+	 *
+	 * @param userDetails {@link UserDetails}
+	 * @param iat         issued-at {@link Date}
+	 * @param exp         expiration {@link Date}
+	 * @return JWT {@link String}
+	 */
 	private String generateJwtToken(UserDetailsImpl userDetails, Date iat, Date exp) {
 		// @formatter:off
 		return Jwts.builder()
@@ -75,6 +100,12 @@ public class JwtService {
 		// @formatter:on
 	}
 
+	/**
+	 * Validates the JWT token.
+	 *
+	 * @param token JWT {@link String}
+	 * @return {@code true} if valid, {@code false} otherwise
+	 */
 	public boolean validateJwtToken(String token) {
 		try {
 			parseSignedClaims(token);
@@ -87,14 +118,23 @@ public class JwtService {
 		return false;
 	}
 
+	/**
+	 * Extracts the username (subject) from the JWT token.
+	 *
+	 * @param token JWT {@link String}
+	 * @return username {@link String}
+	 */
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
 
 	/**
 	 * Extracts the userId from JWT token.<br>
-	 * Returns null if the claim is missing or blank.<br>
-	 * Throws NumberFormatException if the value is not a valid number.
+	 * Returns {@code null} if the claim is missing or blank.<br>
+	 *
+	 * @param token JWT {@link String}
+	 * @return userId {@link Long}
+	 * @throws NumberFormatException if the value is not a valid number.
 	 */
 	public Long extractUserId(String token) {
 		Object userIdObj = extractClaims(token).get("userId");
@@ -114,14 +154,32 @@ public class JwtService {
 
 	}
 
+	/**
+	 * Extracts the user ID from the request's JWT.
+	 *
+	 * @param request {@link HttpServletRequest}
+	 * @return the user ID {@link Long} or {@code null}
+	 */
 	public Long extractUserIdFromRequest(final HttpServletRequest request) {
 		return extractUserId(extractJwtFromRequest(request));
 	}
 
+	/**
+	 * Extracts the JWT token from the request.
+	 *
+	 * @param request {@link HttpServletRequest}
+	 * @return the JWT {@link String} or {@code null}
+	 */
 	public String extractJwtFromRequest(final HttpServletRequest request) {
 		return extractJwtFromRequestHeader(request.getHeader(STR_AUTHERIZATION));
 	}
 
+	/**
+	 * Extracts the JWT from the authorization header.
+	 *
+	 * @param authHeader the authorization header
+	 * @return JWT {@link String} or {@code null}
+	 */
 	private String extractJwtFromRequestHeader(final String authHeader) {
 		if (authHeader != null && authHeader.startsWith(STR_BEARER)) {
 			return authHeader.substring(7);
@@ -130,14 +188,34 @@ public class JwtService {
 		return null;
 	}
 
+	/**
+	 * Extracts a claim from the JWT using the resolver function.
+	 *
+	 * @param <T>             the claim type
+	 * @param token           JWT {@link String}
+	 * @param claimsResolvers {@link Function}&lt;{@link Claims}, T&gt;
+	 * @return the extracted claim
+	 */
 	private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
 		return claimsResolvers.apply(extractClaims(token));
 	}
 
+	/**
+	 * Extracts all claims from the JWT.
+	 *
+	 * @param token the JWT {@link String}
+	 * @return the extracted {@link Claims}
+	 */
 	private Claims extractClaims(String token) {
 		return parseSignedClaims(token).getPayload();
 	}
 
+	/**
+	 * Parses and verifies the signed JWT claims.
+	 *
+	 * @param token JWT {@link String}
+	 * @return {@link Jws}&lt;{@link Claims}&gt;
+	 */
 	private Jws<Claims> parseSignedClaims(String token) {
 		try {
 			// @formatter:off
@@ -156,6 +234,11 @@ public class JwtService {
 		}
 	}
 
+	/**
+	 * Gets the JWT signing key.
+	 *
+	 * @return {@link Key}
+	 */
 	private Key jwtKey() {
 		return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
 	}
