@@ -1,7 +1,7 @@
 <!-- Shared IshTech rule file: keep identical in every repo's .claude/rules/. Repo-specific notes belong in .claude/CLAUDE.md. -->
 # Git: branches, merges, commits, pushes
 
-Approval prompts in `.claude/settings.json` back up the rules below (creating branches, switching to `main`, push, tag, hard reset, clean, publish).
+Approval prompts in `.claude/settings.json` back up the rules below (creating branches, switching to `main`, merge, push, tag, hard reset, clean, publish).
 
 ## Branches
 - `dev` is the default working branch. `main` holds releases only.
@@ -10,8 +10,9 @@ Approval prompts in `.claude/settings.json` back up the rules below (creating br
 - To check the current branch use `git rev-parse --abbrev-ref HEAD`; `git branch ...` triggers an approval prompt.
 
 ## Merges
-- `dev` → `main` merges and releases are done by the owner, manually, through GitHub pull requests. Never merge into `main`, and never create a release or tag.
-- Feature → `dev`, and child feature → parent feature: merged locally or through a GitHub pull request, whichever the owner chooses for the case, and only when the owner asks. The build and tests must pass first.
+- Merging `dev` into `main`, and releases, are done by the owner, manually, through GitHub pull requests. Never merge into `main`, and never create a release or tag.
+- Merging a feature branch into `dev`, or a child feature branch into its parent feature branch, is done locally or through a GitHub pull request, whichever the owner chooses for the case, and only when the owner asks. Before merging, run the tests that `build-and-test.md` requires for a merge.
+- Merge with `--no-ff` (always create a merge commit) unless the owner says otherwise. For a GitHub pull request that means "Create a merge commit", not squash or rebase.
 
 ## Commits
 - Atomic and progressive: one task per commit. Several files are fine when they belong to the same task.
@@ -21,4 +22,4 @@ Approval prompts in `.claude/settings.json` back up the rules below (creating br
 ## Pushes
 - Push only when the owner asks. After committing, always say whether it is pushed; never leave commits silently unpushed.
 - Before pushing: `git fetch`, list exactly what will go out (`git log --oneline origin/<branch>..<branch>`; for a branch not yet on the remote, compare against the branch it was created from), and confirm it is only what the owner intended. Call out any other unpushed commits, including the owner's own, before pushing.
-- The build and tests must pass before any push (see `build-and-test.md`).
+- Before pushing, run the tests that `build-and-test.md` requires for a push.
