@@ -6,8 +6,8 @@
 - Library repos (published to Maven Central; see the publish section of the repo's README) have consumers you cannot know. Treat public classes, configuration properties and behaviour as a contract: a breaking change needs a major version bump and the owner's approval.
 - Never publish anything unless the owner explicitly asks for that specific publish: no `deploy`, no `-P central-publishing` or `-P gpg`, no Docker image push, no release or tag.
 
-## Readiness for the owner's `dev` → `main` pull request (all must hold)
+## Readiness for the owner's pull request from `dev` to `main`
+When the owner asks whether `dev` is ready, run every check below and report each result:
 1. No SNAPSHOT dependencies: every ishtech dependency is a release version.
-2. Clean build with no compile or test failures.
-3. The app runs with Maven/Gradle and passes the API/curl tests from the repo docs (`CURL-INFO.md`, `TEST-SUITE.md` where present).
-4. Run it in Docker and repeat the API tests. Optional, unless the repo's `.claude/CLAUDE.md` makes it required. Alternative ports are fine.
+2. Test Level 1 passes (`build-and-test.md`).
+3. Test Levels 2 and 3 pass, for repos that have them (`build-and-test.md`).
