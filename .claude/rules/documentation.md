@@ -7,3 +7,4 @@
 - Confirmed bugs found by testing but not yet fixed go in the repo-root `KNOWN-ISSUES.md`, linked from the README under `## Known Issues`. One numbered entry per issue, with **Status**, **Impact** and **Affects**, then Description, Steps to reproduce, Likely cause and Suggested fix: enough to fix it without re-investigating.
 - Before adding an issue, check whether it's already recorded in this repo, and in sibling repos when they're available. Don't duplicate it.
 - Keep the repo root uncluttered: Claude-specific files live only in `.claude/`.
+- `HELP.md`, where present, is Spring Initializr boilerplate, not project documentation. Don't use it or point to it.
