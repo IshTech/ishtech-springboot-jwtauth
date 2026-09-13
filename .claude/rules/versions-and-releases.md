@@ -11,3 +11,4 @@ When the owner asks whether `dev` is ready, run every check below and report eac
 1. No SNAPSHOT dependencies: every ishtech dependency is a release version.
 2. Test Level 1 passes (`build-and-test.md`).
 3. Test Levels 2 and 3 pass, for repos that have them (`build-and-test.md`).
+4. Dependent tests pass against the repo's default dependent, for repos that other repos depend on. Report whether they were done and each result, as `build-and-test.md`, section "Dependent tests", describes.

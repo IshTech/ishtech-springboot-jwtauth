@@ -5,7 +5,7 @@
 - Always use the wrapper: `./mvnw` or `./gradlew`.
 
 ## Test levels
-There are three test levels. Level 2 applies to repos whose docs describe running the app, and Level 3 to repos whose docs describe running it with Docker; a library-only repo has only Level 1. The repo's `.claude/CLAUDE.md` names the doc and section to use for each level.
+There are three test levels. Level 2 applies to repos whose docs describe running the app, and Level 3 to repos whose docs describe running it with Docker; a library with no runnable application has only Level 1. The repo's `.claude/CLAUDE.md` names the doc and section to use for each level.
 
 When each level runs:
 - Level 1 is the default: run it for every change. It must pass before any push and before any merge.
@@ -37,7 +37,27 @@ Afterwards, tear the stack down with `docker compose down -v`.
 - Test data: use unique, obviously-test identifiers (e.g. `apitest-<timestamp>@example.com`) and delete what you created in any shared or dev database afterwards.
 - If a check fails, establish whether it's pre-existing (e.g. reproduce on the previous commit) before calling it a regression.
 
+## Dependent tests
+A dependent is a repo that declares this repo's artifact as a dependency in its build file (`pom.xml` or `build.gradle.kts`). Dependent tests are for repos that other repos depend on. They are separate from the test levels.
+
+Purpose: to confirm that a change in this repo does not break its dependents and has the intended effect in them. This matters most before a release, so dependent tests are required for the `dev` to `main` readiness check (`versions-and-releases.md`).
+
+They run:
+- when the owner asks (for example: "test these `ishtech-base-jpa` changes in `ishtech-springboot-jwtauth`, so I'm sure they don't break anything and do what's intended"), and
+- always, as part of the readiness check.
+
+If the owner doesn't name a dependent, use the default dependent listed in the repo's `.claude/CLAUDE.md`.
+
+Steps:
+1. Choose where the dependent gets the changed library from. If the owner hasn't said, ask:
+   - Local build: `clean install` the changed library, so the dependent resolves it from the local Maven repository.
+   - Published SNAPSHOT: the version in the Maven Central snapshot repository. Use it only if you can confirm it was published from the branch being tested, after that branch's latest commit (compare the timestamp in the snapshot repository's `maven-metadata.xml` with that commit's time). If you can't confirm both, say so and ask the owner. To stop a Maven dependent from resolving a local build instead, build it with an empty temporary local repository (`-Dmaven.repo.local=<temporary directory>`).
+2. Check that the dependent declares the library version being tested. If it doesn't, ask the owner before changing the dependent's build file.
+3. Confirm which library artifact the dependent actually resolved (Maven: `./mvnw dependency:list`; Gradle: `./gradlew dependencies`).
+4. In the dependent, run the test levels the owner asks for; for the readiness check, run all of the dependent's test levels. Follow the dependent's own `.claude/CLAUDE.md` and docs.
+5. Report per dependent: done or not done (and why), the library source used (local build or published SNAPSHOT), the result of each test level, and whether the change had the intended effect, not just that nothing broke.
+
 ## Cross-repo builds
 - When an upstream repo changes, build it first with `clean install` so downstream repos build against the fresh local SNAPSHOT (`verify` installs nothing). Confirm with `./mvnw dependency:list` when it matters.
 - Decide the order from the declared versions in the build files: a downstream repo pinned to a released version isn't affected by an upstream SNAPSHOT.
-- To find which of the owner's own repos use this one, search their build files (`pom.xml`, `build.gradle.kts`) when you need it; don't rely on a stored list. Repo locations are in `owner-workflow.md`. If those repos aren't available (e.g. a cloud or mobile session), say in your report that consumers weren't checked.
+- A repo's `.claude/CLAUDE.md` lists its known dependents and its default dependent for dependent tests. The list isn't exhaustive, because a published library can be used by anyone. To find which of the owner's own repos depend on a repo, search their build files (`pom.xml`, `build.gradle.kts`); repo locations are in `owner-workflow.md`. If those repos aren't available (e.g. in a cloud or mobile session), say in your report which dependents weren't checked or tested.
