@@ -17,7 +17,7 @@ Approval prompts in `.claude/settings.json` back up the rules below (creating br
 ## Commits
 - Atomic and progressive: one task per commit. Several files are fine when they belong to the same task.
 - Message style: short and lowercase, matching the repo's `git log`, for example `pom - spring-boot version update to 4.0.8`, `pom - 3.3.0 snapshot version`, `mvn wrapper update to 3.9.16`, `known issues - <summary>`, `fix <thing>`. No explanatory body. Run `git log -15 --format=%s` before writing one.
-- Commit only when the owner asks.
+- Commit only when the owner asks. When the owner says "commit", the commit message must briefly say what the changes are about, in the style above.
 
 ## Pushes
 - Push only when the owner asks. After committing, always say whether it is pushed; never leave commits silently unpushed.
