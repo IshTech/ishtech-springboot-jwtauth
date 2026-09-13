@@ -15,7 +15,8 @@
 
 ### Response Details
 - HTTP Response Code: `201 - Created`
-    - Response contains the newly created user `id`
+    - Response body is not a JSON object, but only the value of the newly created user `id`, e.g. `1`
+    - Response header `Location` contains the URL of the newly created user, e.g. `http://localhost:8080/api/v1/users/1`
 - HTTP Response Code: `400 - Bad Request`
     - Returned if email already exists
 
@@ -36,9 +37,7 @@
 ### Response JSON
 
 ```json
-{
-    "id": 1
-}
+1
 ```
 
 ### CURL
