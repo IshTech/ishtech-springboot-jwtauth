@@ -103,10 +103,10 @@ jobs:
         with:
           name: source-code
 
-      - name: Set up JDK 25 + Maven cache
+      - name: Set up JDK 17 + Maven cache
         uses: actions/setup-java@v6
         with:
-          java-version: '25'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
 
@@ -143,10 +143,10 @@ jobs:
           name: source-code
           path: ./
 
-      - name: Set up JDK 25 + Maven cache
+      - name: Set up JDK 17 + Maven cache
         uses: actions/setup-java@v6
         with:
-          java-version: '25'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
 
