@@ -229,7 +229,7 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 ### Response Details
 - HTTP Response Code: `200 - OK`
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to access another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to access another user's profile
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 
@@ -254,7 +254,7 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 ## Update User Details
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
-- Request `id` must match authenticated user `id`
+- Request `id`, when present, must match `userId` in the URL
 
 ### Request Details
 - URL: `/api/v1/users/{userId}`
@@ -269,7 +269,7 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 ### Response Details
 - HTTP Response Code: `200 - OK`
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to update another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to update another user's profile
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 
