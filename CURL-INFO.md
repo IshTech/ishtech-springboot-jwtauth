@@ -2,6 +2,14 @@
 
 - Check and use the correct port for the API calls.
 
+- All values in the requests below, whether in the URL or in the request body, are only examples.
+    - Change the ids in the URL, and the ids and other values in the request body, to the ones you want to test with.
+    - Any id used must be of a record that already exists, e.g. `userId`.
+
+- Some of the APIs below need an `ADMIN` token, as stated in the response details of each API.
+    - Signup grants only the `USER` role, so those calls return `403 - Forbidden` with the token of a newly signed up user.
+    - Change the role of the user to `ADMIN` and signin again to get an `ADMIN` token. See [DB-SETUP.md / Change role to admin for an user](./ishtech-springboot-jwtauth-web/DB-SETUP.md#change-role-to-admin-for-an-user)
+
 - For API names and descriptions:
     - See [API-INFO.md](./API-INFO.md)
 
