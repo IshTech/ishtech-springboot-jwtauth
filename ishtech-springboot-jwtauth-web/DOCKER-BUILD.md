@@ -105,14 +105,14 @@ docker run \
 - To build and start
     - You can prefix with env vars as in below example
     - Below args are optional, you can change to desired value or skip, if skipped they will use default value
-        - `DB_PORT` if skipped DB will be exposed on default `5432`
+        - `DB_PORT_LOCAL` if skipped DB will be exposed on `DB_PORT`, and if that is also skipped on default `5432`
         - `SERVER_PORT_REMOTE` if skipped spring-boot app will run on default `8080`
         - `SERVER_PORT_LOCAL` if skipped spring-boot app will be exposed on default `8080`
         - `APP_VERSION` is the tag of the built image, as `muneer2ishtech/ishtech-springboot-jwtauth-web:$APP_VERSION`, if skipped the image is tagged `muneer2ishtech/ishtech-springboot-jwtauth-web:latest`
 
 ```
 SERVER_PORT_LOCAL=8181 \
-DB_PORT=25432 \
+DB_PORT_LOCAL=25432 \
 APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null) \
 docker compose up --build
 
