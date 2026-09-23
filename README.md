@@ -15,7 +15,7 @@ Spring Boot Auth using JWT - parent project
 
 
 ## Design
-- [ishtech-jpa-base](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
+- [ishtech-base-jpa](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
 
 ## Project structure
 
