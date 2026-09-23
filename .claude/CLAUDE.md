@@ -1,7 +1,16 @@
 <!-- Repo-specific instructions. The shared IshTech rules live in .claude/rules/ and are identical across repos; don't put repo-specific content there. -->
 # ishtech-springboot-jwtauth
 
-The owner's standing instructions are in `.claude/rules/` (`owner-workflow.md`, `git-and-branches.md`, `versions-and-releases.md`, `build-and-test.md`, `build-tooling.md`, `documentation.md`). They apply to every task in this repo. This file adds only what is specific to this repo.
+The owner's standing instructions are in `.claude/rules/` (`owner-workflow.md`, `git-and-branches.md`, `versions-and-releases.md`, `build-and-test.md`, `build-tooling.md`, `documentation.md`, `repositories.md`). They apply to every task in this repo. This file adds only what is specific to this repo.
+
+## About this repo
+- It's a Maven multi-module project and both a library and an application (`README.md`, sections "Project structure" and "Usage"):
+  - `ishtech-springboot-jwtauth-lib` and `ishtech-springboot-jwtauth-api` are libraries published to Maven Central.
+  - `ishtech-springboot-jwtauth-web` is the runnable Spring Boot application.
+- So it has test Levels 1, 2 and 3, and dependent tests apply (`rules/build-and-test.md`, section "Dependent tests"): they confirm that a change here doesn't break the projects that use `ishtech-springboot-jwtauth-api` and has the intended effect in them.
+  - None of the owner's other libraries depends on it, so there is no default dependent; the owner names one when dependent tests are needed.
+  - The libraries are public on Maven Central, so they may have consumers that nobody can list.
+- Upstream libraries: `ishtech-base-jpa`, and `ishtech-i18n-java` through it (`rules/repositories.md`). The versions are declared in the root `pom.xml`.
 
 ## Read the doc before doing the thing
 The docs are the source of truth. Don't guess commands: open the matching file and section first, and follow its links.
