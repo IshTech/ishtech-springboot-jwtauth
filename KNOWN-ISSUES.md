@@ -83,3 +83,13 @@ There is currently **no test coverage for the update path**. `UserControllerTest
 2. Decide deliberately whether `isActive` should be updatable through this API at all — if not, ignore it explicitly in the mapping rather than relying on null handling.
 3. Clarify the relationship between `t_user.is_active` and `t_user_profile.is_active`; today they can silently diverge.
 4. Add tests: update with only `firstName`/`lastName` preserves `defaultLang` and the active flag; the `PUT` response matches a subsequent `GET`; the persisted row matches the API response.
+
+---
+
+## 2. Release CI run fails although the release is published
+
+**Status:** Open
+**Impact:** the CI run for a GitHub release is red even when the libraries reach Maven Central
+**Affects:** CI release runs (`.github/workflows/cicd.yml`, step "Publish to Maven Central Sonatype"). When it fails there, the later steps that build and push the Docker image `muneer2ishtech/ishtech-springboot-jwtauth-web` don't run either.
+
+The same issue, with its description, steps to reproduce, likely cause and suggested fix, is recorded in [ishtech-validations-java, KNOWN-ISSUES.md, issue 1](https://github.com/IshTech/ishtech-validations-java/blob/dev/KNOWN-ISSUES.md#1-release-ci-run-fails-although-the-release-is-published). This repo uses the same plugin configuration (`central-publishing-maven-plugin` with `waitUntil=published` in the root `pom.xml`).
