@@ -23,7 +23,7 @@ The docs are the source of truth. Don't guess commands: open the matching file a
 | run test Level 3 (run with Docker compose) | `ishtech-springboot-jwtauth-web/DOCKER-BUILD.md`, section "Run with docker compose" |
 | run the API tests (part of Levels 2 and 3) | `CURL-INFO.md` (every flow) and `TEST-SUITE.md`, section "Test Cases"; endpoint list in `API-INFO.md` |
 | touch the database for any other reason | `ishtech-springboot-jwtauth-web/DB-SETUP.md` |
-| publish (only when the owner asks) | `README.md`, section "Build and Run", subsection "Publish to Maven Central (Sonatype)" |
+| publish (only when the owner asks) | `README.md`, section "Build and Run", subsection "Publish to Maven Central" |
 | change the version or anything release-related, or check what CI enforces | `.github/workflows/cicd.yml` |
 | report or fix a bug | `KNOWN-ISSUES.md` first, it may already be recorded |
 

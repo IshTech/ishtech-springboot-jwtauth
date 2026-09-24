@@ -76,7 +76,7 @@ Spring Boot Auth using JWT - parent project
 ./mvnw clean install
 ```
 
-#### Publish to Maven Central (Sonatype)
+#### Publish to Maven Central
 
 ```
 ./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
