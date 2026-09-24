@@ -19,7 +19,7 @@ The docs are the source of truth. Don't guess commands: open the matching file a
 |---|---|
 | work out what the project is, its tech stack and modules | `README.md`, sections "Tech stack", "Design", "Project structure" and "Usage", then the module READMEs linked under "Project structure" |
 | run test Level 1 (build with tests) | `README.md`, section "Build and Run", subsection "Local Maven Build" |
-| check the default JDK version or the other supported JDK versions | `README.md`, section "Tech stack"; for the `dev-jdkNN` branches and their releases, `rules/versions-and-releases.md`, section "JDK variants" |
+| check the default JDK version or the other supported JDK versions | `README.md`, section "Tech stack"; which version of the libraries and the Docker image belongs to which JDK version, `JDK-VERSIONS.md`; for the `dev-jdkNN` branches and their releases, `rules/versions-and-releases.md`, section "JDK variants" |
 | run test Level 2 (run the app with Maven) | `ishtech-springboot-jwtauth-web/README.md`, section "Build and Run", subsection "Local Maven Run". The app needs its database set up first: `ishtech-springboot-jwtauth-web/DB-SETUP.md`, section "Local" |
 | run test Level 3 (run with Docker compose) | `ishtech-springboot-jwtauth-web/DOCKER-BUILD.md`, section "Run with docker compose" |
 | run the API tests (part of Levels 2 and 3) | `CURL-INFO.md` (every flow) and `TEST-SUITE.md`, section "Test Cases"; endpoint list in `API-INFO.md` |
