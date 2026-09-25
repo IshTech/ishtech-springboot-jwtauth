@@ -26,8 +26,8 @@
 | Module | Type                | HTTP  | URL                          | Description |
 |--------|---------------------|-------|------------------------------|-------------|
 | User   | Get Users Info      | GET   | /api/v1/users                | Retrieves paginated list of UserProfiles with filters. Only for ADMIN role |
-| User   | Get User Info by Id | GET   | /api/v1/users/{userId}       | Gets UserProfile by userId             |
-| User   | Update User by Id   | PUT   | /api/v1/users/{userId}       | Updates UserProfile by userId          |
+| User   | Get User Info by Id | GET   | /api/v1/users/{userId}       | Gets UserProfile by userId. Only for ADMIN role, or for the user's own userId |
+| User   | Update User by Id   | PUT   | /api/v1/users/{userId}       | Updates UserProfile by userId. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
 | User   | Get Current User    | GET   | /api/v1/users/me             | Gets UserProfile for current user      |
 | User   | Update Current User | PUT   | /api/v1/users/me             | Updates UserProfile for current user   |
 
