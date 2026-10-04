@@ -27,6 +27,10 @@ on:
           - "false"
           - "true"
         default: "false"
+      central_publishing_wait_max_time:
+        description: "Optional: seconds to wait for Maven Central publishing (above 1800)"
+        required: false
+        type: number
 
 jobs:
 
@@ -240,12 +244,22 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+          CENTRAL_PUBLISHING_WAIT_MAX_TIME: ${{ inputs.central_publishing_wait_max_time || vars.CENTRAL_PUBLISHING_WAIT_MAX_TIME }}
 
         run: |
+          CENTRAL_PUBLISHING_OPTS=""
+          if [[ -n "$CENTRAL_PUBLISHING_WAIT_MAX_TIME" ]]; then
+            if ! [[ "$CENTRAL_PUBLISHING_WAIT_MAX_TIME" =~ ^[0-9]+$ ]] || (( CENTRAL_PUBLISHING_WAIT_MAX_TIME <= 1800 )); then
+              echo "❌ ERROR: central_publishing_wait_max_time must be a number of seconds above 1800. Found: $CENTRAL_PUBLISHING_WAIT_MAX_TIME"
+              exit 1
+            fi
+            CENTRAL_PUBLISHING_OPTS="-DwaitMaxTime=$CENTRAL_PUBLISHING_WAIT_MAX_TIME"
+          fi
           ./mvnw $MAVEN_CLI_OPTS deploy \
             -DskipTests=true \
             -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" \
-            -P gpg -P central-publishing -am
+            -P gpg -P central-publishing -am \
+            $CENTRAL_PUBLISHING_OPTS
 
       - name: Login to Docker Hub
         uses: docker/login-action@v4
