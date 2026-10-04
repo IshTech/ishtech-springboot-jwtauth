@@ -87,3 +87,10 @@ Which version of the libraries and the Docker image to use for your JDK version:
 ```
 ./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
 ```
+
+- To wait longer for Maven Central to publish a release than the default of 1800 seconds, add `-DwaitMaxTime=<seconds>` with a value above 1800
+- `waitMaxTime` has no effect on SNAPSHOT versions
+
+```
+./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am -DwaitMaxTime=3600
+```
