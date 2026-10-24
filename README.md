@@ -7,7 +7,7 @@ Spring Boot Auth using JWT - parent project
 - Other supported JDK versions:
   - JDK 21
   - JDK 17
-- Spring Boot: 4.0.x
+- Spring Boot: 4.1.x
 - Security: JWT
 - Database: Supports various databases, see child projects for details
 - Database Migration: Flyway
