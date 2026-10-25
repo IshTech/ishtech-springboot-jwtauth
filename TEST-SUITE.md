@@ -94,7 +94,9 @@ echo "USER_ID_3:$USER_ID_3"
 | 13   | Admin                  | Admin (own numeric)   | User2 (other) | 403        |
 | 14   | Admin                  | User2 (other numeric) | null          | 200        |
 | 15   | Admin                  | User2 (other numeric) | User2 (match) | 200        |
-| 16   | Admin                  | User3 (non-existent)  | User3 (match) | 404 / 500  |
+| 16   | Admin                  | User3 (non-existent)  | User3 (match) | 404 / 500 (*) |
+
+(*) `404` is the correct result; `500` is a known issue, see [KNOWN-ISSUES.md, issue 2](./KNOWN-ISSUES.md#2-put-apiv1usersuserid-for-a-user-that-doesnt-exist-returns-500-instead-of-404).
 
 ```
 
@@ -151,7 +153,7 @@ curl -s -o /dev/null -w "Case 14: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_
 # Case 15: Admin & url userId=other user & request body id matches, expected 200
 curl -s -o /dev/null -w "Case 15: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User2.15\",\"lastName\":\"Two2.15\"}"
 
-# Case 16: Admin & url userId=non-existent user & request body id matches, expected 404
+# Case 16: Admin & url userId=non-existent user & request body id matches, expected 404 (currently 500, see KNOWN-ISSUES.md issue 2)
 curl -s -o /dev/null -w "Case 16: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_3" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_3,\"firstName\":\"User3.16\",\"lastName\":\"Three3.16\"}"
 
 echo;echo "### All tests complete ###"
