@@ -51,7 +51,7 @@
 	<properties>
 		<java.version>25</java.version>
 
-		<ishtech-base-jpa.version>5.3.0-SNAPSHOT</ishtech-base-jpa.version>
+		<ishtech-springboot-base-jpa.version>5.3.0-rename-basejpa-SNAPSHOT</ishtech-springboot-base-jpa.version>
 		<ishtech-i18n.version>6.0.0</ishtech-i18n.version>
 
 		<jjwt.version>0.13.0</jjwt.version>
@@ -83,9 +83,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>fi.ishtech.base</groupId>
-				<artifactId>ishtech-base-jpa</artifactId>
-				<version>${ishtech-base-jpa.version}</version>
+				<groupId>fi.ishtech.springboot</groupId>
+				<artifactId>ishtech-springboot-base-jpa</artifactId>
+				<version>${ishtech-springboot-base-jpa.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>fi.ishtech.common</groupId>

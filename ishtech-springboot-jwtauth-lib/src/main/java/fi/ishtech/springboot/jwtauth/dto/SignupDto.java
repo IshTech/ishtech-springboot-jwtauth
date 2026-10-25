@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fi.ishtech.base.vo.BaseVo;
+import fi.ishtech.springboot.base.vo.BaseVo;
 
 import lombok.Data;
 import lombok.ToString;

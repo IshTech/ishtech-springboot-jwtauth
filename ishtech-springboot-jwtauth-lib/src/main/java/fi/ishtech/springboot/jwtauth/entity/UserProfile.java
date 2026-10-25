@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import fi.ishtech.base.entity.BaseStandardNoIdEntity;
+import fi.ishtech.springboot.base.entity.BaseStandardNoIdEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

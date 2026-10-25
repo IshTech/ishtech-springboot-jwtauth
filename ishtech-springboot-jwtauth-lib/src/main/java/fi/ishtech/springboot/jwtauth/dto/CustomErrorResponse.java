@@ -2,7 +2,7 @@ package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
 
-import fi.ishtech.base.vo.BaseVo;
+import fi.ishtech.springboot.base.vo.BaseVo;
 
 /**
  * Custom response for errors

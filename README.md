@@ -21,7 +21,7 @@ Which version of the libraries and the Docker image to use for your JDK version:
 
 
 ## Design
-- [ishtech-base-jpa](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
+- [ishtech-springboot-base-jpa](https://github.com/ishtech/ishtech-springboot-base-jpa) - Foundational JPA and other base classes
 
 ## Project structure
 
