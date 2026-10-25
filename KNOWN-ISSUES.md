@@ -83,3 +83,50 @@ There is currently **no test coverage for the update path**. `UserControllerTest
 2. Decide deliberately whether `isActive` should be updatable through this API at all — if not, ignore it explicitly in the mapping rather than relying on null handling.
 3. Clarify the relationship between `t_user.is_active` and `t_user_profile.is_active`; today they can silently diverge.
 4. Add tests: update with only `firstName`/`lastName` preserves `defaultLang` and the active flag; the `PUT` response matches a subsequent `GET`; the persisted row matches the API response.
+
+---
+
+## 2. `PUT /api/v1/users/{userId}` for a user that doesn't exist returns `500` instead of `404`
+
+**Status:** Open. Also noted as a TODO in `UserController.updateUserProfile`. `TEST-SUITE.md`, case 16, accepts `500` until this is fixed.
+**Impact:** Low — an `ADMIN` who updates a user ID that doesn't exist gets `500 - Internal Server Error` instead of `404 - Not Found`, and the application logs an `ERROR` with a stack trace.
+**Affects:** `UserController.updateUserProfile(...)` in `ishtech-springboot-jwtauth-api`, through `UserProfileServiceImpl.updateAndMapToDto(...)` in `ishtech-springboot-jwtauth-lib`. Seen in this repo's own application, `ishtech-springboot-jwtauth-web`. Applications whose own `@ControllerAdvice` maps `NoSuchElementException` to `404` (`springboot-books-app`, `springboot-multi-port`, `springboot-oms`) aren't affected.
+
+### Description
+
+`UserProfileServiceImpl.updateAndMapToDto(...)` loads the profile with `findOneByIdOrElseThrow(id)` from `ishtech-base-jpa`, which calls `Optional.orElseThrow()` and throws `java.util.NoSuchElementException: No value present` when the ID doesn't exist. Nothing in `ishtech-springboot-jwtauth` maps that exception to an HTTP status (`AuthExceptionHandler` doesn't handle it, and its `@ControllerAdvice` is commented out), so Spring Boot returns `500`.
+
+Application log:
+
+```
+java.util.NoSuchElementException: No value present
+	at java.base/java.util.Optional.orElseThrow(Optional.java:377)
+	at fi.ishtech.base.service.BaseStandardNoIdService.findOneByIdOrElseThrow(BaseStandardNoIdService.java:72)
+	at fi.ishtech.springboot.jwtauth.service.impl.UserProfileServiceImpl.updateAndMapToDto(UserProfileServiceImpl.java:79)
+```
+
+`GET /api/v1/users/{userId}` loads the profile the same way (`UserProfileServiceImpl.findOneByIdAndMapToVoOrElseThrow(...)`), so it probably returns `500` for an `ADMIN` and an ID that doesn't exist too (not tested).
+
+### Steps to reproduce
+
+Run `ishtech-springboot-jwtauth-web` (`ishtech-springboot-jwtauth-web/README.md`), and get an `ADMIN` token as `TEST-SUITE.md` describes, then run `TEST-SUITE.md`, case 16:
+
+```sh
+curl -s -o /dev/null -w "%{http_code}\n" -X PUT "http://localhost:8080/api/v1/users/9999" \
+  -H "Authorization: Bearer <ADMIN_ACCESS_TOKEN>" -H "Content-Type: application/json" \
+  -d '{"id":9999,"firstName":"User3.16","lastName":"Three3.16"}'
+```
+
+Expected: `404`.
+Actual: `500`, and the application log shows the `NoSuchElementException` above.
+
+### Likely cause
+
+`findOneByIdOrElseThrow(id)` throws a generic `NoSuchElementException`, and this library has no exception handler that maps it to `404`.
+
+### Suggested fix
+
+1. In `UserProfileServiceImpl`, use the overload `findOneByIdOrElseThrow(id, exceptionSupplier)` from `ishtech-base-jpa` with an exception that carries `404`, for example `new ResponseStatusException(HttpStatus.NOT_FOUND, ...)` or a library exception annotated with `@ResponseStatus(HttpStatus.NOT_FOUND)`, for both the update and the get-by-id paths. Don't add a global `@ControllerAdvice` to the library for this, because it would compete with the consuming applications' own handlers.
+2. Remove the TODO in `UserController.updateUserProfile`.
+3. In `TEST-SUITE.md`, change the expected result of case 16 to `404` only.
+4. Add tests in `UserControllerTest` for update and get-by-id of an ID that doesn't exist, expecting `404`.
