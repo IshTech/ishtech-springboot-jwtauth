@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
+import fi.ishtech.springboot.jwtauth.exception.UserNotFoundException;
 import fi.ishtech.springboot.jwtauth.mapper.UserProfileMapper;
 import fi.ishtech.springboot.jwtauth.repo.UserProfileRepo;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
@@ -47,7 +48,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserProfileDto findOneByIdAndMapToVoOrElseThrow(Long id) {
-		return userProfileMapper.toBriefDto(findOneByIdOrElseThrow(id));
+		return userProfileMapper.toBriefDto(findOneByIdOrElseThrow(id, () -> new UserNotFoundException(id)));
 	}
 
 	@Transactional(readOnly = true)
@@ -76,7 +77,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto) {
 		Assert.notNull(userProfileDto.getId(), "Input id is mandatory in input UserProfileDto");
 
-		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId());
+		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId(),
+				() -> new UserNotFoundException(userProfileDto.getId()));
 
 		userProfileMapper.toEntity(userProfileDto, userProfile);
 
