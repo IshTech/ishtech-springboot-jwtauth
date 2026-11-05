@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import fi.ishtech.base.annotations.mapstruct.BriefMapping;
 import fi.ishtech.base.mapper.BaseStandardNoIdMapper;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
@@ -27,6 +28,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 * @param entity {@link UserProfile}
 	 * @return {@link UserProfileDto}
 	 */
+	@BriefMapping
 	@BeanMapping(ignoreByDefault = true)
 	@InheritConfiguration(name = "toBaseStandardNoIdVo")
 	@Mapping(source = "id", target = "id")
