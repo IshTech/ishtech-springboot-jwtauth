@@ -59,6 +59,9 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 
 	/**
 	 * Mapping from dto to existing entity
+	 * <p>
+	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
+	 * when the VO value is {@code null}, preserving the entity's existing value.
 	 *
 	 * @param dto    {@link UserProfileDto}
 	 * @param entity {@link UserProfile}
