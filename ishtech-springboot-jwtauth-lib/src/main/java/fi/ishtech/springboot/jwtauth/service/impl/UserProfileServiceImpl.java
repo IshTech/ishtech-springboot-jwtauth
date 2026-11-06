@@ -80,7 +80,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId(),
 				() -> new UserNotFoundException(userProfileDto.getId()));
 
-		userProfileMapper.toEntity(userProfileDto, userProfile);
+		userProfileMapper.toExistingEntity(userProfileDto, userProfile);
 
 		userProfile = userProfileRepo.save(userProfile);
 

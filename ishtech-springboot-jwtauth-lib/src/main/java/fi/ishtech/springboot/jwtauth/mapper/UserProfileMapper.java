@@ -69,6 +69,6 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 */
 	@InheritInverseConfiguration(name = "toBriefDto")
 	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	UserProfile toEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
+	UserProfile toExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }
