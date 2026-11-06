@@ -94,7 +94,7 @@ echo "USER_ID_3:$USER_ID_3"
 | 13   | Admin                  | Admin (own numeric)   | User2 (other) | 403        |
 | 14   | Admin                  | User2 (other numeric) | null          | 200        |
 | 15   | Admin                  | User2 (other numeric) | User2 (match) | 200        |
-| 16   | Admin                  | User3 (non-existent)  | User3 (match) | 404 / 500  |
+| 16   | Admin                  | User3 (non-existent)  | User3 (match) | 404        |
 
 ```
 
