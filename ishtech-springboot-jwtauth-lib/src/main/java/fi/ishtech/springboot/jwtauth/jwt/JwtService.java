@@ -40,7 +40,7 @@ public class JwtService {
 	@Value("${fi.ishtech.springboot.jwtauth.jwt.secret}")
 	private String jwtSecret;
 
-	@Value("${fi.ishtech.springboot.jwtauth.jwt.expirition-ms}")
+	@Value("${fi.ishtech.springboot.jwtauth.jwt.expiration-ms}")
 	private Integer jwtExpirationMs;
 
 	@Value("${fi.ishtech.springboot.jwtauth.jwt.issuer}")
