@@ -14,7 +14,7 @@
 
 	<groupId>fi.ishtech.springboot</groupId>
 	<artifactId>ishtech-springboot-jwtauth</artifactId>
-	<version>3.3.0-is-active-fix-SNAPSHOT</version>
+	<version>3.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>ishtech-springboot-jwtauth</name>
@@ -51,7 +51,7 @@
 	<properties>
 		<java.version>25</java.version>
 
-		<ishtech-base-jpa.version>5.3.0-is-active-fix-SNAPSHOT</ishtech-base-jpa.version>
+		<ishtech-base-jpa.version>5.3.0-SNAPSHOT</ishtech-base-jpa.version>
 		<ishtech-i18n.version>6.0.0</ishtech-i18n.version>
 
 		<jjwt.version>0.13.0</jjwt.version>
