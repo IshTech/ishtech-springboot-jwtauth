@@ -54,7 +54,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	@Mapping(source = "firstName", target = "firstName")
 	@Mapping(source = "lastName", target = "lastName")
 	@Mapping(source = "lang", target = "defaultLang", defaultValue = "en")
-	@Mapping(target = "isActive", constant = "true")
+	@Mapping(target = "active", constant = "true")
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
