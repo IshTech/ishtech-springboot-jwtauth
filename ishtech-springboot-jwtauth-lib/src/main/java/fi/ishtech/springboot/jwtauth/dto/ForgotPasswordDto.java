@@ -5,7 +5,7 @@ import java.io.Serial;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import fi.ishtech.base.vo.BaseVo;
+import fi.ishtech.springboot.base.vo.BaseVo;
 
 import lombok.Data;
 

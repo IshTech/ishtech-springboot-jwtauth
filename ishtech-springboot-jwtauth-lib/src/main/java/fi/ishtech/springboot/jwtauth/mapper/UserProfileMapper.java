@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import fi.ishtech.base.annotations.mapstruct.BriefMapping;
-import fi.ishtech.base.mapper.BaseStandardNoIdMapper;
+import fi.ishtech.springboot.base.annotations.mapstruct.BriefMapping;
+import fi.ishtech.springboot.base.mapper.BaseStandardNoIdMapper;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;

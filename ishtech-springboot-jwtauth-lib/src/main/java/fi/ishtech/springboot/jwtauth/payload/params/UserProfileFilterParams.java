@@ -4,7 +4,7 @@ import java.io.Serial;
 
 import jakarta.validation.constraints.PositiveOrZero;
 
-import fi.ishtech.base.payload.filter.BaseStandardNoIdEntityFilterParams;
+import fi.ishtech.springboot.base.payload.filter.BaseStandardNoIdEntityFilterParams;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
