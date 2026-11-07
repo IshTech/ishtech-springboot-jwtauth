@@ -253,7 +253,13 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>'
 ```
 
-## Update User Details
+## Replace User Details
+- This is a full replacement: the request body must carry the complete resource. A field that is absent from the body
+  is cleared, so sending `null` or omitting a nullable field is a deliberate instruction to empty it
+- `firstName`, `lastName` and `defaultLang` are mandatory. A request that omits one of them is rejected with
+  `400 - Bad Request`, because the resource cannot be without them
+- `defaultLang` must be exactly 2 lowercase letters, for example `en` or `fi`
+- To change only some of the fields, use [Update User Details](#update-user-details) instead
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
 - Request `id`, when present, must match `userId` in the URL
@@ -270,6 +276,76 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
+- HTTP Response Code: `400 - Bad Request`
+    - Returned if `firstName`, `lastName` or `defaultLang` is missing or blank, or if `defaultLang` is not exactly 2 lowercase letters
+- HTTP Response Code: `403 - Forbidden`
+    - Returned if authenticated user is not ADMIN and is trying to update another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
+- HTTP Response Code: `401 - Unauthorized`
+    - Returned for invalid or missing JWT token
+
+### Request JSON
+
+```json
+{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}
+```
+
+### Response JSON
+
+```json
+{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}
+```
+
+### CURL
+
+```sh
+curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}'
+```
+
+## Update User Details
+- This is a partial update: only the fields present in the request body are updated, and a field that is absent from
+  the body keeps its stored value
+- No field is mandatory, apart from the `id` rule below
+- Because an absent field and a `null` field cannot be told apart, this API cannot clear a field. To clear one, use
+  [Replace User Details](#replace-user-details) instead
+- `defaultLang`, when present, must be exactly 2 lowercase letters, for example `en` or `fi`
+- `email` cannot be updated using this API
+- `password` cannot be updated using this API
+- Request `id`, when present, must match `userId` in the URL
+
+### Request Details
+- URL: `/api/v1/users/{userId}`
+- HTTP Method: `PATCH`
+
+#### Path Variables
+
+| Name   | Description |
+|--------|-------------|
+| userId | User ID     |
+
+### Response Details
+- HTTP Response Code: `200 - OK`
+- HTTP Response Code: `400 - Bad Request`
+    - Returned if `defaultLang` is present and is not exactly 2 lowercase letters
 - HTTP Response Code: `403 - Forbidden`
     - Returned if authenticated user is not ADMIN and is trying to update another user's profile
 - HTTP Response Code: `404 - Not Found`
@@ -289,18 +365,21 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 ### Response JSON
 
+The response is the complete resource after the update, so it also shows the fields that were left as stored.
+
 ```json
 {
     "id": 1,
     "firstName": "New Muneer",
-    "lastName": "New Syed"
+    "lastName": "New Syed",
+    "defaultLang": "en"
 }
 ```
 
 ### CURL
 
 ```sh
-curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
+curl --request PATCH --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{

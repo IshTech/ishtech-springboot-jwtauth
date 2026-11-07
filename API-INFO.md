@@ -27,9 +27,11 @@
 |--------|---------------------|-------|------------------------------|-------------|
 | User   | Get Users Info      | GET   | /api/v1/users                | Retrieves paginated list of UserProfiles with filters. Only for ADMIN role |
 | User   | Get User Info by Id | GET   | /api/v1/users/{userId}       | Gets UserProfile by userId. Only for ADMIN role, or for the user's own userId |
-| User   | Update User by Id   | PUT   | /api/v1/users/{userId}       | Updates UserProfile by userId. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
+| User   | Replace User by Id  | PUT   | /api/v1/users/{userId}       | Replaces UserProfile by userId. The body must carry the complete resource; a property absent from it is cleared. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
+| User   | Update User by Id   | PATCH | /api/v1/users/{userId}       | Updates only the supplied properties of UserProfile by userId; a property absent from the body is left as stored. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
 | User   | Get Current User    | GET   | /api/v1/users/me             | Gets UserProfile for current user      |
-| User   | Update Current User | PUT   | /api/v1/users/me             | Updates UserProfile for current user   |
+| User   | Replace Current User| PUT   | /api/v1/users/me             | Replaces UserProfile for current user  |
+| User   | Update Current User | PATCH | /api/v1/users/me             | Updates only the supplied properties of UserProfile for current user |
 
 
 - For `curl` & `json` request/response samples:

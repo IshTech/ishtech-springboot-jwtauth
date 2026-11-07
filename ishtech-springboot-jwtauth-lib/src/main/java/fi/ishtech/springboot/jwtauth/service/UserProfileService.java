@@ -46,11 +46,28 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable);
 
 	/**
-	 * Finds by id and updates the entity in DB and return updated dto
+	 * Finds by id and replaces every mapped property of the entity in DB, for an HTTP {@code PUT}.
+	 * <p>
+	 * The dto is expected to carry the complete resource, so a {@code null} clears that property. Properties the
+	 * resource requires are enforced by the {@link UserProfileDto.OnReplace} validation group before this is reached.
+	 *
+	 * @param userProfileDto complete input UserProfile
+	 * @return {@link UserProfileDto}
+	 *
+	 * @see #patchAndMapToDto(UserProfileDto)
+	 */
+	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+
+	/**
+	 * Finds by id and updates only the supplied properties of the entity in DB, for an HTTP {@code PATCH}.
+	 * <p>
+	 * A property that is {@code null} in the dto is left as stored, so a partial body changes nothing else.
 	 *
 	 * @param userProfileDto input changes to UserProfile
 	 * @return {@link UserProfileDto}
+	 *
+	 * @see #updateAndMapToDto(UserProfileDto)
 	 */
-	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+	UserProfileDto patchAndMapToDto(UserProfileDto userProfileDto);
 
 }

@@ -6,7 +6,11 @@ export BASE_URL="http://localhost:8080/api/v1"
 
 ```
 
-## User Profile Update API
+## User Profile Replace and Update APIs
+
+`PUT /api/v1/users/{userId}` replaces the profile, so its body must carry the complete resource.
+`PATCH /api/v1/users/{userId}` updates only the fields the body carries.
+See [CURL-INFO.md](./CURL-INFO.md), sections "Replace User Details" and "Update User Details".
 
 ### Sign-ups for Test Users
 
@@ -96,63 +100,99 @@ echo "USER_ID_3:$USER_ID_3"
 | 15   | Admin                  | User2 (other numeric) | User2 (match) | 200        |
 | 16   | Admin                  | User3 (non-existent)  | User3 (match) | 404        |
 
+Cases 0 to 16 are `PUT`, a full replacement, so every body carries `firstName`, `lastName` and `defaultLang`.
+The cases below cover the rules that tell `PUT` and `PATCH` apart.
+
+| Case | Method | User           | Body                                   | Expected   |
+|-----:|--------|----------------|----------------------------------------|------------|
+| 17   | PUT    | Normal (User1) | no `defaultLang`                       | 400        |
+| 18   | PUT    | Normal (User1) | no `lastName`                          | 400        |
+| 19   | PATCH  | Normal (User1) | only `firstName` and `lastName`        | 200        |
+| 20   | PATCH  | Normal (User1) | only `firstName`                       | 200        |
+| 21   | PATCH  | Normal (User1) | `defaultLang` of 3 letters             | 400        |
+
+After case 19 or 20, read the profile back with `GET` and check that `defaultLang` is still the stored value: that is
+the behaviour `PATCH` exists for.
+
 ```
 
 # Unauthenticated - Case 0
 echo "### Unauthenticated ###"
-curl -s -o /dev/null -w "Case 0: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Content-Type: application/json" -d '{"firstName":"User","lastName":"One"}'
+curl -s -o /dev/null -w "Case 0: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Content-Type: application/json" -d '{"firstName":"User","lastName":"One","defaultLang":"en"}'
 
 # Normal user tests
 echo "### Normal User Tests (User ID: $USER_ID_1) ###"
 # Case 1: normal user & url userId=me & request body no id, expected 200
-curl -s -o /dev/null -w "Case 1: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d '{"firstName":"User1.1","lastName":"One1.1"}'
+curl -s -o /dev/null -w "Case 1: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d '{"firstName":"User1.1","lastName":"One1.1","defaultLang":"en"}'
 
 # Case 2: normal user & url userId=me & request body id matches own, expected 200
-curl -s -o /dev/null -w "Case 2: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_1,\"firstName\":\"User1.2\",\"lastName\":\"One1.2\"}"
+curl -s -o /dev/null -w "Case 2: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_1,\"firstName\":\"User1.2\",\"lastName\":\"One1.2\",\"defaultLang\":\"en\"}"
 
 # Case 3: normal user & url userId=me & request body id matches other user, expected 403
-curl -s -o /dev/null -w "Case 3: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User1.3\",\"lastName\":\"One1.3\"}"
+curl -s -o /dev/null -w "Case 3: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User1.3\",\"lastName\":\"One1.3\",\"defaultLang\":\"en\"}"
 
 # Case 4: normal user & url userId=own numeric & request body no id, expected 200
-curl -s -o /dev/null -w "Case 4: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.4\",\"lastName\":\"One1.4\"}"
+curl -s -o /dev/null -w "Case 4: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.4\",\"lastName\":\"One1.4\",\"defaultLang\":\"en\"}"
 
 # Case 5: normal user & url userId=own numeric & request body id matches own, expected 200
-curl -s -o /dev/null -w "Case 5: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_1,\"firstName\":\"User1.5\",\"lastName\":\"One1.5\"}"
+curl -s -o /dev/null -w "Case 5: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_1,\"firstName\":\"User1.5\",\"lastName\":\"One1.5\",\"defaultLang\":\"en\"}"
 
 # Case 6: normal user & url userId=own numeric & request body id matches other user, expected 403
-curl -s -o /dev/null -w "Case 6: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User1.6\",\"lastName\":\"One1.6\"}"
+curl -s -o /dev/null -w "Case 6: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_1" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User1.6\",\"lastName\":\"One1.6\",\"defaultLang\":\"en\"}"
 
 # Case 7: normal user & url userId=other user numeric & request body no id, expected 403
-curl -s -o /dev/null -w "Case 7: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.7\",\"lastName\":\"One1.7\"}"
+curl -s -o /dev/null -w "Case 7: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.7\",\"lastName\":\"One1.7\",\"defaultLang\":\"en\"}"
 
 # Admin tests
 echo "### Admin Tests (Admin ID: $ADMIN_ID) ###"
 # Case 8: Admin & url userId=me & request body no id, expected 200
-curl -s -o /dev/null -w "Case 8: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"Admin8\",\"lastName\":\"Strator8\"}"
+curl -s -o /dev/null -w "Case 8: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"Admin8\",\"lastName\":\"Strator8\",\"defaultLang\":\"en\"}"
 
 # Case 9: Admin & url userId=me & request body id matches own, expected 200
-curl -s -o /dev/null -w "Case 9: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$ADMIN_ID,\"firstName\":\"Admin9\",\"lastName\":\"Strator9\"}"
+curl -s -o /dev/null -w "Case 9: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$ADMIN_ID,\"firstName\":\"Admin9\",\"lastName\":\"Strator9\",\"defaultLang\":\"en\"}"
 
 # Case 10: Admin & url userId=me & request body id matches other user, expected 403
-curl -s -o /dev/null -w "Case 10: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"Admin10\",\"lastName\":\"Strator10\"}"
+curl -s -o /dev/null -w "Case 10: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"Admin10\",\"lastName\":\"Strator10\",\"defaultLang\":\"en\"}"
 
 # Case 11: Admin & url userId=own numeric & request body no id, expected 200
-curl -s -o /dev/null -w "Case 11: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"Admin11\",\"lastName\":\"Strator11\"}"
+curl -s -o /dev/null -w "Case 11: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"Admin11\",\"lastName\":\"Strator11\",\"defaultLang\":\"en\"}"
 
 # Case 12: Admin & url userId=own numeric & request body id matches own, expected 200
-curl -s -o /dev/null -w "Case 12: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$ADMIN_ID,\"firstName\":\"Admin12\",\"lastName\":\"Strator12\"}"
+curl -s -o /dev/null -w "Case 12: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$ADMIN_ID,\"firstName\":\"Admin12\",\"lastName\":\"Strator12\",\"defaultLang\":\"en\"}"
 
 # Case 13: Admin & url userId=own numeric & request body id matches other user, expected 403
-curl -s -o /dev/null -w "Case 13: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"Admin13\",\"lastName\":\"Strator13\"}"
+curl -s -o /dev/null -w "Case 13: %{http_code}\n" -X PUT "$BASE_URL/users/$ADMIN_ID" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"Admin13\",\"lastName\":\"Strator13\",\"defaultLang\":\"en\"}"
 
 # Case 14: Admin & url userId=other user & request body no id, expected 200
-curl -s -o /dev/null -w "Case 14: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"User2.14\",\"lastName\":\"Two2.14\"}"
+curl -s -o /dev/null -w "Case 14: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"firstName\":\"User2.14\",\"lastName\":\"Two2.14\",\"defaultLang\":\"en\"}"
 
 # Case 15: Admin & url userId=other user & request body id matches, expected 200
-curl -s -o /dev/null -w "Case 15: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User2.15\",\"lastName\":\"Two2.15\"}"
+curl -s -o /dev/null -w "Case 15: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_2" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_2,\"firstName\":\"User2.15\",\"lastName\":\"Two2.15\",\"defaultLang\":\"en\"}"
 
 # Case 16: Admin & url userId=non-existent user & request body id matches, expected 404
-curl -s -o /dev/null -w "Case 16: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_3" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_3,\"firstName\":\"User3.16\",\"lastName\":\"Three3.16\"}"
+curl -s -o /dev/null -w "Case 16: %{http_code}\n" -X PUT "$BASE_URL/users/$USER_ID_3" -H "Authorization: Bearer $TA" -H "Content-Type: application/json" -d "{\"id\":$USER_ID_3,\"firstName\":\"User3.16\",\"lastName\":\"Three3.16\",\"defaultLang\":\"en\"}"
+
+
+# PUT vs PATCH tests
+echo "### PUT vs PATCH Tests (User ID: $USER_ID_1) ###"
+# Case 17: PUT & body without defaultLang, expected 400
+curl -s -o /dev/null -w "Case 17: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.17\",\"lastName\":\"One1.17\"}"
+
+# Case 18: PUT & body without lastName, expected 400
+curl -s -o /dev/null -w "Case 18: %{http_code}\n" -X PUT "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.18\",\"defaultLang\":\"en\"}"
+
+# Case 19: PATCH & body without defaultLang, expected 200
+curl -s -o /dev/null -w "Case 19: %{http_code}\n" -X PATCH "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.19\",\"lastName\":\"One1.19\"}"
+
+# Case 20: PATCH & body with only firstName, expected 200
+curl -s -o /dev/null -w "Case 20: %{http_code}\n" -X PATCH "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.20\"}"
+
+# Case 21: PATCH & body with invalid defaultLang, expected 400
+curl -s -o /dev/null -w "Case 21: %{http_code}\n" -X PATCH "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" -H "Content-Type: application/json" -d "{\"firstName\":\"User1.21\",\"defaultLang\":\"eng\"}"
+
+# defaultLang must still hold its stored value after the PATCH cases above
+echo "### defaultLang after PATCH (expected: en) ###"
+curl -s -X GET "$BASE_URL/users/me" -H "Authorization: Bearer $TU_1" | grep -o '"defaultLang":"[^"]*"'
 
 echo;echo "### All tests complete ###"
 
