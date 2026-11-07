@@ -58,7 +58,11 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
-	 * Mapping from dto to existing entity
+	 * Mapping from dto to existing entity, for partial updates
+	 * <p>
+	 * The update API is a partial update: a property absent from the request body arrives as {@code null} in the dto
+	 * and must leave the loaded entity untouched. {@link NullValuePropertyMappingStrategy#IGNORE} is therefore set at
+	 * bean level, so it applies to every mapped property rather than to a single one.
 	 * <p>
 	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
 	 * when the VO value is {@code null}, preserving the entity's existing value.
@@ -68,7 +72,8 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 * @return updated {@link UserProfile} entity
 	 */
 	@InheritInverseConfiguration(name = "toBriefDto")
-	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	@BeanMapping(ignoreByDefault = true,
+			nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	UserProfile toExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }

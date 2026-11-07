@@ -254,6 +254,8 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 ```
 
 ## Update User Details
+- This is a partial update: only the fields present in the request body are updated, and a field that is
+  absent from the body keeps its stored value
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
 - Request `id`, when present, must match `userId` in the URL
