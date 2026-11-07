@@ -2,6 +2,14 @@
 
 - Check and use the correct port for the API calls.
 
+- All values in the requests below, whether in the URL or in the request body, are only examples.
+    - Change the ids in the URL, and the ids and other values in the request body, to the ones you want to test with.
+    - Any id used must be of a record that already exists, e.g. `userId`.
+
+- Some of the APIs below need an `ADMIN` token, as stated in the response details of each API.
+    - Signup grants only the `USER` role, so those calls return `403 - Forbidden` with the token of a newly signed up user.
+    - Change the role of the user to `ADMIN` and signin again to get an `ADMIN` token. See [DB-SETUP.md / Change role to admin for an user](./ishtech-springboot-jwtauth-web/DB-SETUP.md#change-role-to-admin-for-an-user)
+
 - For API names and descriptions:
     - See [API-INFO.md](./API-INFO.md)
 
@@ -15,7 +23,8 @@
 
 ### Response Details
 - HTTP Response Code: `201 - Created`
-    - Response contains the newly created user `id`
+    - Response body is not a JSON object, but only the value of the newly created user `id`, e.g. `1`
+    - Response header `Location` contains the URL of the newly created user, e.g. `http://localhost:8080/api/v1/users/1`
 - HTTP Response Code: `400 - Bad Request`
     - Returned if email already exists
 
@@ -36,9 +45,7 @@
 ### Response JSON
 
 ```json
-{
-    "id": 1
-}
+1
 ```
 
 ### CURL
@@ -222,7 +229,9 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 ### Response Details
 - HTTP Response Code: `200 - OK`
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to access another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to access another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 
@@ -247,7 +256,7 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 ## Update User Details
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
-- Request `id` must match authenticated user `id`
+- Request `id`, when present, must match `userId` in the URL
 
 ### Request Details
 - URL: `/api/v1/users/{userId}`
@@ -262,7 +271,9 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 ### Response Details
 - HTTP Response Code: `200 - OK`
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to update another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to update another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 

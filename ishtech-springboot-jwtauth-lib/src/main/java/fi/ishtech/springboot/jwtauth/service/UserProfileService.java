@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import fi.ishtech.base.service.BaseStandardNoIdService;
+import fi.ishtech.springboot.base.service.BaseStandardNoIdService;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;

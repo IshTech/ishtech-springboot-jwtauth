@@ -2,7 +2,7 @@ package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
 
-import fi.ishtech.base.vo.BaseStandardNoIdEntityVo;
+import fi.ishtech.springboot.base.vo.BaseStandardNoIdEntityVo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -8,7 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-import fi.ishtech.base.mapper.BaseStandardNoIdMapper;
+import fi.ishtech.springboot.base.annotations.mapstruct.BriefMapping;
+import fi.ishtech.springboot.base.mapper.BaseStandardNoIdMapper;
 import fi.ishtech.springboot.jwtauth.dto.SignupDto;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
@@ -27,6 +28,7 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 * @param entity {@link UserProfile}
 	 * @return {@link UserProfileDto}
 	 */
+	@BriefMapping
 	@BeanMapping(ignoreByDefault = true)
 	@InheritConfiguration(name = "toBaseStandardNoIdVo")
 	@Mapping(source = "id", target = "id")
@@ -57,6 +59,9 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 
 	/**
 	 * Mapping from dto to existing entity
+	 * <p>
+	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
+	 * when the VO value is {@code null}, preserving the entity's existing value.
 	 *
 	 * @param dto    {@link UserProfileDto}
 	 * @param entity {@link UserProfile}
@@ -64,6 +69,6 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 */
 	@InheritInverseConfiguration(name = "toBriefDto")
 	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	UserProfile toEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
+	UserProfile toExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }

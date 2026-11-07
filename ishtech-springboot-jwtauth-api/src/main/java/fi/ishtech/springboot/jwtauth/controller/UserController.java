@@ -143,9 +143,6 @@ public class UserController {
 
 		UserProfileDto result = userProfileService.updateAndMapToDto(userProfileDto);
 
-		// TODO: When user is not preset, it is resulting in http status code of 500 instead of 404.
-		// TODO: Handle NoSuchElementException
-
 		return ResponseEntity.ok(result);
 	}
 

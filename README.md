@@ -2,12 +2,18 @@
 Spring Boot Auth using JWT - parent project
 
 ## Tech stack
-- Java: 25
+
+- JDK 25 (default)
+- Other supported JDK versions:
+  - JDK 21
+  - JDK 17
 - Spring Boot: 4.0.x
 - Security: JWT
 - Database: Supports various databases, see child projects for details
 - Database Migration: Flyway
 - Containerization: Docker
+
+Which version of the libraries and the Docker image to use for your JDK version: [JDK-VERSIONS.md](JDK-VERSIONS.md).
 
 ##
 
@@ -15,7 +21,7 @@ Spring Boot Auth using JWT - parent project
 
 
 ## Design
-- [ishtech-jpa-base](https://github.com/ishtech/ishtech-base-jpa) - Foundational JPA and other base classes
+- [ishtech-springboot-base-jpa](https://github.com/ishtech/ishtech-springboot-base-jpa) - Foundational JPA and other base classes
 
 ## Project structure
 
@@ -41,7 +47,7 @@ Spring Boot Auth using JWT - parent project
 - For details you can see swagger documentation
     - [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
     - [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-    - [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3//v3/api-docs.yaml)
+    - [http://localhost:8080/v3/api-docs.yaml](http://localhost:8080/v3/api-docs.yaml)
 
 - Note: Check and update URI and PORT on which application is running
 
@@ -50,6 +56,10 @@ Spring Boot Auth using JWT - parent project
 
 - For `curl` & `json` request/response samples:
     - See [CURL-INFO.md](./CURL-INFO.md)
+
+
+## Known Issues
+- See [KNOWN-ISSUES.md](./KNOWN-ISSUES.md)
 
 
 ## Build and Run
@@ -72,8 +82,15 @@ Spring Boot Auth using JWT - parent project
 ./mvnw clean install
 ```
 
-#### Publish to Maven Central (Sonatype)
+#### Publish to Maven Central
 
 ```
 ./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am
+```
+
+- To wait longer for Maven Central to publish a release than the default of 1800 seconds, add `-DwaitMaxTime=<seconds>` with a value above 1800
+- `waitMaxTime` has no effect on SNAPSHOT versions
+
+```
+./mvnw clean deploy -DskipTests=true -pl "ishtech-springboot-jwtauth-lib,ishtech-springboot-jwtauth-api" -P gpg -P central-publishing -am -DwaitMaxTime=3600
 ```

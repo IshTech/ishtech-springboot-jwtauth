@@ -8,13 +8,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.7</version>
+		<version>4.0.9</version>
 		<relativePath />
 	</parent>
 
 	<groupId>fi.ishtech.springboot</groupId>
 	<artifactId>ishtech-springboot-jwtauth</artifactId>
-	<version>3.2.1</version>
+	<version>3.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>ishtech-springboot-jwtauth</name>
@@ -28,8 +28,8 @@
 
 	<licenses>
 		<license>
-			<name>0BSD</name>
-			<url>https://opensource.org/license/0bsd/</url>
+			<name>BSD-2-Clause</name>
+			<url>https://opensource.org/license/bsd-2-clause</url>
 		</license>
 	</licenses>
 
@@ -51,17 +51,17 @@
 	<properties>
 		<java.version>25</java.version>
 
-		<ishtech-base-jpa.version>5.2.0</ishtech-base-jpa.version>
-		<ishtech-i18n.version>5.2.0</ishtech-i18n.version>
+		<ishtech-springboot-base-jpa.version>5.3.0-SNAPSHOT</ishtech-springboot-base-jpa.version>
+		<ishtech-i18n.version>6.0.0</ishtech-i18n.version>
 
 		<jjwt.version>0.13.0</jjwt.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
-		<mockito.version>5.23.0</mockito.version>
+		<mockito.version>5.24.0</mockito.version>
 
 		<springdoc.version>3.0.3</springdoc.version>
 
 		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
+		<central-publishing-maven-plugin.version>0.12.0</central-publishing-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -83,12 +83,12 @@
 			</dependency>
 
 			<dependency>
-				<groupId>fi.ishtech.base</groupId>
-				<artifactId>ishtech-base-jpa</artifactId>
-				<version>${ishtech-base-jpa.version}</version>
+				<groupId>fi.ishtech.springboot</groupId>
+				<artifactId>ishtech-springboot-base-jpa</artifactId>
+				<version>${ishtech-springboot-base-jpa.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>fi.ishtech.core</groupId>
+				<groupId>fi.ishtech.common</groupId>
 				<artifactId>ishtech-i18n</artifactId>
 				<version>${ishtech-i18n.version}</version>
 			</dependency>
@@ -158,8 +158,8 @@
 								<version>${lombok.version}</version>
 							</annotationProcessorPath>
 							<annotationProcessorPath>
-								<groupId>org.hibernate</groupId>
-								<artifactId>hibernate-jpamodelgen</artifactId>
+								<groupId>org.hibernate.orm</groupId>
+								<artifactId>hibernate-processor</artifactId>
 								<version>${hibernate.version}</version>
 							</annotationProcessorPath>
 							<annotationProcessorPath>

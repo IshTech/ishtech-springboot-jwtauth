@@ -15,7 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fi.ishtech.base.entity.BaseStandardEntity;
+import fi.ishtech.springboot.base.entity.BaseStandardEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

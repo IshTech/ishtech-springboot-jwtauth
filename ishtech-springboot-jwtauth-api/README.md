@@ -43,4 +43,4 @@ implementation("fi.ishtech.springboot:ishtech-springboot-jwtauth-api:x.y.z")
 
 #### Local Maven Build
 
-- For Build see [parent project](../README.md#Local Maven Build)
+- For Build see [parent project](../README.md#local-maven-build)

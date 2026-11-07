@@ -1,8 +1,10 @@
 package fi.ishtech.springboot.jwtauth.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,12 +18,14 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.enums.StandardUserRoleEnum;
+import fi.ishtech.springboot.jwtauth.exception.UserNotFoundException;
 import fi.ishtech.springboot.jwtauth.service.AuthInfoService;
 import fi.ishtech.springboot.jwtauth.service.UserProfileService;
 import fi.ishtech.springboot.jwtauth.userdetails.UserDetailsImpl;
@@ -98,6 +102,35 @@ public class UserControllerTest {
 				.with(user(sampleUserDetails)))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName").value("Testi"));
+		// @formatter:on
+	}
+
+	@Test
+	@Order(4)
+	void testFindUserProfileByNonExistentIdByAdmin() throws Exception {
+		when(userProfileService.findOneByIdAndMapToVoOrElseThrow(9999L)).thenThrow(new UserNotFoundException(9999L));
+
+		// @formatter:off
+		mockMvc.perform(get("/api/v1/users/9999")
+				.with(user("admin").authorities(() -> "ROLE_ADMIN")))
+				.andExpect(status().isNotFound());
+		// @formatter:on
+	}
+
+	@Test
+	@Order(5)
+	void testUpdateUserProfileByNonExistentIdByAdmin() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(1L);
+		when(authInfoService.isAdmin()).thenReturn(true);
+		when(userProfileService.updateAndMapToDto(any(UserProfileDto.class)))
+				.thenThrow(new UserNotFoundException(9999L));
+
+		// @formatter:off
+		mockMvc.perform(put("/api/v1/users/9999")
+				.with(user("admin").authorities(() -> "ROLE_ADMIN"))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":9999,\"firstName\":\"Testi\",\"lastName\":\"Besti\"}"))
+				.andExpect(status().isNotFound());
 		// @formatter:on
 	}
 
