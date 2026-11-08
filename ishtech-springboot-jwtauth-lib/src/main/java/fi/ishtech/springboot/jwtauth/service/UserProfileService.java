@@ -49,7 +49,9 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	 * Finds by id and replaces every mapped property of the entity in DB, for an HTTP {@code PUT}.
 	 * <p>
 	 * The dto is expected to carry the complete resource, so a {@code null} clears that property. Properties the
-	 * resource requires are enforced by the {@link UserProfileDto.OnReplace} validation group before this is reached.
+	 * resource requires are enforced by the
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update} validation group
+	 * before this is reached.
 	 *
 	 * @param userProfileDto complete input UserProfile
 	 * @return {@link UserProfileDto}

@@ -65,8 +65,9 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	 * {@code id} is protected, so that a body without an {@code id} cannot null the identifier of the loaded entity.
 	 * <p>
 	 * Properties the resource requires are enforced before this method is reached, by the
-	 * {@link UserProfileDto.OnReplace} validation group, so a {@code PUT} that omits one is rejected with
-	 * {@code 400 Bad Request} rather than clearing a column the entity declares as non-null.
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update} validation group,
+	 * so a {@code PUT} that omits one is rejected with {@code 400 Bad Request} rather than clearing a column the
+	 * entity declares as non-null.
 	 * <p>
 	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
 	 * when the VO value is {@code null}, preserving the entity's existing value.

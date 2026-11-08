@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fi.ishtech.springboot.base.validation.ValidationGroups;
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
 import fi.ishtech.springboot.jwtauth.payload.params.UserProfileFilterParams;
 import fi.ishtech.springboot.jwtauth.service.AuthInfoService;
@@ -92,7 +93,7 @@ public class UserController {
 	 * <p>
 	 * This is an HTTP {@code PUT}, so the request body must carry the complete resource. A property that is absent from
 	 * the body is cleared, and a property the resource cannot be without is required by the
-	 * {@link UserProfileDto.OnReplace} validation group, so omitting one gives {@code 400 Bad Request}. To change only
+	 * {@link ValidationGroups.Update} validation group, so omitting one gives {@code 400 Bad Request}. To change only
 	 * some of the properties, use {@link #patchUserProfile(String, UserProfileDto)}.
 	 *
 	 * @param userId         user ID or <code>me</code>
@@ -114,7 +115,7 @@ public class UserController {
 	public ResponseEntity<UserProfileDto> updateUserProfile(
 			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.")
 			@PathVariable("userId") String userId,
-			@Validated({ Default.class, UserProfileDto.OnReplace.class })
+			@Validated({ Default.class, ValidationGroups.Update.class })
 				@RequestBody UserProfileDto userProfileDto) {
 	// @formatter:on
 		log.info("Input userId:{}", userId);
@@ -134,6 +135,9 @@ public class UserController {
 	 * This is an HTTP {@code PATCH}, so the request body may carry any subset of the resource. A property that is
 	 * absent from the body is left as stored. Because absence and {@code null} cannot be told apart in the request
 	 * body, this endpoint cannot clear a property; use {@link #updateUserProfile(String, UserProfileDto)} for that.
+	 * <p>
+	 * The body is validated against the {@link ValidationGroups.Patch} validation group, which holds no mandatory
+	 * property, so every property stays optional here.
 	 *
 	 * @param userId         user ID or <code>me</code>
 	 * @param userProfileDto {@link UserProfileDto}, the properties to change
@@ -154,7 +158,8 @@ public class UserController {
 	public ResponseEntity<UserProfileDto> patchUserProfile(
 			@Pattern(regexp = "^(me|\\d+)$", message = "Invalid input. Only 'me' or an integer allowed.")
 			@PathVariable("userId") String userId,
-			@Valid @RequestBody UserProfileDto userProfileDto) {
+			@Validated({ Default.class, ValidationGroups.Patch.class })
+				@RequestBody UserProfileDto userProfileDto) {
 	// @formatter:on
 		log.info("Input userId:{}", userId);
 
