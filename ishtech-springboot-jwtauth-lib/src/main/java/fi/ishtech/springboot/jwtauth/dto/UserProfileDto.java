@@ -2,6 +2,10 @@ package fi.ishtech.springboot.jwtauth.dto;
 
 import java.io.Serial;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
+import fi.ishtech.springboot.base.validation.ValidationGroups;
 import fi.ishtech.springboot.base.vo.BaseStandardNoIdEntityVo;
 
 import lombok.Data;
@@ -25,10 +29,12 @@ public class UserProfileDto extends BaseStandardNoIdEntityVo {
 
 	private String email;
 
+	@NotBlank(groups = ValidationGroups.Update.class)
 	private String firstName;
 
 	private String middleName;
 
+	@NotBlank(groups = ValidationGroups.Update.class)
 	private String lastName;
 
 	private String nickName;
@@ -39,6 +45,8 @@ public class UserProfileDto extends BaseStandardNoIdEntityVo {
 
 	private String suffix;
 
+	@NotBlank(groups = ValidationGroups.Update.class)
+	@Pattern(regexp = "^[a-z]{2}$", message = "defaultLang must be exactly 2 lowercase letters")
 	private String defaultLang;
 
 	/**

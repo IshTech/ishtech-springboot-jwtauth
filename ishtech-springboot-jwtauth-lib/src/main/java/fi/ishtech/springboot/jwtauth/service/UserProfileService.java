@@ -47,10 +47,31 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 
 	/**
 	 * Finds by id and updates the entity in DB and return updated dto
+	 * <p>
+	 * Expects the full dto: an attribute that is missing or {@code null} is overwritten in DB as {@code null}.
+	 * <p>
+	 * Used by the {@code PUT} API, which validates with
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update}.
+	 *
+	 * @param userProfileDto complete input UserProfile
+	 * @return {@link UserProfileDto}
+	 *
+	 * @see #patchAndMapToDto(UserProfileDto)
+	 */
+	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+
+	/**
+	 * Finds by id and updates only the supplied attributes of the entity in DB and return updated dto
+	 * <p>
+	 * An attribute that is missing or {@code null} in the dto keeps its value in DB.
+	 * <p>
+	 * Used by the {@code PATCH} API.
 	 *
 	 * @param userProfileDto input changes to UserProfile
 	 * @return {@link UserProfileDto}
+	 *
+	 * @see #updateAndMapToDto(UserProfileDto)
 	 */
-	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+	UserProfileDto patchAndMapToDto(UserProfileDto userProfileDto);
 
 }

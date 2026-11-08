@@ -58,17 +58,35 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
-	 * Mapping from dto to existing entity
+	 * Mapping from dto to existing entity, replacing every mapped property (HTTP {@code PUT}).
 	 * <p>
-	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
-	 * when the VO value is {@code null}, preserving the entity's existing value.
+	 * A {@code null} in the dto clears that property, except for {@code id}, which is configured to be skipped, and
+	 * {@code isActive}, which MapStruct skips because it is {@link Boolean} in the dto and primitive in the entity.
 	 *
 	 * @param dto    {@link UserProfileDto}
 	 * @param entity {@link UserProfile}
 	 * @return updated {@link UserProfile} entity
+	 *
+	 * @see #patchExistingEntity(UserProfileDto, UserProfile)
 	 */
 	@InheritInverseConfiguration(name = "toBriefDto")
 	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	UserProfile toExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
+
+	/**
+	 * Mapping from dto to existing entity, for partial updates (HTTP {@code PATCH}).
+	 * <p>
+	 * A {@code null} in the dto leaves that property as stored, so this method cannot clear one.
+	 *
+	 * @param dto    {@link UserProfileDto}
+	 * @param entity {@link UserProfile}
+	 * @return updated {@link UserProfile} entity
+	 *
+	 * @see #toExistingEntity(UserProfileDto, UserProfile)
+	 */
+	@InheritInverseConfiguration(name = "toBriefDto")
+	@BeanMapping(ignoreByDefault = true,
+			nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	UserProfile patchExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }
