@@ -46,12 +46,12 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable);
 
 	/**
-	 * Finds by id and replaces every mapped property of the entity in DB, for an HTTP {@code PUT}.
+	 * Finds by id and updates the entity in DB and return updated dto
 	 * <p>
-	 * The dto is expected to carry the complete resource, so a {@code null} clears that property. Properties the
-	 * resource requires are enforced by the
-	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update} validation group
-	 * before this is reached.
+	 * Expects the full dto: an attribute that is missing or {@code null} is overwritten in DB as {@code null}.
+	 * <p>
+	 * Used by the {@code PUT} API, which validates with
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update}.
 	 *
 	 * @param userProfileDto complete input UserProfile
 	 * @return {@link UserProfileDto}
@@ -61,9 +61,11 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
 
 	/**
-	 * Finds by id and updates only the supplied properties of the entity in DB, for an HTTP {@code PATCH}.
+	 * Finds by id and updates only the supplied attributes of the entity in DB and return updated dto
 	 * <p>
-	 * A property that is {@code null} in the dto is left as stored, so a partial body changes nothing else.
+	 * An attribute that is missing or {@code null} in the dto keeps its value in DB.
+	 * <p>
+	 * Used by the {@code PATCH} API.
 	 *
 	 * @param userProfileDto input changes to UserProfile
 	 * @return {@link UserProfileDto}
