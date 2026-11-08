@@ -222,9 +222,9 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 
 #### Path Variables
 
-| Name   | Description |
-|--------|-------------|
-| userId | User ID     |
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
@@ -248,8 +248,17 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 
 ### CURL
 
+- By user ID:
+
 ```sh
 curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+- For the current user, with `me` in place of the user ID:
+
+```sh
+curl --request GET --location 'http://localhost:8080/api/v1/users/me' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>'
 ```
 
@@ -262,7 +271,8 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 - To change only some of the fields, use [Update User Details](#update-user-details) instead
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
-- Request `id`, when present, must match `userId` in the URL
+- Request `id`, when present, must match `userId` in the URL. When `userId` is `me`, it must be the id of the
+  current user
 
 ### Request Details
 - URL: `/api/v1/users/{userId}`
@@ -270,9 +280,9 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 #### Path Variables
 
-| Name   | Description |
-|--------|-------------|
-| userId | User ID     |
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
@@ -309,12 +319,28 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 ### CURL
 
+- By user ID:
+
 ```sh
 curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}'
+```
+
+- For the current user, with `me` in place of the user ID. The body may leave `id` out; when it is present it
+  must be the id of the current user:
+
+```sh
+curl --request PUT --location 'http://localhost:8080/api/v1/users/me' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "firstName": "New Muneer",
     "lastName": "New Syed",
     "defaultLang": "en"
@@ -330,7 +356,8 @@ curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
 - `defaultLang`, when present, must be exactly 2 lowercase letters, for example `en` or `fi`
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
-- Request `id`, when present, must match `userId` in the URL
+- Request `id`, when present, must match `userId` in the URL. When `userId` is `me`, it must be the id of the
+  current user
 
 ### Request Details
 - URL: `/api/v1/users/{userId}`
@@ -338,9 +365,9 @@ curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
 
 #### Path Variables
 
-| Name   | Description |
-|--------|-------------|
-| userId | User ID     |
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
@@ -378,12 +405,27 @@ The response is the complete resource after the update, so it also shows the fie
 
 ### CURL
 
+- By user ID:
+
 ```sh
 curl --request PATCH --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed"
+}'
+```
+
+- For the current user, with `me` in place of the user ID. The body may leave `id` out; when it is present it
+  must be the id of the current user:
+
+```sh
+curl --request PATCH --location 'http://localhost:8080/api/v1/users/me' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "firstName": "New Muneer",
     "lastName": "New Syed"
 }'
