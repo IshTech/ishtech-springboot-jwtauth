@@ -89,12 +89,16 @@ public class UserController {
 	}
 
 	/**
-	 * Replaces UserProfile by userId or for current user.
+	 * Replaces UserProfile by userId or for the current user
 	 * <p>
-	 * This is an HTTP {@code PUT}, so the request body must carry the complete resource. A property that is absent from
-	 * the body is cleared, and a property the resource cannot be without is required by the
-	 * {@link ValidationGroups.Update} validation group, so omitting one gives {@code 400 Bad Request}. To change only
-	 * some of the properties, use {@link #patchUserProfile(String, UserProfileDto)}.
+	 * Expects the full resource in the request body
+	 * <p>
+	 * An attribute missing or {@code null} in the request body is cleared
+	 * <p>
+	 * Mandatory attributes must be present, else {@code 400 Bad Request}, as validated with
+	 * {@link ValidationGroups.Update}
+	 * <p>
+	 * To change only some of the attributes, use the {@code PATCH} API on the same URL
 	 *
 	 * @param userId         user ID or <code>me</code>
 	 * @param userProfileDto {@link UserProfileDto}, the complete resource
@@ -130,17 +134,19 @@ public class UserController {
 	}
 
 	/**
-	 * Updates the supplied properties of UserProfile by userId or for current user.
+	 * Updates the supplied attributes of UserProfile by userId or for the current user
 	 * <p>
-	 * This is an HTTP {@code PATCH}, so the request body may carry any subset of the resource. A property that is
-	 * absent from the body is left as stored. Because absence and {@code null} cannot be told apart in the request
-	 * body, this endpoint cannot clear a property; use {@link #updateUserProfile(String, UserProfileDto)} for that.
+	 * Expects only the attributes to change in the request body
 	 * <p>
-	 * The body is validated against the {@link ValidationGroups.Patch} validation group, which holds no mandatory
-	 * property, so every property stays optional here.
+	 * An attribute missing or {@code null} in the request body keeps its stored value, so this API cannot clear an
+	 * attribute
+	 * <p>
+	 * No attribute is mandatory, as validated with {@link ValidationGroups.Patch}
+	 * <p>
+	 * To clear an attribute, use the {@code PUT} API on the same URL
 	 *
 	 * @param userId         user ID or <code>me</code>
-	 * @param userProfileDto {@link UserProfileDto}, the properties to change
+	 * @param userProfileDto {@link UserProfileDto}, the attributes to change
 	 *
 	 * @return {@link ResponseEntity}&lt;{@link UserProfileDto}&gt;
 	 */
@@ -174,11 +180,9 @@ public class UserController {
 
 	/**
 	 * Checks that the caller may modify the UserProfile addressed by {@code userId}, and fills in the id of
-	 * {@code userProfileDto} from the URL when the request body leaves it out.
+	 * {@code userProfileDto} from the URL when the request body leaves it out
 	 * <p>
-	 * The check itself is redundant, as the Spring-EL in {@code @PreAuthorize} on the calling endpoint already rejects
-	 * the same requests. It is kept for explanation, and is shared by the {@code PUT} and the {@code PATCH} endpoint so
-	 * that the two cannot drift apart.
+	 * Redundant by itself, as {@code @PreAuthorize} on the calling endpoint already rejects the same requests
 	 *
 	 * @param userId         user ID or <code>me</code> from the URL
 	 * @param userProfileDto {@link UserProfileDto} from the request body

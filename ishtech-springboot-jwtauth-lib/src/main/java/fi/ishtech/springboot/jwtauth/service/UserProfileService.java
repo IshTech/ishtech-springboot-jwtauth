@@ -39,19 +39,23 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	/**
 	 * Search and find UserProfile(s) by Specification and pageniate them
 	 *
-	 * @param spec {@link UserProfileSpec}
+	 * @param spec     {@link UserProfileSpec}
 	 * @param pageable {@link Pageable}
 	 * @return {@link Page}&lt;{@link UserProfileDto}&gt;
 	 */
 	Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable);
 
 	/**
-	 * Finds by id and replaces every mapped property of the entity in DB, for an HTTP {@code PUT}.
+	 * Finds by id and updates the entity in the DB and returns updated DTO
 	 * <p>
-	 * The dto is expected to carry the complete resource, so a {@code null} clears that property. Properties the
-	 * resource requires are enforced by the
-	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update} validation group
-	 * before this is reached.
+	 * Expects the full DTO as input
+	 * <p>
+	 * {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * An attribute missing or {@code null} (except {@code id}) in the DTO is overwritten in the DB as {@code null}
+	 * <p>
+	 * Used by the {@code PUT} API, which validates with
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update}
 	 *
 	 * @param userProfileDto complete input UserProfile
 	 * @return {@link UserProfileDto}
@@ -61,9 +65,13 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
 
 	/**
-	 * Finds by id and updates only the supplied properties of the entity in DB, for an HTTP {@code PATCH}.
+	 * Finds by id and updates only the supplied attributes of the entity in the DB and returns updated DTO
 	 * <p>
-	 * A property that is {@code null} in the dto is left as stored, so a partial body changes nothing else.
+	 * {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * An attribute missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * Used by the {@code PATCH} API
 	 *
 	 * @param userProfileDto input changes to UserProfile
 	 * @return {@link UserProfileDto}
