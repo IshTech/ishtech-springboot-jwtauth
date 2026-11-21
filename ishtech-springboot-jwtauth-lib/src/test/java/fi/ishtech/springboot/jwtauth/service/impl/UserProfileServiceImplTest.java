@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import fi.ishtech.springboot.jwtauth.dto.UserProfileDto;
+import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import fi.ishtech.springboot.jwtauth.exception.UserNotFoundException;
 import fi.ishtech.springboot.jwtauth.mapper.UserProfileMapper;
 import fi.ishtech.springboot.jwtauth.repo.UserProfileRepo;
@@ -37,6 +38,21 @@ public class UserProfileServiceImplTest {
 	@InjectMocks
 	private UserProfileServiceImpl userProfileService;
 
+	/**
+	 * Builds a dto carrying only the properties that a rename supplies.
+	 *
+	 * @param id the user ID
+	 * @return {@link UserProfileDto}
+	 */
+	private UserProfileDto dtoWithId(Long id) {
+		UserProfileDto userProfileDto = new UserProfileDto();
+		userProfileDto.setId(id);
+		userProfileDto.setFirstName("Testi");
+		userProfileDto.setLastName("Besti");
+
+		return userProfileDto;
+	}
+
 	@Test
 	void testFindOneByIdAndMapToVoOrElseThrowForNonExistentId() {
 		when(userProfileRepo.findById(9999L)).thenReturn(Optional.empty());
@@ -50,16 +66,60 @@ public class UserProfileServiceImplTest {
 	void testUpdateAndMapToDtoForNonExistentId() {
 		when(userProfileRepo.findById(9999L)).thenReturn(Optional.empty());
 
-		UserProfileDto userProfileDto = new UserProfileDto();
-		userProfileDto.setId(9999L);
-		userProfileDto.setFirstName("Testi");
-		userProfileDto.setLastName("Besti");
+		UserProfileDto userProfileDto = dtoWithId(9999L);
 
 		UserNotFoundException ex = assertThrows(UserNotFoundException.class,
 				() -> userProfileService.updateAndMapToDto(userProfileDto));
 		assertEquals("User (9999) not found", ex.getMessage());
 
 		verify(userProfileRepo, never()).save(any());
+	}
+
+	@Test
+	void testPatchAndMapToDtoForNonExistentId() {
+		when(userProfileRepo.findById(9999L)).thenReturn(Optional.empty());
+
+		UserProfileDto userProfileDto = dtoWithId(9999L);
+
+		UserNotFoundException ex = assertThrows(UserNotFoundException.class,
+				() -> userProfileService.patchAndMapToDto(userProfileDto));
+		assertEquals("User (9999) not found", ex.getMessage());
+
+		verify(userProfileRepo, never()).save(any());
+	}
+
+	@Test
+	void testUpdateAndMapToDtoReplacesViaToExistingEntity() {
+		UserProfile existing = new UserProfile();
+		existing.setId(100L);
+
+		when(userProfileRepo.findById(100L)).thenReturn(Optional.of(existing));
+		when(userProfileRepo.save(existing)).thenReturn(existing);
+
+		UserProfileDto userProfileDto = dtoWithId(100L);
+
+		userProfileService.updateAndMapToDto(userProfileDto);
+
+		verify(userProfileMapper).toExistingEntity(userProfileDto, existing);
+		verify(userProfileMapper, never()).patchExistingEntity(any(), any());
+		verify(userProfileRepo).save(existing);
+	}
+
+	@Test
+	void testPatchAndMapToDtoUpdatesViaPatchExistingEntity() {
+		UserProfile existing = new UserProfile();
+		existing.setId(100L);
+
+		when(userProfileRepo.findById(100L)).thenReturn(Optional.of(existing));
+		when(userProfileRepo.save(existing)).thenReturn(existing);
+
+		UserProfileDto userProfileDto = dtoWithId(100L);
+
+		userProfileService.patchAndMapToDto(userProfileDto);
+
+		verify(userProfileMapper).patchExistingEntity(userProfileDto, existing);
+		verify(userProfileMapper, never()).toExistingEntity(any(), any());
+		verify(userProfileRepo).save(existing);
 	}
 
 }

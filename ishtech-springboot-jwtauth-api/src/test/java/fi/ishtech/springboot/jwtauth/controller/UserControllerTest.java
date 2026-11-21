@@ -1,9 +1,12 @@
 package fi.ishtech.springboot.jwtauth.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -129,9 +132,78 @@ public class UserControllerTest {
 		mockMvc.perform(put("/api/v1/users/9999")
 				.with(user("admin").authorities(() -> "ROLE_ADMIN"))
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"id\":9999,\"firstName\":\"Testi\",\"lastName\":\"Besti\"}"))
+				.content("{\"id\":9999,\"firstName\":\"Testi\",\"lastName\":\"Besti\",\"defaultLang\":\"en\"}"))
 				.andExpect(status().isNotFound());
 		// @formatter:on
+	}
+
+	@Test
+	@Order(6)
+	void testUpdateUserProfileRejectsBodyWithoutDefaultLang() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(100L);
+
+		// @formatter:off
+		mockMvc.perform(put("/api/v1/users/100")
+				.with(user(sampleUserDetails))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":100,\"firstName\":\"Testi\",\"lastName\":\"Besti\"}"))
+				.andExpect(status().isBadRequest());
+		// @formatter:on
+
+		verify(userProfileService, never()).updateAndMapToDto(any(UserProfileDto.class));
+	}
+
+	@Test
+	@Order(7)
+	void testUpdateUserProfileAcceptsCompleteBody() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(100L);
+		when(userProfileService.updateAndMapToDto(any(UserProfileDto.class))).thenReturn(sampleUserProfile);
+
+		// @formatter:off
+		mockMvc.perform(put("/api/v1/users/100")
+				.with(user(sampleUserDetails))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":100,\"firstName\":\"Testi\",\"lastName\":\"Besti\",\"defaultLang\":\"en\"}"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.firstName").value("Testi"));
+		// @formatter:on
+
+		verify(userProfileService).updateAndMapToDto(any(UserProfileDto.class));
+	}
+
+	@Test
+	@Order(8)
+	void testPatchUserProfileAcceptsPartialBodyWithoutDefaultLang() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(100L);
+		when(userProfileService.patchAndMapToDto(any(UserProfileDto.class))).thenReturn(sampleUserProfile);
+
+		// @formatter:off
+		mockMvc.perform(patch("/api/v1/users/100")
+				.with(user(sampleUserDetails))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":100,\"firstName\":\"Testi\",\"lastName\":\"Besti\"}"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.firstName").value("Testi"));
+		// @formatter:on
+
+		verify(userProfileService).patchAndMapToDto(any(UserProfileDto.class));
+		verify(userProfileService, never()).updateAndMapToDto(any(UserProfileDto.class));
+	}
+
+	@Test
+	@Order(9)
+	void testPatchUserProfileRejectsInvalidDefaultLang() throws Exception {
+		when(authInfoService.getUserId()).thenReturn(100L);
+
+		// @formatter:off
+		mockMvc.perform(patch("/api/v1/users/100")
+				.with(user(sampleUserDetails))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"id\":100,\"defaultLang\":\"eng\"}"))
+				.andExpect(status().isBadRequest());
+		// @formatter:on
+
+		verify(userProfileService, never()).patchAndMapToDto(any(UserProfileDto.class));
 	}
 
 }

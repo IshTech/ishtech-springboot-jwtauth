@@ -39,18 +39,45 @@ public interface UserProfileService extends BaseStandardNoIdService<UserProfile,
 	/**
 	 * Search and find UserProfile(s) by Specification and pageniate them
 	 *
-	 * @param spec {@link UserProfileSpec}
+	 * @param spec     {@link UserProfileSpec}
 	 * @param pageable {@link Pageable}
 	 * @return {@link Page}&lt;{@link UserProfileDto}&gt;
 	 */
 	Page<UserProfileDto> findAllAndMapToVo(UserProfileSpec spec, Pageable pageable);
 
 	/**
-	 * Finds by id and updates the entity in DB and return updated dto
+	 * Finds by id and updates the entity in the DB and returns updated DTO
+	 * <p>
+	 * Expects the full DTO as input
+	 * <p>
+	 * {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * An attribute missing or {@code null} (except {@code id}) in the DTO is overwritten in the DB as {@code null}
+	 * <p>
+	 * Used by the {@code PUT} API, which validates with
+	 * {@link fi.ishtech.springboot.base.validation.ValidationGroups.Update ValidationGroups.Update}
+	 *
+	 * @param userProfileDto complete input UserProfile
+	 * @return {@link UserProfileDto}
+	 *
+	 * @see #patchAndMapToDto(UserProfileDto)
+	 */
+	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+
+	/**
+	 * Finds by id and updates only the supplied attributes of the entity in the DB and returns updated DTO
+	 * <p>
+	 * {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * An attribute missing or {@code null} in the DTO is ignored, preserving the existing value in the DB
+	 * <p>
+	 * Used by the {@code PATCH} API
 	 *
 	 * @param userProfileDto input changes to UserProfile
 	 * @return {@link UserProfileDto}
+	 *
+	 * @see #updateAndMapToDto(UserProfileDto)
 	 */
-	UserProfileDto updateAndMapToDto(UserProfileDto userProfileDto);
+	UserProfileDto patchAndMapToDto(UserProfileDto userProfileDto);
 
 }

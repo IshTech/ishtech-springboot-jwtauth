@@ -87,4 +87,18 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileMapper.toBriefDto(userProfile);
 	}
 
+	@Override
+	public UserProfileDto patchAndMapToDto(UserProfileDto userProfileDto) {
+		Assert.notNull(userProfileDto.getId(), "Input id is mandatory in input UserProfileDto");
+
+		UserProfile userProfile = findOneByIdOrElseThrow(userProfileDto.getId(),
+				() -> new UserNotFoundException(userProfileDto.getId()));
+
+		userProfileMapper.patchExistingEntity(userProfileDto, userProfile);
+
+		userProfile = userProfileRepo.save(userProfile);
+
+		return userProfileMapper.toBriefDto(userProfile);
+	}
+
 }

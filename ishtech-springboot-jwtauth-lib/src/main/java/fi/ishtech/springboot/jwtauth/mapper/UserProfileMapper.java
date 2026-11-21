@@ -58,17 +58,45 @@ public interface UserProfileMapper extends BaseStandardNoIdMapper {
 	UserProfile toNewEntity(SignupDto signupDto);
 
 	/**
-	 * Mapping from dto to existing entity
+	 * Mapping from DTO to existing entity, for full updates
 	 * <p>
-	 * {@code isActive} is nullable in the VO and primitive in the entity. MapStruct automatically skips the assignment
-	 * when the VO value is {@code null}, preserving the entity's existing value.
+	 * {@code isActive} is nullable in the DTO and primitive in the entity. MapStruct automatically skips the
+	 * assignment, so {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in
+	 * the entity
+	 * <p>
+	 * An attribute missing or {@code null} (except {@code id}) in the DTO is overwritten in the entity as {@code null}
+	 * <p>
+	 * Used by the {@code PUT} API
 	 *
 	 * @param dto    {@link UserProfileDto}
 	 * @param entity {@link UserProfile}
 	 * @return updated {@link UserProfile} entity
+	 *
+	 * @see #patchExistingEntity(UserProfileDto, UserProfile)
 	 */
 	@InheritInverseConfiguration(name = "toBriefDto")
 	@Mapping(source = "id", target = "id", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 	UserProfile toExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
+
+	/**
+	 * Mapping from DTO to existing entity, for partial updates
+	 * <p>
+	 * {@code isActive} is nullable in the DTO and primitive in the entity. MapStruct automatically skips the
+	 * assignment, so {@code isActive} missing or {@code null} in the DTO is ignored, preserving the existing value in
+	 * the entity
+	 * <p>
+	 * An attribute missing or {@code null} in the DTO is ignored, preserving the existing value in the entity
+	 * <p>
+	 * Used by the {@code PATCH} API
+	 *
+	 * @param dto    {@link UserProfileDto}
+	 * @param entity {@link UserProfile}
+	 * @return updated {@link UserProfile} entity
+	 *
+	 * @see #toExistingEntity(UserProfileDto, UserProfile)
+	 */
+	@InheritInverseConfiguration(name = "toBriefDto")
+	@BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	UserProfile patchExistingEntity(UserProfileDto dto, @MappingTarget UserProfile entity);
 
 }
