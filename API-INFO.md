@@ -23,13 +23,15 @@
 
 ## User APIs
 
-| Module | Type                | HTTP  | URL                          | Description |
-|--------|---------------------|-------|------------------------------|-------------|
-| User   | Get Users Info      | GET   | /api/v1/users                | Retrieves paginated list of UserProfiles with filters. Only for ADMIN role |
-| User   | Get User Info by Id | GET   | /api/v1/users/{userId}       | Gets UserProfile by userId. Only for ADMIN role, or for the user's own userId |
-| User   | Update User by Id   | PUT   | /api/v1/users/{userId}       | Updates UserProfile by userId. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
-| User   | Get Current User    | GET   | /api/v1/users/me             | Gets UserProfile for current user      |
-| User   | Update Current User | PUT   | /api/v1/users/me             | Updates UserProfile for current user   |
+| Module | Type                      | HTTP  | URL                          | Description |
+|--------|---------------------------|-------|------------------------------|-------------|
+| User   | Get Users Info            | GET   | /api/v1/users                | Retrieves paginated list of UserProfiles with filters. Only for ADMIN role |
+| User   | Get User Info by Id       | GET   | /api/v1/users/{userId}       | Gets UserProfile by userId. Only for ADMIN role, or for the user's own userId |
+| User   | Replace User Info by Id   | PUT   | /api/v1/users/{userId}       | Replaces UserProfile by userId. The body must carry the full resource: every mandatory attribute must be present, else the request is rejected with `400 - Bad Request`, and any other attribute that is missing or `null` is overwritten in DB as `null`. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
+| User   | Update User Info by Id    | PATCH | /api/v1/users/{userId}       | Updates only the supplied attributes of UserProfile by userId; an attribute that is missing or `null` keeps its value in DB. Only for ADMIN role, or for the user's own userId. Request `id`, when present, must match `userId` |
+| User   | Get Current User Info     | GET   | /api/v1/users/me             | Gets UserProfile for current user |
+| User   | Replace Current User Info | PUT   | /api/v1/users/me             | Replaces UserProfile for current user. Same body and validation rules as Replace User Info by Id |
+| User   | Update Current User Info  | PATCH | /api/v1/users/me             | Updates only the supplied attributes of UserProfile for current user |
 
 
 - For `curl` & `json` request/response samples:

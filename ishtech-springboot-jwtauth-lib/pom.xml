@@ -38,8 +38,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>fi.ishtech.base</groupId>
-			<artifactId>ishtech-base-jpa</artifactId>
+			<groupId>fi.ishtech.springboot</groupId>
+			<artifactId>ishtech-springboot-base-jpa</artifactId>
 		</dependency>
 
 		<dependency>
