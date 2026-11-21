@@ -14,7 +14,7 @@
 
 	<groupId>fi.ishtech.springboot</groupId>
 	<artifactId>ishtech-springboot-jwtauth</artifactId>
-	<version>3.3.0-jdk21-SNAPSHOT</version>
+	<version>4.0.0-jdk21</version>
 	<packaging>pom</packaging>
 
 	<name>ishtech-springboot-jwtauth</name>
