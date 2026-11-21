@@ -20,6 +20,7 @@ psql -U ishtech_dev_user -W -d ishtech_dev_db
 
 ### Flyway migration files
 - Path `src/main/resources/db/migration/postgres`
+  -  DB migration files are present in [ishtech-springboot-jwtauth-lib](../ishtech-springboot-jwtauth-lib/README.md) so that any project that uses `ishtech-springboot-jwtauth-lib` as a dependency gets them on its classpath, and can run them with its own Flyway configuration.
 - To create migration files with date and time in the file name
     - E.g. `V20251021_020118__create_table_user.sql`
 

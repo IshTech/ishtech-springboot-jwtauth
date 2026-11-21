@@ -45,7 +45,7 @@ public class AuthInfoServiceImpl implements AuthInfoService {
 			return null;
 		} else if (!(principal instanceof UserDetailsImpl)) {
 			log.error("Principal ({}) is not UserDetailsImpl type", principal.getClass());
-			throw new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY);
+			throw new HttpClientErrorException(HttpStatus.UNPROCESSABLE_CONTENT);
 		}
 
 		return (UserDetailsImpl) principal;

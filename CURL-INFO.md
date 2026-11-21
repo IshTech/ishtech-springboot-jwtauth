@@ -2,6 +2,14 @@
 
 - Check and use the correct port for the API calls.
 
+- All values in the requests below, whether in the URL or in the request body, are only examples.
+    - Change the ids in the URL, and the ids and other values in the request body, to the ones you want to test with.
+    - Any id used must be of a record that already exists, e.g. `userId`.
+
+- Some of the APIs below need an `ADMIN` token, as stated in the response details of each API.
+    - Signup grants only the `USER` role, so those calls return `403 - Forbidden` with the token of a newly signed up user.
+    - Change the role of the user to `ADMIN` and signin again to get an `ADMIN` token. See [DB-SETUP.md / Change role to admin for an user](./ishtech-springboot-jwtauth-web/DB-SETUP.md#change-role-to-admin-for-an-user)
+
 - For API names and descriptions:
     - See [API-INFO.md](./API-INFO.md)
 
@@ -15,7 +23,8 @@
 
 ### Response Details
 - HTTP Response Code: `201 - Created`
-    - Response contains the newly created user `id`
+    - Response body is not a JSON object, but only the value of the newly created user `id`, e.g. `1`
+    - Response header `Location` contains the URL of the newly created user, e.g. `http://localhost:8080/api/v1/users/1`
 - HTTP Response Code: `400 - Bad Request`
     - Returned if email already exists
 
@@ -36,9 +45,7 @@
 ### Response JSON
 
 ```json
-{
-    "id": 1
-}
+1
 ```
 
 ### CURL
@@ -215,14 +222,16 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 
 #### Path Variables
 
-| Name   | Description |
-|--------|-------------|
-| userId | User ID     |
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to access another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to access another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 
@@ -239,15 +248,31 @@ curl --request PUT --location 'http://localhost:8080/api/v1/auth/update-password
 
 ### CURL
 
+- By user ID:
+
 ```sh
 curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>'
 ```
 
-## Update User Details
+- For the current user, with `me` in place of the user ID:
+
+```sh
+curl --request GET --location 'http://localhost:8080/api/v1/users/me' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
+## Replace User Details
+- This is a full replacement: the request body must carry the complete resource. A field that is absent from the body
+  is cleared, so sending `null` or omitting a nullable field is a deliberate instruction to empty it
+- `firstName`, `lastName` and `defaultLang` are mandatory. A request that omits one of them is rejected with
+  `400 - Bad Request`, because the resource cannot be without them
+- `defaultLang` must be exactly 2 lowercase letters, for example `en` or `fi`
+- To change only some of the fields, use [Update User Details](#update-user-details) instead
 - `email` cannot be updated using this API
 - `password` cannot be updated using this API
-- Request `id` must match authenticated user `id`
+- Request `id`, when present, must match `userId` in the URL. When `userId` is `me`, it must be the id of the
+  current user
 
 ### Request Details
 - URL: `/api/v1/users/{userId}`
@@ -255,14 +280,103 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 #### Path Variables
 
-| Name   | Description |
-|--------|-------------|
-| userId | User ID     |
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
 
 ### Response Details
 - HTTP Response Code: `200 - OK`
+- HTTP Response Code: `400 - Bad Request`
+    - Returned if `firstName`, `lastName` or `defaultLang` is missing or blank, or if `defaultLang` is not exactly 2 lowercase letters
 - HTTP Response Code: `403 - Forbidden`
-    - Returned if authenticated user is not ADMIN or is trying to update another user's profile
+    - Returned if authenticated user is not ADMIN and is trying to update another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
+- HTTP Response Code: `401 - Unauthorized`
+    - Returned for invalid or missing JWT token
+
+### Request JSON
+
+```json
+{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}
+```
+
+### Response JSON
+
+```json
+{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}
+```
+
+### CURL
+
+- By user ID:
+
+```sh
+curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}'
+```
+
+- For the current user, with `me` in place of the user ID. The body may leave `id` out; when it is present it
+  must be the id of the current user:
+
+```sh
+curl --request PUT --location 'http://localhost:8080/api/v1/users/me' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "firstName": "New Muneer",
+    "lastName": "New Syed",
+    "defaultLang": "en"
+}'
+```
+
+## Update User Details
+- This is a partial update: only the fields present in the request body are updated, and a field that is absent from
+  the body keeps its stored value
+- No field is mandatory, apart from the `id` rule below
+- Because an absent field and a `null` field cannot be told apart, this API cannot clear a field. To clear one, use
+  [Replace User Details](#replace-user-details) instead
+- `defaultLang`, when present, must be exactly 2 lowercase letters, for example `en` or `fi`
+- `email` cannot be updated using this API
+- `password` cannot be updated using this API
+- Request `id`, when present, must match `userId` in the URL. When `userId` is `me`, it must be the id of the
+  current user
+
+### Request Details
+- URL: `/api/v1/users/{userId}`
+- HTTP Method: `PATCH`
+
+#### Path Variables
+
+| Name   | Description                           |
+|--------|---------------------------------------|
+| userId | User ID, or `me` for the current user |
+
+### Response Details
+- HTTP Response Code: `200 - OK`
+- HTTP Response Code: `400 - Bad Request`
+    - Returned if `defaultLang` is present and is not exactly 2 lowercase letters
+- HTTP Response Code: `403 - Forbidden`
+    - Returned if authenticated user is not ADMIN and is trying to update another user's profile
+- HTTP Response Code: `404 - Not Found`
+    - Returned if no user exists with the given `userId`
 - HTTP Response Code: `401 - Unauthorized`
     - Returned for invalid or missing JWT token
 
@@ -278,22 +392,40 @@ curl --request GET --location 'http://localhost:8080/api/v1/users/1' \
 
 ### Response JSON
 
+The response is the complete resource after the update, so it also shows the fields that were left as stored.
+
 ```json
 {
     "id": 1,
     "firstName": "New Muneer",
-    "lastName": "New Syed"
+    "lastName": "New Syed",
+    "defaultLang": "en"
 }
 ```
 
 ### CURL
 
+- By user ID:
+
 ```sh
-curl --request PUT --location 'http://localhost:8080/api/v1/users/1' \
+curl --request PATCH --location 'http://localhost:8080/api/v1/users/1' \
 --header 'Authorization: Bearer <ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "id": 1,
+    "firstName": "New Muneer",
+    "lastName": "New Syed"
+}'
+```
+
+- For the current user, with `me` in place of the user ID. The body may leave `id` out; when it is present it
+  must be the id of the current user:
+
+```sh
+curl --request PATCH --location 'http://localhost:8080/api/v1/users/me' \
+--header 'Authorization: Bearer <ACCESS_TOKEN>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "firstName": "New Muneer",
     "lastName": "New Syed"
 }'

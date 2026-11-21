@@ -4,7 +4,7 @@ import java.io.Serial;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fi.ishtech.base.vo.BaseVo;
+import fi.ishtech.springboot.base.vo.BaseVo;
 
 import lombok.AccessLevel;
 import lombok.Builder;

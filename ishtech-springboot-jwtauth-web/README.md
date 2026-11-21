@@ -24,7 +24,7 @@ This is the **runnable module** — it exposes REST APIs for authentication and 
 
 #### Local Maven Build
 
-- For Build see [parent project](../README.md#Local Maven Build)
+- For Build see [parent project](../README.md#local-maven-build)
 
 #### Local Maven Run
 
