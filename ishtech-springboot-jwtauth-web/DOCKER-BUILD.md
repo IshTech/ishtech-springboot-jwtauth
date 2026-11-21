@@ -38,7 +38,7 @@ docker build . \
 - If connecting to your own PostgreSQL instance (not docker compose), it must already have the app DB user/schema set up
   - See [DB-SETUP.md / Local](DB-SETUP.md#local)
 
-- To run on default port and other default settings  
+- To run on default port and other default settings
   - E.g.: Default port: `8080`
 
 ```
@@ -70,7 +70,7 @@ docker run \
 - If `host.docker.internal` doesn't resolve by default then `--add-host=host.docker.internal:host-gateway`
 
 
-- To run by exposing on a different port  
+- To run by exposing on a different port
   - Example: expose on `8282` (container still runs on `8080`)
 
 ```
@@ -80,7 +80,7 @@ docker run \
   muneer2ishtech/ishtech-springboot-jwtauth-web:x.y.z
 ```
 
-- To run with custom application port inside container  
+- To run with custom application port inside container
   - E.g.: Spring Boot runs on `8181`, exposed on `8282`
 
 ```

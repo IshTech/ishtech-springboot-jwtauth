@@ -10,7 +10,7 @@ import jakarta.persistence.criteria.Root;
 
 import org.springframework.util.StringUtils;
 
-import fi.ishtech.base.spec.BaseStandardNoIdSpec;
+import fi.ishtech.springboot.base.spec.BaseStandardNoIdSpec;
 import fi.ishtech.springboot.jwtauth.entity.User;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile_;

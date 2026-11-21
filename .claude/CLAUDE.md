@@ -10,7 +10,7 @@ The owner's standing instructions are in `.claude/rules/` (`owner-workflow.md`, 
 - So it has test Levels 1, 2 and 3, and dependent tests apply (`rules/build-and-test.md`, section "Dependent tests"): they confirm that a change here doesn't break the projects that use `ishtech-springboot-jwtauth-api` and has the intended effect in them.
   - None of the owner's other libraries depends on it, so there is no default dependent; the owner names one when dependent tests are needed.
   - The libraries are public on Maven Central, so they may have consumers that nobody can list.
-- Upstream libraries: `ishtech-base-jpa`, and `ishtech-i18n-java` through it (`rules/repositories.md`). The versions are declared in the root `pom.xml`.
+- Upstream libraries: `ishtech-springboot-base-jpa`, and `ishtech-i18n-java` through it (`rules/repositories.md`). The versions are declared in the root `pom.xml`.
 
 ## Read the doc before doing the thing
 The docs are the source of truth. Don't guess commands: open the matching file and section first, and follow its links.

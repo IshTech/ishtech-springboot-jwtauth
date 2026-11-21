@@ -2,7 +2,7 @@ package fi.ishtech.springboot.jwtauth.repo;
 
 import org.springframework.data.repository.Repository;
 
-import fi.ishtech.base.repo.BaseStandardNoIdRepo;
+import fi.ishtech.springboot.base.repo.BaseStandardNoIdRepo;
 import fi.ishtech.springboot.jwtauth.entity.UserProfile;
 
 /**
